@@ -134,6 +134,7 @@
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CalculEncours.vb" />
     <Compile Include="Connexion.vb" />
     <Compile Include="IndicateurPressageBDDDataSet.Designer.vb">
       <AutoGen>True</AutoGen>

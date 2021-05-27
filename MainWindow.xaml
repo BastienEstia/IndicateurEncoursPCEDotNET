@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:IndicateurEncoursPCEDotNET"
         xmlns:IndicateurPressageBDDDataSetTableAdapters="clr-namespace:IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters" x:Class="MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="884" Width="1276.5">
+        Title="MainWindow" Height="968" Width="1360.5">
     <Window.Resources>
         <local:IndicateurPressageBDDDataSet x:Key="IndicateurPressageBDDDataSet"/>
         <CollectionViewSource x:Key="Table1ViewSource" Source="{Binding Table1, Source={StaticResource IndicateurPressageBDDDataSet}}"/>
@@ -28,19 +28,17 @@
             <Grid Grid.Row="2"
                   Grid.Column="0"
                   Background="Red"/>
-            <Grid x:Name="indicCursorGrd" HorizontalAlignment="Left" Height="660" VerticalAlignment="Top" Width="136" Grid.RowSpan="3">
+            <Grid x:Name="indicCursorGrd" Grid.RowSpan="3">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="20*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="91*"/>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="91*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="1"
+                    <Grid
                       Grid.Column="0"
-                      Background="Yellow"
-                >
-                        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="136"/>
-                    </Grid>
+                      Background="Yellow" Grid.Row="1" HorizontalAlignment="Center" Width="136"
+                />
                 </Grid>
             </Grid>
         </Grid>

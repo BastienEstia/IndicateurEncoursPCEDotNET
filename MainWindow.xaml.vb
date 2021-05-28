@@ -8,51 +8,58 @@ Imports LinqToDB.Reflection.Methods.LinqToDB
 Class MainWindow
     Public cdBarre As String
     Public qtePlaque As Double
+    Public lastOf As String
+    Public nbOf As Double
 
-    Private Sub TextBox_TextChanged(sender As Object, e As TextChangedEventArgs)
+    Private Sub majIndicateur(choixQuery As Integer)
 
-        'cdBarre = cdBarreTB.Text
-        'qtePlaque = qtePlaqueTB.Text
-        'Call majIndicateur()
+        Dim countOfQuery As String
+        countOfQuery = "SELECT COUNT(*) FROM T_Encours_Press"
+        Dim con As Connexion = New Connexion()
+
+        Dim cmd = New OleDbCommand(countOfQuery, con.ConnexionBDD())
+        cmd.Connection.Open()
+        Dim reader As OleDbDataReader
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            nbOf = reader.GetValue(0)
+        End If
+        cmd.Connection.Close()
 
     End Sub
 
-    Private Sub majIndicateur()
+    Private Sub countOfQuery()
 
-        Dim con As Connexion = New Connexion()
-        ' Dim Table As Table(Of Table1) = db.GetTable(Of Table1)
-        Dim insertQuery = "INSERT INTO Table1 (Libelle, NbPlaque) VALUES (Val_libelle, Val_nbPlaque)"
-        Dim cmd = New OleDbCommand(insertQuery, con.OuvertureBDD())
-        With cmd.Parameters
-            .AddWithValue("Val_libelle", cdBarre)
-            .AddWithValue("Val_nbPlaque", qtePlaque)
-        End With
-        cmd.Connection.Open()
-        cmd.ExecuteReader()
-        cmd.Connection.Close()
+    End Sub
 
+    Private Sub saisiMan_click()
+        cdBarre = cdBarreTB.Text
+        qtePlaque = qtePlaqueTB.Text
+        Call majIndicateur(1)
+
+        Dim IndicateurPressageBDDDataSet As IndicateurPressageBDDDataSet = CType(Me.FindResource("IndicateurPressageBDDDataSet"), IndicateurPressageBDDDataSet)
+        'Chargez les données dans la table T_Encours_Press. Vous pouvez modifier ce code selon les besoins.
+        Dim IndicateurPressageBDDDataSetT_Encours_PressTableAdapter As IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter = New IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter()
+        IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press)
+        Dim T_Encours_PressViewSource As CollectionViewSource = CType(Me.FindResource("T_Encours_PressViewSource"), CollectionViewSource)
+        T_Encours_PressViewSource.View.MoveCurrentToFirst()
+
+        lastOf = cdBarre
     End Sub
 
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs) Handles MyBase.Loaded
 
         Dim IndicateurPressageBDDDataSet As IndicateurPressageBDDDataSet = CType(Me.FindResource("IndicateurPressageBDDDataSet"), IndicateurPressageBDDDataSet)
-        'Chargez les données dans la table Table1. Vous pouvez modifier ce code selon les besoins.
-        Dim IndicateurPressageBDDDataSetTable1TableAdapter As IndicateurPressageBDDDataSetTableAdapters.Table1TableAdapter = New IndicateurPressageBDDDataSetTableAdapters.Table1TableAdapter()
-        IndicateurPressageBDDDataSetTable1TableAdapter.Fill(IndicateurPressageBDDDataSet.Table1)
-        Dim Table1ViewSource As CollectionViewSource = CType(Me.FindResource("Table1ViewSource"), CollectionViewSource)
-        Table1ViewSource.View.MoveCurrentToFirst()
+        'Chargez les données dans la table T_Encours_Press. Vous pouvez modifier ce code selon les besoins.
+        Dim IndicateurPressageBDDDataSetT_Encours_PressTableAdapter As IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter = New IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter()
+        IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press)
+        Dim T_Encours_PressViewSource As CollectionViewSource = CType(Me.FindResource("T_Encours_PressViewSource"), CollectionViewSource)
+        T_Encours_PressViewSource.View.MoveCurrentToFirst()
     End Sub
 
-    Private Sub saisieMan_Click(sender As Object, e As RoutedEventArgs) Handles saisieMan.Click
-        cdBarre = cdBarreTB.Text
-        qtePlaque = qtePlaqueTB.Text
-        Call majIndicateur()
-        Dim IndicateurPressageBDDDataSet As IndicateurPressageBDDDataSet = CType(Me.FindResource("IndicateurPressageBDDDataSet"), IndicateurPressageBDDDataSet)
-        'Chargez les données dans la table Table1. Vous pouvez modifier ce code selon les besoins.
-        Dim IndicateurPressageBDDDataSetTable1TableAdapter As IndicateurPressageBDDDataSetTableAdapters.Table1TableAdapter = New IndicateurPressageBDDDataSetTableAdapters.Table1TableAdapter()
-        IndicateurPressageBDDDataSetTable1TableAdapter.Fill(IndicateurPressageBDDDataSet.Table1)
-        Dim Table1ViewSource As CollectionViewSource = CType(Me.FindResource("Table1ViewSource"), CollectionViewSource)
-        Table1ViewSource.View.MoveCurrentToFirst()
+    Private Sub undoLastOf_Click(sender As Object, e As RoutedEventArgs) Handles undoLastOf.Click
+
+
 
     End Sub
 End Class

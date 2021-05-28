@@ -4,15 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IndicateurEncoursPCEDotNET"
-        xmlns:IndicateurPressageBDDDataSetTableAdapters="clr-namespace:IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters" x:Class="MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="968" Width="1360.5">
+        Title="MainWindow" Height="968" Width="1360.5"
+        x:Class="MainWindow">
     <Window.Resources>
+
+
         <local:IndicateurPressageBDDDataSet x:Key="IndicateurPressageBDDDataSet"/>
-        <CollectionViewSource x:Key="Table1ViewSource" Source="{Binding Table1, Source={StaticResource IndicateurPressageBDDDataSet}}"/>
+        <CollectionViewSource x:Key="T_Encours_PressViewSource" Source="{Binding T_Encours_Press, Source={StaticResource IndicateurPressageBDDDataSet}}"/>
+
+
     </Window.Resources>
-    <Grid>
-        <TextBox x:Name="cdBarreTB" Margin="0,19,79,0" TextWrapping="Wrap" TextChanged="TextBox_TextChanged" HorizontalAlignment="Right" Width="271" Height="29" VerticalAlignment="Top"/>
+    <Grid DataContext="{StaticResource T_Encours_PressViewSource}">
+        <TextBox x:Name="cdBarreTB" Margin="0,19,79,0" TextWrapping="Wrap" HorizontalAlignment="Right" Width="271" Height="29" VerticalAlignment="Top"/>
         <Grid x:Name="indicGrd1" Margin="330,72,0,121" Background="#FFE80404" HorizontalAlignment="Left" Width="136" Grid.Row="3" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -43,14 +47,10 @@
             </Grid>
         </Grid>
         <Button x:Name="undoLastOf" Content="Annuler" Margin="0,0,79,19" FontSize="20" HorizontalAlignment="Right" Width="123" Height="59" VerticalAlignment="Bottom"/>
-        <Button x:Name="saisieMan" Content="Saisie Manuelle" Margin="513,0,0,19" FontSize="20" HorizontalAlignment="Left" Width="169" Height="59" VerticalAlignment="Bottom"/>
+        <Button x:Name="saisieMan" Content="Saisie Manuelle" Margin="513,0,0,19" FontSize="20" HorizontalAlignment="Left" Width="169" Height="59" VerticalAlignment="Bottom" Click="saisiMan_Click"/>
         <Label Content="OF :" Margin="0,10,355,0" Height="48" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53" FontSize="24"/>
-        <DataGrid Margin="513,72,79,121" ItemsSource="{Binding Source={StaticResource Table1ViewSource}}" ColumnWidth="*" HeadersVisibility="Column" FontSize="24">
-            <DataGrid.DataContext>
-                <IndicateurPressageBDDDataSetTableAdapters:Table1TableAdapter/>
-            </DataGrid.DataContext>
-        </DataGrid>
-        <TextBox x:Name="qtePlaqueTB" Margin="0,19,413,0" TextWrapping="Wrap" TextChanged="TextBox_TextChanged" HorizontalAlignment="Right" Width="128" Height="29" VerticalAlignment="Top"/>
+        <DataGrid Margin="513,72,79,121" ColumnWidth="*" HeadersVisibility="Column" FontSize="24" ItemsSource="{Binding}"/>
+        <TextBox x:Name="qtePlaqueTB" Margin="0,19,413,0" TextWrapping="Wrap" HorizontalAlignment="Right" Width="128" Height="29" VerticalAlignment="Top"/>
         <Label Content="Nb Pl :" Margin="0,10,546,0" Height="48" VerticalAlignment="Top" HorizontalAlignment="Right" Width="84" FontSize="24"/>
     </Grid>
 </Window>

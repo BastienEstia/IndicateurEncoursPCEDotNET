@@ -1,65 +1,81 @@
 ﻿Option Explicit On
-Imports System.Data
-Imports System.Data.Linq
-Imports System.Data.OleDb
-Imports LinqToDB
-Imports LinqToDB.Reflection.Methods.LinqToDB
-
 Class MainWindow
     Public cdBarre As String
     Public qtePlaque As Double
     Public lastOf As String
     Public nbOf As Double
 
-    Private Sub majIndicateur(choixQuery As Integer)
-
-        Dim countOfQuery As String
-        countOfQuery = "SELECT COUNT(*) FROM T_Encours_Press"
-        Dim con As Connexion = New Connexion()
-
-        Dim cmd = New OleDbCommand(countOfQuery, con.ConnexionBDD())
-        cmd.Connection.Open()
-        Dim reader As OleDbDataReader
-        reader = cmd.ExecuteReader()
-        If reader.Read() Then
-            nbOf = reader.GetValue(0)
-        End If
-        cmd.Connection.Close()
-
+    Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs) Handles MyBase.Loaded
+        Call MajTableau()
+        SeuilBas.Text = "20"
+        SeuilHaut.Text = "50"
+        Call MajIndicateur()
     End Sub
 
-    Private Sub countOfQuery()
-
-    End Sub
-
-    Private Sub saisiMan_click()
-        cdBarre = cdBarreTB.Text
-        qtePlaque = qtePlaqueTB.Text
-        Call majIndicateur(1)
+    Private Sub MajTableau()
 
         Dim IndicateurPressageBDDDataSet As IndicateurPressageBDDDataSet = CType(Me.FindResource("IndicateurPressageBDDDataSet"), IndicateurPressageBDDDataSet)
         'Chargez les données dans la table T_Encours_Press. Vous pouvez modifier ce code selon les besoins.
         Dim IndicateurPressageBDDDataSetT_Encours_PressTableAdapter As IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter = New IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter()
-        IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press)
+        IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press, connexionStringInput.Text)
         Dim T_Encours_PressViewSource As CollectionViewSource = CType(Me.FindResource("T_Encours_PressViewSource"), CollectionViewSource)
         T_Encours_PressViewSource.View.MoveCurrentToFirst()
 
+    End Sub
+
+    Private Sub MajIndicateur()
+        Dim nbPlaqueTot As Double
+        Dim i As Integer = 0
+        Dim con As Connexion = New Connexion()
+        Dim listNbPlaque As List(Of Double) = con.SelectNbPlaqueQuery
+        Dim gridLengthTop As GridLength
+        Dim gridLengthBot As GridLength
+        Dim colorGLTop As GridLength
+        Dim colorGLMid As GridLength
+        Dim colorGLBot As GridLength
+
+        colorGLBot = New GridLength(SeuilBas.Text, GridUnitType.Star)
+        indicBot.Height = colorGLBot
+        colorGLMid = New GridLength(SeuilHaut.Text - SeuilBas.Text, GridUnitType.Star)
+        indicMid.Height = colorGLMid
+        Dim seuilTopCalcul = 75 - SeuilHaut.Text
+        colorGLTop = New GridLength(seuilTopCalcul, GridUnitType.Star)
+        indicTop.Height = colorGLTop
+
+        While i < listNbPlaque.Count
+            nbPlaqueTot += listNbPlaque(i)
+            i += 1
+        End While
+
+        gridLengthBot = New GridLength(nbPlaqueTot, GridUnitType.Star)
+        curseurBot.Height = gridLengthBot
+        gridLengthTop = New GridLength(75 - nbPlaqueTot, GridUnitType.Star)
+        curseurTop.Height = gridLengthTop
+
+    End Sub
+
+    Private Sub SaisiMan_click() Handles saisieMan.Click
+        cdBarre = cdBarreTB.Text
+        qtePlaque = qtePlaqueTB.Text.ToString
+        Dim con As Connexion = New Connexion()
+        con.InsertQuery(cdBarre, qtePlaque)
+        Call MajTableau()
+        Call MajIndicateur()
         lastOf = cdBarre
     End Sub
 
-    Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs) Handles MyBase.Loaded
-
-        Dim IndicateurPressageBDDDataSet As IndicateurPressageBDDDataSet = CType(Me.FindResource("IndicateurPressageBDDDataSet"), IndicateurPressageBDDDataSet)
-        'Chargez les données dans la table T_Encours_Press. Vous pouvez modifier ce code selon les besoins.
-        Dim IndicateurPressageBDDDataSetT_Encours_PressTableAdapter As IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter = New IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter()
-        IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press)
-        Dim T_Encours_PressViewSource As CollectionViewSource = CType(Me.FindResource("T_Encours_PressViewSource"), CollectionViewSource)
-        T_Encours_PressViewSource.View.MoveCurrentToFirst()
-    End Sub
-
-    Private Sub undoLastOf_Click(sender As Object, e As RoutedEventArgs) Handles undoLastOf.Click
-
-
+    Private Sub UndoLastOf_Click(sender As Object, e As RoutedEventArgs) Handles undoLastOf.Click
+        Dim con As Connexion = New Connexion()
+        Dim id As Integer
+        id = con.SelectIdQuery()
+        con.TruncateQuery(id)
+        Call MajTableau()
+        Call MajIndicateur()
 
     End Sub
+
+    Private Sub Seuil_Click(sender As Object, e As RoutedEventArgs) Handles validSeuils.Click
+        Call MajIndicateur()
+    End Sub
+
 End Class

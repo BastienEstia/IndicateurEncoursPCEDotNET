@@ -3,19 +3,17 @@
 Public Class Connexion
     Private connString As String
     Private oleConnection As OleDbConnection
-    Public Function ConnexionBDD() As OleDbConnection
+    Public Function ConnexionBDD(connexionStringInput As String) As OleDbConnection
         connString = "Provider=Microsoft.ACE.OLEDB.12.0;"
-        connString += "Data Source=S:\Public\Lean Exxelia\18 - Mise en flux Pressage Coupe Etalement\MFE-Mise en flux PCE\Indicateur\IndicateurPressageBDD.accdb"
+        connString += "Data Source=" & connexionStringInput
         oleConnection = New OleDbConnection(connString)
         Return oleConnection
     End Function
 
-    Public Function InsertQuery(cdBarre As String, qtePlaque As Double) As Boolean
+    Public Function InsertQuery(cdBarre As String, qtePlaque As Double, cmd As OleDbCommand) As Boolean
         Dim query As String
         query = "INSERT INTO T_Encours_Press (Libelle, NbPlaque) VALUES (Val_libelle, Val_nbPlaque)"
-
-        Dim con As Connexion = New Connexion()
-        Dim cmd As OleDbCommand = New OleDbCommand(query, con.ConnexionBDD())
+        cmd.CommandText = query
         With cmd.Parameters
             .AddWithValue("Val_libelle", cdBarre)
             .AddWithValue("Val_nbPlaque", qtePlaque)
@@ -27,12 +25,12 @@ Public Class Connexion
         Return True
     End Function
 
-    Public Function TruncateQuery(id As Integer) As Boolean
+    Public Function TruncateQuery(id As Integer, cmd As OleDbCommand) As Boolean
         Dim query As String
         query = "DELETE * From T_Encours_Press Where id = Val_id"
+        cmd.CommandText = query
 
-        Dim con As Connexion = New Connexion()
-        Dim cmd As OleDbCommand = New OleDbCommand(query, con.ConnexionBDD())
+
         With cmd.Parameters
             .AddWithValue("Val_id", id)
         End With
@@ -44,14 +42,11 @@ Public Class Connexion
         Return True
     End Function
 
-    Private Function CountQuery() As Integer
+    Private Function CountQuery(cmd As OleDbCommand) As Integer
         Dim query As String
         Dim nbof As Integer
         query = "SELECT COUNT(id) From T_Encours_Press"
-
-        Dim con As Connexion = New Connexion()
-        Dim cmd As OleDbCommand = New OleDbCommand(query, con.ConnexionBDD())
-
+        cmd.CommandText = query
         cmd.Connection.Open()
         Dim reader As OleDbDataReader
         reader = cmd.ExecuteReader()
@@ -63,7 +58,7 @@ Public Class Connexion
         Return nbof
     End Function
 
-    Public Function SelectIdQuery() As Integer
+    Public Function SelectIdQuery(cmd As OleDbCommand) As Integer
         Dim query As String
         Dim nOf As Integer
         Dim nbof As Integer
@@ -71,12 +66,12 @@ Public Class Connexion
         i = 0
 
         Dim con As Connexion = New Connexion()
-
-        nbof = con.CountQuery
+        nbof = con.CountQuery(cmd)
         Dim nbOfTab(nbof) As Integer
 
         query = "SELECT Id FROM T_Encours_Press"
-        Dim cmd = New OleDbCommand(query, con.ConnexionBDD())
+        Dim cmd1 = cmd
+        cmd1.CommandText = query
         cmd.Connection.Open()
 
         Dim reader As OleDbDataReader
@@ -94,7 +89,7 @@ Public Class Connexion
         Return nOf
     End Function
 
-    Public Function SelectNbPlaqueQuery() As List(Of Double)
+    Public Function SelectNbPlaqueQuery(cmd As OleDbCommand) As List(Of Double)
         Dim listNbPlaque = New List(Of Double)
         Dim query As String
         Dim nbof As Integer
@@ -104,12 +99,13 @@ Public Class Connexion
 
         Dim con As Connexion = New Connexion()
 
-        nbof = con.CountQuery
+        nbof = con.CountQuery(cmd)
         Dim nbPlaqueTab(nbof) As Integer
 
         query = "SELECT NbPlaque FROM T_Encours_Press"
-        Dim cmd = New OleDbCommand(query, con.ConnexionBDD())
-        cmd.Connection.Open()
+        Dim cmd1 = cmd
+        cmd.CommandText = query
+        cmd1.Connection.Open()
 
         Dim reader As OleDbDataReader
         reader = cmd.ExecuteReader()

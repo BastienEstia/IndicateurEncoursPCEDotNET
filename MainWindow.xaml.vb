@@ -1,15 +1,21 @@
 ﻿Option Explicit On
+Imports System.Data.OleDb
+
 Class MainWindow
     Public cdBarre As String
     Public qtePlaque As Double
     Public lastOf As String
     Public nbOf As Double
+    Public connexionString As String
 
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs) Handles MyBase.Loaded
-        Call MajTableau()
         SeuilBas.Text = "20"
         SeuilHaut.Text = "50"
-        Call MajIndicateur()
+
+        If My.Computer.FileSystem.FileExists(connexionStringInput.Text) = True Then
+            Call MajTableau()
+            Call MajIndicateur()
+        End If
     End Sub
 
     Private Sub MajTableau()
@@ -27,7 +33,9 @@ Class MainWindow
         Dim nbPlaqueTot As Double
         Dim i As Integer = 0
         Dim con As Connexion = New Connexion()
-        Dim listNbPlaque As List(Of Double) = con.SelectNbPlaqueQuery
+        Dim cmd As OleDbCommand = New OleDbCommand()
+        cmd.Connection = con.ConnexionBDD(connexionStringInput.Text)
+        Dim listNbPlaque As List(Of Double) = con.SelectNbPlaqueQuery(cmd)
         Dim gridLengthTop As GridLength
         Dim gridLengthBot As GridLength
         Dim colorGLTop As GridLength
@@ -50,15 +58,25 @@ Class MainWindow
         gridLengthBot = New GridLength(nbPlaqueTot, GridUnitType.Star)
         curseurBot.Height = gridLengthBot
         gridLengthTop = New GridLength(75 - nbPlaqueTot, GridUnitType.Star)
-        curseurTop.Height = gridLengthTop
+        If (gridLengthTop.Value >= 0) Then
+            curseurTop.Height = gridLengthTop
+        Else
 
+        End If
     End Sub
 
-    Private Sub SaisiMan_click() Handles saisieMan.Click
+    Private Sub SaisiMan_click(sender As Object, e As RoutedEventArgs) Handles saisieMan.Click
         cdBarre = cdBarreTB.Text
-        qtePlaque = qtePlaqueTB.Text.ToString
+        If qtePlaque.text <> "" Then
+            qtePlaque = CDbl(qtePlaqueTB.Text)
+        Else
+            Dim alert_Window As Alert_Window = New Alert_Window()
+            alert_Window.Show()
+        End If
         Dim con As Connexion = New Connexion()
-        con.InsertQuery(cdBarre, qtePlaque)
+        Dim cmd As OleDbCommand = New OleDbCommand()
+        cmd.Connection = con.ConnexionBDD(connexionStringInput.Text)
+        con.InsertQuery(cdBarre, qtePlaque, cmd)
         Call MajTableau()
         Call MajIndicateur()
         lastOf = cdBarre
@@ -67,14 +85,17 @@ Class MainWindow
     Private Sub UndoLastOf_Click(sender As Object, e As RoutedEventArgs) Handles undoLastOf.Click
         Dim con As Connexion = New Connexion()
         Dim id As Integer
-        id = con.SelectIdQuery()
-        con.TruncateQuery(id)
+        Dim cmd As OleDbCommand = New OleDbCommand()
+        cmd.Connection = con.ConnexionBDD(connexionStringInput.Text)
+        id = con.SelectIdQuery(cmd)
+        con.TruncateQuery(id, cmd)
         Call MajTableau()
         Call MajIndicateur()
 
     End Sub
 
     Private Sub Seuil_Click(sender As Object, e As RoutedEventArgs) Handles validSeuils.Click
+        Call MajTableau()
         Call MajIndicateur()
     End Sub
 

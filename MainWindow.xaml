@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IndicateurEncoursPCEDotNET"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1182" Width="1945.5"
-        x:Class="MainWindow">
+        Title="MainWindow" Height="1037" Width="1719.5"
+        x:Class="MainWindow" Background="#FF464646">
     <Window.Resources>
 
 
@@ -15,25 +15,55 @@
 
 
     </Window.Resources>
-    <Window.CommandBindings>
-        <!--<CommandBinding Command="New" CanExecute="CommandFile_CanExecute"/>
-        <CommandBinding Command="Open" CanExecute="CommandOpen_CanExecute"/>
-        <CommandBinding Command="Save" CanExecute="CommandSave_CanExecute"/>-->
-    </Window.CommandBindings>
-    <Grid DataContext="{StaticResource T_Encours_PressViewSource}" Margin="0" OpacityMask="#FF272727" Background="#FF464646" Width="1936">
-        <TextBox x:Name="cdBarreTB" Margin="0,61,630,0" TextWrapping="Wrap" HorizontalAlignment="Right" Width="271" Height="39" VerticalAlignment="Top" FontSize="24" Background="#FF979797" BorderBrush="White"/>
-        <Grid x:Name="indicGrd1" Margin="614,114,0,121" Background="#FFE80404" HorizontalAlignment="Left" Width="136">
+
+    <Grid DataContext="{StaticResource T_Encours_PressViewSource}" OpacityMask="#FF272727" Background="#FF464646">
+
+        <Grid x:Name="TabGrid" Margin="948,94,278,42">
+            <Button x:Name="undoLastOf" Content="Annuler" FontSize="20" HorizontalAlignment="Right" Width="123" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White"/>
+
+            <Button x:Name="saisieMan" Content="Saisie Manuelle" FontSize="20" HorizontalAlignment="Left" Width="169" Height="59" VerticalAlignment="Bottom" Click="saisiMan_Click" Background="#FF009722" BorderBrush="White"/>
+
+            <Label Content="OF :" Margin="70,-2,0,0" Height="48" VerticalAlignment="Top" FontSize="24" Foreground="White" HorizontalAlignment="Left" Width="53"/>
+
+            <DataGrid Margin="0,53,0,101" ColumnWidth="*" HeadersVisibility="Column" FontSize="24" ItemsSource="{Binding}"/>
+
+            <TextBox x:Name="qtePlaqueTB" Margin="358,-2,2,0" TextWrapping="Wrap" Height="39" VerticalAlignment="Top" FontSize="24" Background="#FF979797" BorderBrush="White"/>
+
+            <Label Content="Nb Pl :" Margin="258,-2,0,0" Height="48" VerticalAlignment="Top" FontSize="24" Foreground="White" HorizontalAlignment="Left" Width="84"/>
+            <TextBox x:Name="cdBarreTB" Margin="123,-2,233,0" TextWrapping="Wrap" Height="39" VerticalAlignment="Top" FontSize="24" Background="#FF979797" BorderBrush="White"/>
+        </Grid>
+
+        <Border Margin="336,94,0,0" Height="236" VerticalAlignment="Top" HorizontalAlignment="Left" Width="350">
+            <Grid>
+                <Rectangle Fill="#FF707070" HorizontalAlignment="Left" Height="236" Stroke="Black" VerticalAlignment="Top" Width="350"/>
+                <Separator Margin="1,32,1,200"/>
+
+
+                <Label Content="Seuil Haut :" Margin="69,57,147,138" FontSize="24" Foreground="White"/>
+
+                <TextBox x:Name="SeuilHaut" Text="72" Margin="284,57,6,138" TextWrapping="Wrap" FontSize="24" Background="#FF979797" BorderBrush="Black" Foreground="White" Padding="12,0,0,0"/>
+
+                <Label Content="Seuil Bas :" Margin="84,124,150,70" FontSize="24" Foreground="White"/>
+
+                <TextBox x:Name="SeuilBas" Text="20" Margin="283,128,6,70" TextWrapping="Wrap" FontSize="24" Background="#FF979797" Foreground="White" Padding="12,0,0,0" BorderBrush="Black"/>
+
+                <Label Content="Base de données :" Margin="0,186,147,0" FontSize="24" Foreground="White"/>
+
+                <TextBox x:Name="connexionStringInput" Margin="208,192,6,6" TextWrapping="Wrap" FontSize="14" Text="S:\Public\Lean Exxelia\18 - Mise en flux Pressage Coupe Etalement\MFE-Mise en flux PCE\Indicateur\IndicateurPressageBDD.accdb" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0"/>
+
+                <Label Content="Paramètres :" Margin="0,0,179,195" FontSize="24" Foreground="White"/>
+
+            </Grid>
+        </Border>
+        <Grid x:Name="indicGrd1" Margin="749,94,0,140" Background="#FFE80404" HorizontalAlignment="Left" Width="136">
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="indicTop" />
                 <RowDefinition x:Name="indicMid" />
                 <RowDefinition x:Name="indicBot" />
             </Grid.RowDefinitions>
-            <Grid
-                      Grid.Row="1"
-                      Background="green"
-                />
+            <Grid Grid.Row="1" Background="green"/>
         </Grid>
-        <Grid x:Name="indicGrdCursor" Margin="614,114,0,121" HorizontalAlignment="Left" Width="136">
+        <Grid x:Name="indicGrdCursor" Margin="749,94,0,140" HorizontalAlignment="Left" Width="136">
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="curseurTop" />
                 <RowDefinition x:Name="curseurMid" />
@@ -44,22 +74,20 @@
                 Background="yellow"
                 />
         </Grid>
-        <Button x:Name="undoLastOf" Content="Annuler" Margin="0,0,375,19" FontSize="20" HorizontalAlignment="Right" Width="123" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White"/>
-        <Button x:Name="saisieMan" Content="Saisie Manuelle" Margin="797,0,0,19" FontSize="20" HorizontalAlignment="Left" Width="169" Height="59" VerticalAlignment="Bottom" Click="saisiMan_Click" Background="#FF009722" BorderBrush="White"/>
-        <Label Content="OF :" Margin="0,61,906,0" Height="48" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53" FontSize="24" Foreground="White"/>
-        <DataGrid Margin="0,114,375,121" ColumnWidth="*" HeadersVisibility="Column" FontSize="24" ItemsSource="{Binding}" HorizontalAlignment="Right" Width="766"/>
-        <TextBox x:Name="qtePlaqueTB" Margin="0,61,375,0" TextWrapping="Wrap" HorizontalAlignment="Right" Width="128" Height="39" VerticalAlignment="Top" FontSize="24" Background="#FF979797" BorderBrush="White"/>
-        <Label Content="Nb Pl :" Margin="0,61,508,0" Height="48" VerticalAlignment="Top" HorizontalAlignment="Right" Width="84" FontSize="24" Foreground="White"/>
-        <TextBox x:Name="SeuilHaut" Text="72" Margin="481,269,0,0" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Left" Width="60" Background="#FF979797" BorderBrush="White" Foreground="White" Height="41" VerticalAlignment="Top"/>
-        <TextBox x:Name="SeuilBas" Text="20" Margin="480,0,0,262" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Left" Width="61" Background="#FF979797" Foreground="White" VerticalAlignment="Bottom" Height="39" Padding="12,0,0,0" BorderBrush="White"/>
-        <Label Content="Seuil Haut :" Margin="349,265,1455,0" FontSize="24" Foreground="White" Height="41" VerticalAlignment="Top"/>
-        <Label Content="Seuil Bas :" HorizontalAlignment="Right" Margin="0,0,1455,262" Width="116" FontSize="24" Foreground="White" Height="42" VerticalAlignment="Bottom"/>
-        <ToolBar HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="1936" Background="#FF272727">
-            <Button Command="New" Content="new" VerticalAlignment="Top" FontSize="16" Height="31" Width="60" Margin="0,-2,0,-3" Foreground="White"/>
-            <Button Command="Open" Content="open" FontSize="16" Height="31" Width="60" Margin="0,-2,0,-3" Foreground="White"/>
-            <Button Command="Save" Content="save" FontSize="16" Margin="0,-2,0,-3" Height="31" Width="60" Padding="0" Foreground="White"/>
-        </ToolBar>
-        <Button x:Name="validSeuils" Content="Valider Seuils" Margin="349,0,0,19" FontSize="22" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White" HorizontalAlignment="Left" Width="159"/>
-        <TextBox x:Name="connexionStringInput" Margin="349,502,0,0" TextWrapping="Wrap" Height="153" VerticalAlignment="Top" FontSize="16" Text="S:\Public\Lean Exxelia\18 - Mise en flux Pressage Coupe Etalement\MFE-Mise en flux PCE\Indicateur\IndicateurPressageBDD.accdb" Background="#FF979797" Foreground="White" BorderBrush="White" Padding="12,0,0,0" HorizontalAlignment="Left" Width="192"/>
+
+
+
+        <Button x:Name="validSeuils" Content="Valider Seuils" Margin="749,0,0,42" FontSize="20" Height="58" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White" HorizontalAlignment="Left" Width="136"/>
+
+
+
+        <Menu Height="24" VerticalAlignment="Top">
+            <MenuItem Header=" = _Fichier"/>
+            <MenuItem Header="_Affichage"/>
+            <MenuItem Header="_Configuration">
+                <MenuItem Header="_Base de données Access" Click="Settings_Click"/>
+            </MenuItem>
+        </Menu>
+
     </Grid>
 </Window>

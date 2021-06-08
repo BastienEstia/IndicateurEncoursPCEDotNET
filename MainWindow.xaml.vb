@@ -4,8 +4,11 @@ Class MainWindow
     Public qtePlaque As Double
     Public lastOf As String
     Public nbOf As Double
+    Public connexionString
 
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs) Handles MyBase.Loaded
+        Dim settings As SettingsWindow = New SettingsWindow()
+        connexionString = settings.getBDDLocation()
         Call MajTableau()
         SeuilBas.Text = "20"
         SeuilHaut.Text = "50"
@@ -54,7 +57,7 @@ Class MainWindow
 
     End Sub
 
-    Private Sub SaisiMan_click() Handles saisieMan.Click
+    Private Sub SaisiMan_click(sender As Object, e As RoutedEventArgs) Handles saisieMan.Click
         cdBarre = cdBarreTB.Text
         qtePlaque = qtePlaqueTB.Text.ToString
         Dim con As Connexion = New Connexion()
@@ -78,4 +81,8 @@ Class MainWindow
         Call MajIndicateur()
     End Sub
 
+    Private Sub Settings_Click(sender As Object, e As RoutedEventArgs)
+        Dim settings As SettingsWindow = New SettingsWindow()
+        settings.Show()
+    End Sub
 End Class

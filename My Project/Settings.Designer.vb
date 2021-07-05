@@ -14,13 +14,13 @@ Option Explicit On
 
 
 <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
- Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0"),  _
+ Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0"),  _
  Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
 Partial Friend NotInheritable Class MySettings
     Inherits Global.System.Configuration.ApplicationSettingsBase
-
-    Private Shared defaultInstance As MySettings = CType(Global.System.Configuration.ApplicationSettingsBase.Synchronized(New MySettings()), MySettings)
-
+    
+    Private Shared defaultInstance As MySettings = CType(Global.System.Configuration.ApplicationSettingsBase.Synchronized(New MySettings()),MySettings)
+    
 #Region "Fonctionnalité Enregistrement automatique My.Settings"
 #If _MyType = "WindowsForms" Then
     Private Shared addedHandler As Boolean
@@ -35,7 +35,7 @@ Partial Friend NotInheritable Class MySettings
     End Sub
 #End If
 #End Region
-
+    
     Public Shared ReadOnly Property [Default]() As MySettings
         Get
             
@@ -52,16 +52,29 @@ Partial Friend NotInheritable Class MySettings
             Return defaultInstance
         End Get
     End Property
-
-    '<Global.System.Configuration.ApplicationScopedSettingAttribute(),
-    ' Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-    ' Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),
-    ' Global.System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=S:\Public\Lean Exxelia\18 - Mise en flux Pressage Coupe Etalement\MFE-Mise en flux PCE\Indicateur\IndicateurPressageBDD.accdb ;Persist Security Info=True;Jet OLEDB:Database Password=password")
-    ' >
-    Public ReadOnly Property IndicateurPressageBDDConnectionString(connexionStringInput As String) As String
+    
+    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\bastien.andres\Documents\I"& _ 
+        "ndicateurPressageBDD.accdb;Persist Security Info=True;Jet OLEDB:Database Passwor"& _ 
+        "d=password")>  _
+    Public ReadOnly Property IndicateurPressageBDDConnectionString() As String
         Get
-            Return "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & connexionStringInput & ";Persist Security Info=True;Jet OLEDB:Database Password=password"
+            Return CType(Me("IndicateurPressageBDDConnectionString"),String)
         End Get
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("C:\Users\bastien.andres\Documents\IndicateurPressageBDD.accdb")>  _
+    Public Property BDDPath() As String
+        Get
+            Return CType(Me("BDDPath"),String)
+        End Get
+        Set
+            Me("BDDPath") = value
+        End Set
     End Property
 End Class
 

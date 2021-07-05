@@ -7,8 +7,10 @@
         mc:Ignorable="d"
         Title="SettingsWindow" Height="338.918" Width="628.093">
     <Grid Background="#FF464646">
-        <Label Content="Emplacement de la base de données :" HorizontalAlignment="Left" Height="27" Margin="14,7,0,0" VerticalAlignment="Top" Width="247" Foreground="White"/>
-        <TextBox x:Name="BDDLocation_TB" HorizontalAlignment="Left" Height="23" Margin="236,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="336"/>
-        <Button Content="..." HorizontalAlignment="Left" Height="25" Margin="580.271,10,0,0" VerticalAlignment="Top" Width="23.666" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Padding="1,0" UseLayoutRounding="False" Click="BDDLocation_Click"/>
+        <Label Content="Emplacement de la base de données :" HorizontalAlignment="Left" Height="27" Margin="14,34,0,0" VerticalAlignment="Top" Width="247" Foreground="White"/>
+        <TextBox x:Name="BDDLocation_TB" HorizontalAlignment="Left" Height="23" Margin="236,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="336"/>
+        <Button Content="..." HorizontalAlignment="Left" Height="25" Margin="580.334,37.333,0,0" VerticalAlignment="Top" Width="23.666" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Padding="1,0" UseLayoutRounding="False" Click="BDDLocation_Click"/>
+        <Button x:Name="SettingsBack_Button" Content="Annuler" HorizontalAlignment="Left" Height="28" Margin="516,270,0,0" VerticalAlignment="Top" Width="88"/>
+        <Button x:Name="SettingsOk_Button" Content="OK" HorizontalAlignment="Left" Height="28" Margin="385,270,0,0" VerticalAlignment="Top" Width="88"/>
     </Grid>
 </Window>

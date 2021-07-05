@@ -10,6 +10,20 @@ Public Class Connexion
         Return oleConnection
     End Function
 
+    Public Function GetConnString()
+        Return connString
+    End Function
+
+    Public Function SetConnString(connString As String)
+        Me.connString = connString
+    End Function
+
+    Public Function GetRightConnString(connString As String)
+        Dim rightConnString As String
+        rightConnString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & connString & ";Persist Security Info=True;Jet OLEDB:Database Password=password"
+        Return rightConnString
+    End Function
+
     Public Function InsertQuery(cdBarre As String, qtePlaque As Double, cmd As OleDbCommand) As Boolean
         Dim query As String
         query = "INSERT INTO T_Encours_Press (Libelle, NbPlaque) VALUES (Val_libelle, Val_nbPlaque)"

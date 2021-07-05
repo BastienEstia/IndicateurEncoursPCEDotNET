@@ -10,5 +10,8 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\bastien.andres\Documents\IndicateurPressageBDD.accdb;Persist Security Info=True;Jet OLEDB:Database Password=password</Value>
     </Setting>
+    <Setting Name="BDDPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\bastien.andres\Documents\IndicateurPressageBDD.accdb</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

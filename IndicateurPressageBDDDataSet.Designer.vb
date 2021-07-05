@@ -1370,7 +1370,9 @@ Namespace IndicateurPressageBDDDataSetTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")>
         Private Sub InitConnection(connexionStringInput As String)
             Me._connection = New Global.System.Data.OleDb.OleDbConnection()
-            Me._connection.ConnectionString = Global.IndicateurEncoursPCEDotNET.MySettings.Default.IndicateurPressageBDDConnectionString(connexionStringInput)
+            Dim connexion As New Connexion()
+            'connexion.SetConnString(connexionStringInput)
+            Me._connection.ConnectionString = connexion.GetRightConnString(connexionStringInput)
         End Sub
 
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),

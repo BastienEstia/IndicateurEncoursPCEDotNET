@@ -98,18 +98,8 @@ Class MainWindow
         settingsW.ShowDialog()
         connexionString = settingsW.GetBDDLocation()
         connexionStringInput.Text = connexionString
-        Dim con As New Connexion()
-        'Dim config As Configuration
-        'config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None)
-        'config.AppSettings.Settings.Remove(0)
-        'config.AppSettings.Settings.Add("IndicateurPressageBDDConnectionString", "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & connexionString & ";Persist Security Info=True;Jet OLEDB:Database Password=password")
-        'config.Save(ConfigurationSaveMode.Full)
-        ConfigurationManager.ConnectionStrings().ConnectionString = connexionString
-
-        ConfigurationManager.RefreshSection("appSettings")
-        Dim connex As ConnectionStringSettings
-        connex = ConfigurationManager.ConnectionStrings(1)
-        connexionStringInput.Text = connex.ConnectionString
+        MySettings.Default.BDDConnString = connexionString
+        connexionStringInput.Text = connexionString
 
     End Sub
 End Class

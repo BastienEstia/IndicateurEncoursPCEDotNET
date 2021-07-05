@@ -76,6 +76,20 @@ Partial Friend NotInheritable Class MySettings
             Me("BDDPath") = value
         End Set
     End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\bastien.andres\Documents\I"& _ 
+        "ndicateurPressageBDD.accdb;Persist Security Info=True;Jet OLEDB:Database Passwor"&
+        "d=password")>
+    Public Property BDDConnString() As String
+        Get
+            Return CType(Me("BDDConnString"), String)
+        End Get
+        Set
+            Me("BDDConnString") = Value
+        End Set
+    End Property
 End Class
 
 Namespace My

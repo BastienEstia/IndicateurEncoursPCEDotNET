@@ -1,6 +1,6 @@
 ﻿Option Explicit On
 Public Class SettingsWindow
-    Public filename As String
+    Private filename As String
 
     Private Sub BDDLocation_Click(sender As Object, e As RoutedEventArgs)
         Dim dlg As Microsoft.Win32.OpenFileDialog = New Microsoft.Win32.OpenFileDialog()
@@ -8,7 +8,7 @@ Public Class SettingsWindow
         dlg.DefaultExt = "Access Databases|*.accdb"
         dlg.Filter = "Access Databases|*.accdb"
 
-        Dim result As Nullable(Of Boolean) = dlg.ShowDialog()
+        Dim result As Boolean? = dlg.ShowDialog()
 
         If result = True Then
             filename = dlg.FileName
@@ -17,16 +17,18 @@ Public Class SettingsWindow
 
     End Sub
 
-    Public Function getBDDLocation()
+    Public Function GetBDDLocation() As String
         Return filename
     End Function
 
-    Private Sub Settings_Unload(sender As Object, e As RoutedEventArgs)
-        Me.Close()
-    End Sub
-
-    Private Sub Settings_Continue(sender As Object, e As RoutedEventArgs)
-        Me.Close()
-        Me.getBDDLocation()
+    Private Sub SettingsOk_Button_Click(sender As Object, e As RoutedEventArgs) Handles SettingsOk_Button.Click
+        Dim MW As New MainWindow()
+        For Each wnd As Window In Windows.Application.Current.Windows
+            If wnd.GetType Is GetType(MainWindow) Then
+                MW = wnd
+            End If
+        Next
+        MW.connexionString = GetBDDLocation()
+        Close()
     End Sub
 End Class

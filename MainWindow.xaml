@@ -49,7 +49,7 @@
 
                 <Label Content="Base de données :" Margin="0,186,147,0" FontSize="24" Foreground="White"/>
 
-                <TextBox x:Name="connexionStringInput" Margin="208,192,6,6" TextWrapping="Wrap" FontSize="14" Text="S:\Public\Lean Exxelia\18 - Mise en flux Pressage Coupe Etalement\MFE-Mise en flux PCE\Indicateur\IndicateurPressageBDD.accdb" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0"/>
+                <TextBox x:Name="connexionStringInput" Margin="208,192,6,6" TextWrapping="Wrap" FontSize="14" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0"/>
 
                 <Label Content="Paramètres :" Margin="0,0,179,195" FontSize="24" Foreground="White"/>
 
@@ -84,7 +84,7 @@
         <Menu Height="24" VerticalAlignment="Top">
             <MenuItem Header=" = _Fichier"/>
             <MenuItem Header="_Affichage"/>
-            <MenuItem Header="_Configuration">
+            <MenuItem x:Name="ConfigurationButton" Header="_Configuration">
                 <MenuItem Header="_Base de données Access" Click="Settings_Click"/>
             </MenuItem>
         </Menu>

@@ -20,4 +20,13 @@ Public Class SettingsWindow
     Public Function getBDDLocation()
         Return filename
     End Function
+
+    Private Sub Settings_Unload(sender As Object, e As RoutedEventArgs)
+        Me.Close()
+    End Sub
+
+    Private Sub Settings_Continue(sender As Object, e As RoutedEventArgs)
+        Me.Close()
+        Me.getBDDLocation()
+    End Sub
 End Class

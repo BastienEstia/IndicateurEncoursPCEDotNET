@@ -9,6 +9,8 @@
     <Grid Background="#FF464646">
         <Label Content="Emplacement de la base de données :" HorizontalAlignment="Left" Height="27" Margin="14,7,0,0" VerticalAlignment="Top" Width="247" Foreground="White"/>
         <TextBox x:Name="BDDLocation_TB" HorizontalAlignment="Left" Height="23" Margin="236,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="336"/>
-        <Button Content="..." HorizontalAlignment="Left" Height="25" Margin="580.271,10,0,0" VerticalAlignment="Top" Width="23.666" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Padding="1,0" UseLayoutRounding="False" Click="BDDLocation_Click"/>
+        <Button x:Name="FileDialogBox" Content="..." HorizontalAlignment="Left" Height="25" Margin="580.271,10,0,0" VerticalAlignment="Top" Width="23.666" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Padding="1,0" UseLayoutRounding="False" Click="BDDLocation_Click"/>
+        <Button x:Name="BackButton" Content="Annuler" HorizontalAlignment="Left" Height="25" Margin="480,273,0,0" VerticalAlignment="Top" Width="123.937" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Padding="1,0" UseLayoutRounding="False" Click="Settings_Unload"/>
+        <Button x:Name="Ok_Button" Content="Ok" HorizontalAlignment="Left" Height="25" Margin="295,273,0,0" VerticalAlignment="Top" Width="105" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Padding="1,0" UseLayoutRounding="False" Click="Settings_Continue"/>
     </Grid>
 </Window>

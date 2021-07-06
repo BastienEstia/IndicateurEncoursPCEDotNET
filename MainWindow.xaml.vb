@@ -1,4 +1,6 @@
 ﻿Option Explicit On
+Imports System.Data.OleDb
+
 Class MainWindow
     Public cdBarre As String
     Public qtePlaque As Double
@@ -9,9 +11,13 @@ Class MainWindow
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs) Handles MyBase.Loaded
         Dim settings As SettingsWindow = New SettingsWindow()
         connexionString = settings.getBDDLocation()
-        Call MajTableau()
         SeuilBas.Text = "20"
         SeuilHaut.Text = "50"
+        While Not (My.Computer.FileSystem.FileExists(connexionString))
+            settings.Show()
+
+        End While
+        Call MajTableau()
         Call MajIndicateur()
     End Sub
 
@@ -30,7 +36,9 @@ Class MainWindow
         Dim nbPlaqueTot As Double
         Dim i As Integer = 0
         Dim con As Connexion = New Connexion()
-        Dim listNbPlaque As List(Of Double) = con.SelectNbPlaqueQuery
+        Dim cmd As OleDbCommand = New OleDbCommand()
+        cmd.Connection = con.ConnexionBDD(connexionStringInput.Text)
+        Dim listNbPlaque As List(Of Double) = con.SelectNbPlaqueQuery(cmd)
         Dim gridLengthTop As GridLength
         Dim gridLengthBot As GridLength
         Dim colorGLTop As GridLength
@@ -61,7 +69,9 @@ Class MainWindow
         cdBarre = cdBarreTB.Text
         qtePlaque = qtePlaqueTB.Text.ToString
         Dim con As Connexion = New Connexion()
-        con.InsertQuery(cdBarre, qtePlaque)
+        Dim cmd As OleDbCommand = New OleDbCommand()
+        cmd.Connection = con.ConnexionBDD(connexionStringInput.Text)
+        con.InsertQuery(cdBarre, qtePlaque, cmd)
         Call MajTableau()
         Call MajIndicateur()
         lastOf = cdBarre
@@ -70,8 +80,10 @@ Class MainWindow
     Private Sub UndoLastOf_Click(sender As Object, e As RoutedEventArgs) Handles undoLastOf.Click
         Dim con As Connexion = New Connexion()
         Dim id As Integer
-        id = con.SelectIdQuery()
-        con.TruncateQuery(id)
+        Dim cmd As OleDbCommand = New OleDbCommand()
+        cmd.Connection = con.ConnexionBDD(connexionStringInput.Text)
+        id = con.SelectIdQuery(cmd)
+        con.TruncateQuery(id, cmd)
         Call MajTableau()
         Call MajIndicateur()
 
@@ -81,7 +93,7 @@ Class MainWindow
         Call MajIndicateur()
     End Sub
 
-    Private Sub Settings_Click(sender As Object, e As RoutedEventArgs)
+    Private Sub Settings_Click(sender As Object, e As RoutedEventArgs) Handles ConfigurationButton.Click
         Dim settings As SettingsWindow = New SettingsWindow()
         settings.Show()
     End Sub

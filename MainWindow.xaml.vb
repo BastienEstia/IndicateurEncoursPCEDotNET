@@ -98,8 +98,10 @@ Class MainWindow
         settingsW.ShowDialog()
         connexionString = settingsW.GetBDDLocation()
         connexionStringInput.Text = connexionString
-        MySettings.Default.BDDConnString = connexionString
+        MySettings.Default.BDDConnString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & connexionString & ";Persist Security Info=True;Jet OLEDB:Database Password=password"
+        MySettings.Default.Save()
         connexionStringInput.Text = connexionString
-
+        Call MajIndicateur()
+        Call MajTableau()
     End Sub
 End Class

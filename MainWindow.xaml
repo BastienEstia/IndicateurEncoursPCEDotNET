@@ -32,29 +32,6 @@
             <Label Content="Nb Pl :" Margin="0,-2,144,0" Height="48" VerticalAlignment="Top" FontSize="24" Foreground="White" HorizontalAlignment="Right" Width="84"/>
             <TextBox x:Name="cdBarreTB" Margin="123,-2,0,0" TextWrapping="Wrap" Height="39" VerticalAlignment="Top" FontSize="24" Background="#FF979797" BorderBrush="White" HorizontalAlignment="Left" Width="130"/>
         </Grid>
-
-        <Border Margin="336,94,0,0" Height="236" VerticalAlignment="Top" HorizontalAlignment="Left" Width="350">
-            <Grid>
-                <Rectangle Fill="#FF707070" HorizontalAlignment="Left" Height="236" Stroke="Black" VerticalAlignment="Top" Width="350"/>
-                <Separator Margin="1,32,1,200"/>
-
-
-                <Label Content="Seuil Haut :" Margin="69,57,147,138" FontSize="24" Foreground="White"/>
-
-                <TextBox x:Name="SeuilHaut" Text="72" Margin="284,57,6,138" TextWrapping="Wrap" FontSize="24" Background="#FF979797" BorderBrush="Black" Foreground="White" Padding="12,0,0,0"/>
-
-                <Label Content="Seuil Bas :" Margin="84,124,150,70" FontSize="24" Foreground="White"/>
-
-                <TextBox x:Name="SeuilBas" Text="20" Margin="283,128,6,70" TextWrapping="Wrap" FontSize="24" Background="#FF979797" Foreground="White" Padding="12,0,0,0" BorderBrush="Black"/>
-
-                <Label Content="Base de données :" Margin="0,186,147,0" FontSize="24" Foreground="White"/>
-
-                <TextBox x:Name="connexionStringInput" Margin="208,192,6,6" TextWrapping="Wrap" FontSize="14" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0"/>
-
-                <Label Content="Paramètres :" Margin="0,0,179,195" FontSize="24" Foreground="White"/>
-
-            </Grid>
-        </Border>
         <Grid x:Name="indicGrd1" Margin="749,94,0,140" Background="#FFE80404" HorizontalAlignment="Left" Width="136">
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="indicTop" />
@@ -84,6 +61,28 @@
                 <MenuItem Header="_Base de données Access" Click="Settings_Click"/>
             </MenuItem>
         </Menu>
+        <Grid Margin="278,94,0,0" HorizontalAlignment="Left" Width="371" Height="317" VerticalAlignment="Top">
+            <Rectangle Fill="#FF707070" Stroke="White"/>
+            <Separator Margin="0,32,1,270" HorizontalAlignment="Right" Width="369"/>
+
+
+            <Label Content="Seuil Haut :" Margin="0,57,249,0" FontSize="18" Foreground="White" Height="41" VerticalAlignment="Top" HorizontalAlignment="Right" Width="112"/>
+
+            <TextBox x:Name="SeuilHaut" Text="72" Margin="165,61,159,0" TextWrapping="Wrap" FontSize="18" Background="#FF979797" BorderBrush="Black" Foreground="White" Padding="12,0,0,0" Height="27" VerticalAlignment="Top"/>
+
+            <Label Content="Seuil Bas :" Margin="0,124,266,0" FontSize="18" Foreground="White" Height="36" VerticalAlignment="Top" HorizontalAlignment="Right" Width="95"/>
+
+            <TextBox x:Name="SeuilBas" Text="20" Margin="165,128,159,0" TextWrapping="Wrap" FontSize="18" Background="#FF979797" Foreground="White" Padding="12,0,0,0" BorderBrush="Black" Height="27" VerticalAlignment="Top"/>
+
+            <Label Content="Table/Poste :" Margin="0,258,249,25" FontSize="18" Foreground="White" HorizontalAlignment="Right" Width="112"/>
+
+            <TextBox x:Name="connexionStringInput" Margin="165,189,18,0" TextWrapping="Wrap" FontSize="18" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0" Height="27" VerticalAlignment="Top" RenderTransformOrigin="0.173,-0.878"/>
+
+            <Label Content="Paramètres :" Margin="0,1,179,269" FontSize="24" Foreground="White" HorizontalAlignment="Right" Width="192"/>
+            <Label Content="Base de données :" Margin="0,189,206,0" FontSize="18" Foreground="White" Height="36" VerticalAlignment="Top" HorizontalAlignment="Right" Width="155"/>
+            <TextBox x:Name="connexionStringInput_Copy" Margin="165,0,18,32" TextWrapping="Wrap" FontSize="18" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0" Height="27" VerticalAlignment="Bottom"/>
+
+        </Grid>
 
     </Grid>
 </Window>

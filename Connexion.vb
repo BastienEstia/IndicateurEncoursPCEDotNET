@@ -135,4 +135,20 @@ Public Class Connexion
         Return listNbPlaque
     End Function
 
+    Public Function SelectCountTableQuery(cmd As OleDbCommand) As Array
+        Dim query As String
+        Dim nbof As Array
+        query = "SELECT COUNT(id) From * WHERE id = 0"
+        cmd.CommandText = query
+        cmd.Connection.Open()
+        Dim reader As OleDbDataReader
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            nbof = reader.GetValue(0)
+            cmd.Connection.Close()
+        End If
+
+        Return nbof
+    End Function
+
 End Class

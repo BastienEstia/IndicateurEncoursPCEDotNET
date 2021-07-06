@@ -29,8 +29,6 @@ Public Class SettingsWindow
             End If
         Next
         MW.connexionString = GetBDDLocation()
-        MW.MajTableau()
-        MW.MajIndicateur()
         Close()
     End Sub
 End Class

@@ -12,22 +12,27 @@ Class MainWindow
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs) Handles MyBase.Loaded
         connexionString = My.Settings.BDDPath
         connexionStringInput.Text = connexionString
+        Dim settings As New SettingsWindow
         Call MajTableau()
         SeuilBas.Text = "20"
         SeuilHaut.Text = "50"
-        While Not (My.Computer.FileSystem.FileExists(connexionString))
-            settings.Show()
-
-        End While
-        Call MajTableau()
         Call MajIndicateur()
     End Sub
 
     Public Sub MajTableau()
+        Dim settingsW As New SettingsWindow
         Dim IndicateurPressageBDDDataSet As IndicateurPressageBDDDataSet = CType(Me.FindResource("IndicateurPressageBDDDataSet"), IndicateurPressageBDDDataSet)
         'Chargez les données dans la table T_Encours_Press. Vous pouvez modifier ce code selon les besoins.
         Dim IndicateurPressageBDDDataSetT_Encours_PressTableAdapter As IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter = New IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter()
+        On Error GoTo Handler
         IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press, connexionString)
+Handler:
+        If (TypeOf Err.GetException() Is System.Data.OleDb.OleDbException) Then
+#Disable Warning BC42104
+            settingsW.ShowDialog()
+#Enable Warning BC42104
+        End If
+
         Dim T_Encours_PressViewSource As CollectionViewSource = CType(Me.FindResource("T_Encours_PressViewSource"), CollectionViewSource)
         T_Encours_PressViewSource.View.MoveCurrentToFirst()
 
@@ -101,12 +106,6 @@ Class MainWindow
     Private Sub Settings_Click(sender As Object, e As RoutedEventArgs)
         Dim settingsW As New SettingsWindow()
         settingsW.ShowDialog()
-        connexionString = settingsW.GetBDDLocation()
-        connexionStringInput.Text = connexionString
-        MySettings.Default.BDDConnString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & connexionString & ";Persist Security Info=True;Jet OLEDB:Database Password=password"
-        MySettings.Default.Save()
-        connexionStringInput.Text = connexionString
-        Call MajIndicateur()
-        Call MajTableau()
+
     End Sub
 End Class

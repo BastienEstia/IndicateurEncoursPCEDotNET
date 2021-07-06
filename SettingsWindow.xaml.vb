@@ -30,5 +30,13 @@ Public Class SettingsWindow
         Next
         MW.connexionString = GetBDDLocation()
         Close()
+        MW.connexionStringInput.Text = MW.connexionString
+        MySettings.Default.BDDConnString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & MW.connexionString & ";Persist Security Info=True;Jet OLEDB:Database Password=password"
+        MySettings.Default.BDDPath = MW.connexionString
+        MySettings.Default.Save()
+        MW.connexionStringInput.Text = MW.connexionString
+        Call MW.MajIndicateur()
+        Call MW.MajTableau()
     End Sub
+
 End Class

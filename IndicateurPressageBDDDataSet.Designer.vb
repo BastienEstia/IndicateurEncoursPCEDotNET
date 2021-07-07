@@ -1188,7 +1188,7 @@ Namespace IndicateurPressageBDDDataSetTableAdapters
             tableMapping.SourceTable = "Table"
             tableMapping.DataSetTable = "T_Encours_Coupe"
             tableMapping.ColumnMappings.Add("Libelle", "Libelle")
-            tableMapping.ColumnMappings.Add("NbPlaques", "NbPlaques")
+            tableMapping.ColumnMappings.Add("NbPlaque", "NbPlaque")
             Me._adapter.TableMappings.Add(tableMapping)
         End Sub
         
@@ -1205,23 +1205,23 @@ Namespace IndicateurPressageBDDDataSetTableAdapters
             Me._commandCollection = New Global.System.Data.OleDb.OleDbCommand(0) {}
             Me._commandCollection(0) = New Global.System.Data.OleDb.OleDbCommand()
             Me._commandCollection(0).Connection = Me.Connection(connexionStringInput)
-            Me._commandCollection(0).CommandText = "SELECT Libelle, NbPlaques FROM T_Encours_Coupe"
+            Me._commandCollection(0).CommandText = "SELECT Libelle, NbPlaque FROM T_Encours_Coupe"
             Me._commandCollection(0).CommandType = Global.System.Data.CommandType.Text
         End Sub
 
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
-         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Fill, true)>  _
-        Public Overloads Overridable Function Fill(ByVal dataTable As IndicateurPressageBDDDataSet.T_Encours_CoupeDataTable) As Integer
-            Me.Adapter.SelectCommand = Me.CommandCollection()(0)
-            If (Me.ClearBeforeFill = true) Then
-                dataTable.Clear
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),
+         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Fill, True)>
+        Public Overloads Overridable Function Fill(ByVal dataTable As IndicateurPressageBDDDataSet.T_Encours_CoupeDataTable, connexionStringInput As String) As Integer
+            Me.Adapter.SelectCommand = Me.CommandCollection(connexionStringInput)(0)
+            If (Me.ClearBeforeFill = True) Then
+                dataTable.Clear()
             End If
             Dim returnValue As Integer = Me.Adapter.Fill(dataTable)
             Return returnValue
         End Function
-        
+
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _

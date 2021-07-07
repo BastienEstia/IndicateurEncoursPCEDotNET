@@ -26,7 +26,7 @@ Public Class Connexion
 
     Public Function InsertQuery(cdBarre As String, qtePlaque As Double, cmd As OleDbCommand) As Boolean
         Dim query As String
-        query = "INSERT INTO T_Encours_Press (Libelle, NbPlaque) VALUES (Val_libelle, Val_nbPlaque)"
+        query = "INSERT INTO T_Encours_" & MySettings.Default.TableSelected & "(Libelle, NbPlaque) VALUES (Val_libelle, Val_nbPlaque)"
         cmd.CommandText = query
         With cmd.Parameters
             .AddWithValue("Val_libelle", cdBarre)
@@ -41,7 +41,7 @@ Public Class Connexion
 
     Public Function TruncateQuery(id As Integer, cmd As OleDbCommand) As Boolean
         Dim query As String
-        query = "DELETE * From T_Encours_Press Where id = Val_id"
+        query = "DELETE * From T_Encours_" & MySettings.Default.TableSelected & " Where id = Val_id"
         cmd.CommandText = query
 
 
@@ -59,7 +59,7 @@ Public Class Connexion
     Private Function CountQuery(cmd As OleDbCommand) As Integer
         Dim query As String
         Dim nbof As Integer
-        query = "SELECT COUNT(id) From T_Encours_Press"
+        query = "SELECT COUNT(id) From T_Encours_" & MySettings.Default.TableSelected
         cmd.CommandText = query
         cmd.Connection.Open()
         Dim reader As OleDbDataReader
@@ -83,7 +83,7 @@ Public Class Connexion
         nbof = con.CountQuery(cmd)
         Dim nbOfTab(nbof) As Integer
 
-        query = "SELECT Id FROM T_Encours_Press"
+        query = "SELECT Id FROM T_Encours_" & MySettings.Default.TableSelected
         Dim cmd1 = cmd
         cmd1.CommandText = query
         cmd.Connection.Open()
@@ -116,7 +116,7 @@ Public Class Connexion
         nbof = con.CountQuery(cmd)
         Dim nbPlaqueTab(nbof) As Integer
 
-        query = "SELECT NbPlaque FROM T_Encours_Press"
+        query = "SELECT NbPlaque FROM T_Encours_" & MySettings.Default.TableSelected
         Dim cmd1 = cmd
         cmd.CommandText = query
         cmd1.Connection.Open()
@@ -133,22 +133,6 @@ Public Class Connexion
         reader.Close()
 
         Return listNbPlaque
-    End Function
-
-    Public Function SelectCountTableQuery(cmd As OleDbCommand) As Array
-        Dim query As String
-        Dim nbof As Array
-        query = "SELECT COUNT(id) From * WHERE id = 0"
-        cmd.CommandText = query
-        cmd.Connection.Open()
-        Dim reader As OleDbDataReader
-        reader = cmd.ExecuteReader()
-        If reader.Read() Then
-            nbof = reader.GetValue(0)
-            cmd.Connection.Close()
-        End If
-
-        Return nbof
     End Function
 
 End Class

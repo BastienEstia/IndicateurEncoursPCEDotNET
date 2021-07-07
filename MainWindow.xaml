@@ -80,7 +80,7 @@
 
             <Label Content="Paramètres :" Margin="0,1,179,269" FontSize="24" Foreground="White" HorizontalAlignment="Right" Width="192"/>
             <Label Content="Base de données :" Margin="0,189,206,0" FontSize="18" Foreground="White" Height="36" VerticalAlignment="Top" HorizontalAlignment="Right" Width="155"/>
-            <TextBox x:Name="connexionStringInput_Copy" Margin="165,0,18,32" TextWrapping="Wrap" FontSize="18" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0" Height="27" VerticalAlignment="Bottom"/>
+            <TextBox x:Name="TB_Table" Margin="165,265,18,0" TextWrapping="Wrap" FontSize="18" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0" Height="27" VerticalAlignment="Top" RenderTransformOrigin="0.173,-0.878"/>
 
         </Grid>
 

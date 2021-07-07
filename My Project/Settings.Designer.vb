@@ -67,6 +67,47 @@ Partial Friend NotInheritable Class MySettings
     
     <Global.System.Configuration.UserScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\bastien.andres\Documents\I"& _ 
+        "ndicateurPressageBDD.accdb;Persist Security Info=True;Jet OLEDB:Database Passwor"& _ 
+        "d=password")>  _
+    Public Property BDDConnString() As String
+        Get
+            Return CType(Me("BDDConnString"),String)
+        End Get
+        Set
+            Me("BDDConnString") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("<?xml version=""1.0"" encoding=""utf-16""?>"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"<ArrayOfString xmlns:xsi=""http://www.w3."& _ 
+        "org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"  <s"& _ 
+        "tring>T_Encours_Press</string>"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"  <string>T_Encours_Coupe</string>"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"</ArrayOfStr"& _ 
+        "ing>")>  _
+    Public Property TableList() As Global.System.Collections.Specialized.StringCollection
+        Get
+            Return CType(Me("TableList"),Global.System.Collections.Specialized.StringCollection)
+        End Get
+        Set
+            Me("TableList") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Press")>  _
+    Public Property TableSelected() As String
+        Get
+            Return CType(Me("TableSelected"),String)
+        End Get
+        Set
+            Me("TableSelected") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Configuration.DefaultSettingValueAttribute("C:\Users\bastien.andres\Documents\IndicateurPressageBDD.accdb")>  _
     Public Property BDDPath() As String
         Get
@@ -74,20 +115,6 @@ Partial Friend NotInheritable Class MySettings
         End Get
         Set
             Me("BDDPath") = value
-        End Set
-    End Property
-    
-    <Global.System.Configuration.UserScopedSettingAttribute(),  _
-     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\bastien.andres\Documents\I"& _ 
-        "ndicateurPressageBDD.accdb;Persist Security Info=True;Jet OLEDB:Database Passwor"&
-        "d=password")>
-    Public Property BDDConnString() As String
-        Get
-            Return CType(Me("BDDConnString"), String)
-        End Get
-        Set
-            Me("BDDConnString") = Value
         End Set
     End Property
 End Class

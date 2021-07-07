@@ -2,6 +2,14 @@
 Public Class SettingsWindow
     Private filename As String
 
+    Private Sub SettingsW_Loaded(sender As Object, e As RoutedEventArgs) Handles SettingsW.Loaded
+        Dim cbItem As New ComboBoxItem
+        filename = MySettings.Default.BDDPath
+        'ComboBoxItem.ContentProperty = MySettings.Default.TableSelected
+        BDDLocation_TB.Text = MySettings.Default.BDDPath
+        Table_ComboBox.SelectedValue = MySettings.Default.TableSelected
+    End Sub
+
     Private Sub BDDLocation_Click(sender As Object, e As RoutedEventArgs)
         Dim dlg As Microsoft.Win32.OpenFileDialog = New Microsoft.Win32.OpenFileDialog()
 
@@ -29,14 +37,30 @@ Public Class SettingsWindow
             End If
         Next
         MW.connexionString = GetBDDLocation()
-        Close()
-        MW.connexionStringInput.Text = MW.connexionString
+
         MySettings.Default.BDDConnString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & MW.connexionString & ";Persist Security Info=True;Jet OLEDB:Database Password=password"
         MySettings.Default.BDDPath = MW.connexionString
         MySettings.Default.Save()
-        MW.connexionStringInput.Text = MW.connexionString
-        Call MW.MajIndicateur()
-        Call MW.MajTableau()
+        BDDLocation_TB.Text = MW.connexionString
+        Close()
     End Sub
 
+    Private Sub Table_ComboBox_Loaded(sender As Object, e As RoutedEventArgs) Handles Table_ComboBox.Loaded
+        Dim listeTable As New List(Of String)
+        For Each table As String In MySettings.Default.TableList
+            listeTable.Add(Split(table, "_")(2))
+        Next table
+        Table_ComboBox.ItemsSource = listeTable
+    End Sub
+
+    Private Sub Table_ComboBox_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles Table_ComboBox.SelectionChanged
+        Dim selectedItem As String
+        sender = CType(sender, ComboBox)
+        selectedItem = sender.SelectedItem
+        MySettings.Default.TableSelected = selectedItem
+        MySettings.Default.Save()
+    End Sub
+
+
 End Class
+

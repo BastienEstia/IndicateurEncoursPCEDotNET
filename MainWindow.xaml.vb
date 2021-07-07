@@ -10,7 +10,7 @@ Class MainWindow
     Public connexionString As String
 
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs) Handles MyBase.Loaded
-        connexionString = My.Settings.BDDPath
+        connexionString = MySettings.Default.BDDPath
         connexionStringInput.Text = connexionString
         Dim settings As New SettingsWindow
         Call MajTableau()
@@ -24,8 +24,15 @@ Class MainWindow
         Dim IndicateurPressageBDDDataSet As IndicateurPressageBDDDataSet = CType(Me.FindResource("IndicateurPressageBDDDataSet"), IndicateurPressageBDDDataSet)
         'Chargez les données dans la table T_Encours_Press. Vous pouvez modifier ce code selon les besoins.
         Dim IndicateurPressageBDDDataSetT_Encours_PressTableAdapter As IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter = New IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter()
+        Dim IndicateurPressageBDDDataSetT_Encours_CoupeTableAdapter As IndicateurPressageBDDDataSetTableAdapters.T_Encours_CoupeTableAdapter = New IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters.T_Encours_CoupeTableAdapter()
         On Error GoTo Handler
-        IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press, connexionString)
+        Select Case MySettings.Default.TableSelected
+            Case "T_Encours_Press"
+                IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press, connexionString)
+            Case "T_Encours_Coupe"
+                IndicateurPressageBDDDataSetT_Encours_CoupeTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Coupe, connexionString)
+        End Select
+
 Handler:
         If (TypeOf Err.GetException() Is System.Data.OleDb.OleDbException) Then
 #Disable Warning BC42104
@@ -106,6 +113,12 @@ Handler:
     Private Sub Settings_Click(sender As Object, e As RoutedEventArgs)
         Dim settingsW As New SettingsWindow()
         settingsW.ShowDialog()
+        TB_Table.Text = MySettings.Default.TableSelected
 
+        connexionString = MySettings.Default.BDDPath
+        connexionStringInput.Text = connexionString
+        Call MajIndicateur()
+        Call MajTableau()
     End Sub
+
 End Class

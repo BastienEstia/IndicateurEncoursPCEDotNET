@@ -1195,8 +1195,9 @@ Namespace IndicateurPressageBDDDataSetTableAdapters
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")>
         Private Sub InitConnection(connexionStringInput As String)
+            Dim connexion As New Connexion()
             Me._connection = New Global.System.Data.OleDb.OleDbConnection()
-            Me._connection.ConnectionString = Global.IndicateurEncoursPCEDotNET.MySettings.Default.BDDConnString
+            Me._connection.ConnectionString = connexion.GetRightConnString(connexionStringInput)
         End Sub
 
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
@@ -1224,10 +1225,11 @@ Namespace IndicateurPressageBDDDataSetTableAdapters
 
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
-         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.[Select], true)>  _
-        Public Overloads Overridable Function GetData() As IndicateurPressageBDDDataSet.T_Encours_CoupeDataTable
-            Me.Adapter.SelectCommand = Me.CommandCollection()(0)
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),
+         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.[Select], True)>
+        Public Overloads Overridable Function GetData(connexionStringInput As String) As IndicateurPressageBDDDataSet.T_Encours_CoupeDataTable
+            'Me.Adapter.SelectCommand = Me.CommandCollection()(0)
+            Me.Adapter.SelectCommand = Me.CommandCollection(connexionStringInput)(0)
             Dim dataTable As IndicateurPressageBDDDataSet.T_Encours_CoupeDataTable = New IndicateurPressageBDDDataSet.T_Encours_CoupeDataTable()
             Me.Adapter.Fill(dataTable)
             Return dataTable

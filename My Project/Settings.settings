@@ -21,7 +21,7 @@
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="TableSelected" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Press</Value>
+      <Value Profile="(Default)">Coupe</Value>
     </Setting>
     <Setting Name="BDDPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\bastien.andres\Documents\IndicateurPressageBDD.accdb</Value>

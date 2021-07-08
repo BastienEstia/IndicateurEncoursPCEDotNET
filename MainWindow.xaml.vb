@@ -25,24 +25,29 @@ Class MainWindow
         'Chargez les données dans la table T_Encours_Press. Vous pouvez modifier ce code selon les besoins.
         Dim IndicateurPressageBDDDataSetT_Encours_PressTableAdapter As IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter = New IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter()
         Dim IndicateurPressageBDDDataSetT_Encours_CoupeTableAdapter As IndicateurPressageBDDDataSetTableAdapters.T_Encours_CoupeTableAdapter = New IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters.T_Encours_CoupeTableAdapter()
-        On Error GoTo Handler
+
         Select Case MySettings.Default.TableSelected
-            Case "T_Encours_Press"
+            Case "Press"
+                On Error GoTo Handler
                 IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press, connexionString)
-            Case "T_Encours_Coupe"
-                IndicateurPressageBDDDataSetT_Encours_CoupeTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Coupe, connexionString)
-        End Select
-
 Handler:
-        If (TypeOf Err.GetException() Is System.Data.OleDb.OleDbException) Then
+                If (TypeOf Err.GetException() Is System.Data.OleDb.OleDbException) Then
 #Disable Warning BC42104
-            settingsW.ShowDialog()
+                    settingsW.ShowDialog()
 #Enable Warning BC42104
-        End If
-
-        Dim T_Encours_PressViewSource As CollectionViewSource = CType(Me.FindResource("T_Encours_PressViewSource"), CollectionViewSource)
-        T_Encours_PressViewSource.View.MoveCurrentToFirst()
-
+                End If
+                CType(Me.FindResource("T_Encours_PressViewSource"), CollectionViewSource).View.MoveCurrentToFirst()
+            Case "Coupe"
+                On Error GoTo Handler2
+                IndicateurPressageBDDDataSetT_Encours_CoupeTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Coupe, connexionString)
+Handler2:
+                If (TypeOf Err.GetException() Is System.Data.OleDb.OleDbException) Then
+#Disable Warning BC42104
+                    settingsW.ShowDialog()
+#Enable Warning BC42104
+                End If
+                CType(Me.FindResource("T_Encours_CoupeViewSource"), CollectionViewSource).View.MoveCurrentToFirst()
+        End Select
     End Sub
 
     Public Sub MajIndicateur()

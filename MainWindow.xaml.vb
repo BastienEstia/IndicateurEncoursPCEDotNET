@@ -22,17 +22,11 @@ Class MainWindow
     Public Sub MajTableau()
         Dim settingsW As New SettingsWindow
         Dim IndicateurPressageBDDDataSet As IndicateurPressageBDDDataSet = CType(Me.FindResource("IndicateurPressageBDDDataSet"), IndicateurPressageBDDDataSet)
+        IndicateurPressageBDDDataSet.T_Encours.PosteTable() = MySettings.Default.TableSelected
         'Chargez les données dans la table T_Encours_Press. Vous pouvez modifier ce code selon les besoins.
-        Dim IndicateurPressageBDDDataSetT_Encours_PressTableAdapter As IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter = New IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters.T_Encours_PressTableAdapter()
-        Dim IndicateurPressageBDDDataSetT_Encours_CoupeTableAdapter As IndicateurPressageBDDDataSetTableAdapters.T_Encours_CoupeTableAdapter = New IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters.T_Encours_CoupeTableAdapter()
+        Dim IndicateurPressageBDDDataSetT_Encours_TableAdapter As IndicateurPressageBDDDataSetTableAdapters.T_Encours_TableAdapter = New IndicateurEncoursPCEDotNET.IndicateurPressageBDDDataSetTableAdapters.T_Encours_TableAdapter()
         On Error GoTo Handler
-        Select Case MySettings.Default.TableSelected
-            Case "T_Encours_Press"
-                IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press, connexionString)
-            Case "T_Encours_Coupe"
-                IndicateurPressageBDDDataSetT_Encours_CoupeTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Coupe, connexionString)
-        End Select
-
+        IndicateurPressageBDDDataSetT_Encours_TableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours, connexionString, MySettings.Default.TableSelected)
 Handler:
         If (TypeOf Err.GetException() Is System.Data.OleDb.OleDbException) Then
 #Disable Warning BC42104
@@ -40,8 +34,8 @@ Handler:
 #Enable Warning BC42104
         End If
 
-        Dim T_Encours_PressViewSource As CollectionViewSource = CType(Me.FindResource("T_Encours_PressViewSource"), CollectionViewSource)
-        T_Encours_PressViewSource.View.MoveCurrentToFirst()
+        Dim T_Encours_ViewSource As CollectionViewSource = CType(Me.FindResource("T_Encours_ViewSource"), CollectionViewSource)
+        T_Encours_ViewSource.View.MoveCurrentToFirst()
 
     End Sub
 

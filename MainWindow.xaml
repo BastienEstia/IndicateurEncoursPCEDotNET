@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IndicateurEncoursPCEDotNET"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1037" Width="1719.5"
+        Title="MainWindow" Height="1219.5" Width="1480.5"
         x:Class="MainWindow" Background="#FF464646">
     <Window.Resources>
 
@@ -17,71 +17,82 @@
     </Window.Resources>
 
     <Grid x:Name="mainGrid" DataContext="{StaticResource T_Encours_PressViewSource}" OpacityMask="#FF272727" Background="#FF464646">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition MaxWidth="1200" MinWidth="1000" Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23*"/>
+            <RowDefinition Height="983*"/>
+        </Grid.RowDefinitions>
 
-        <Grid x:Name="TabGrid" Margin="948,94,278,42">
-            <Button x:Name="undoLastOf" Content="Annuler" FontSize="20" HorizontalAlignment="Right" Width="123" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White"/>
-
-            <Button x:Name="saisieMan" Content="Saisie Manuelle" FontSize="20" HorizontalAlignment="Left" Width="169" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White"/>
-
-            <Label Content="OF :" Margin="70,-2,0,0" Height="48" VerticalAlignment="Top" FontSize="24" Foreground="White" HorizontalAlignment="Left" Width="53"/>
-
-            <DataGrid Margin="0,53,0,101" ColumnWidth="*" HeadersVisibility="Column" FontSize="24" ItemsSource="{Binding}"/>
-
-            <TextBox x:Name="qtePlaqueTB" Margin="0,-2,2,0" TextWrapping="Wrap" Height="39" VerticalAlignment="Top" FontSize="24" Background="#FF979797" BorderBrush="White" HorizontalAlignment="Right" Width="126"/>
-
-            <Label Content="Nb Pl :" Margin="0,-2,144,0" Height="48" VerticalAlignment="Top" FontSize="24" Foreground="White" HorizontalAlignment="Right" Width="84"/>
-            <TextBox x:Name="cdBarreTB" Margin="123,-2,0,0" TextWrapping="Wrap" Height="39" VerticalAlignment="Top" FontSize="24" Background="#FF979797" BorderBrush="White" HorizontalAlignment="Left" Width="130"/>
-        </Grid>
-        <Grid x:Name="indicGrd1" Margin="749,94,0,140" Background="#FFE80404" HorizontalAlignment="Left" Width="136">
-            <Grid.RowDefinitions>
-                <RowDefinition x:Name="indicTop" />
-                <RowDefinition x:Name="indicMid" />
-                <RowDefinition x:Name="indicBot" />
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="1" Background="green"/>
-        </Grid>
-        <Grid x:Name="indicGrdCursor" Margin="749,94,0,140" HorizontalAlignment="Left" Width="136">
-            <Grid.RowDefinitions>
-                <RowDefinition x:Name="curseurTop" />
-                <RowDefinition x:Name="curseurMid" />
-                <RowDefinition x:Name="curseurBot" />
-            </Grid.RowDefinitions>
-            <Grid
-                Grid.Row="1"
-                Background="yellow"
-                />
-        </Grid>
-
-        <Button x:Name="validSeuils" Content="Valider Seuils" Margin="749,0,0,42" FontSize="20" Height="58" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White" HorizontalAlignment="Left" Width="136"/>
-
-        <Menu Height="24" VerticalAlignment="Top">
+        <Menu Height="24" VerticalAlignment="Top" Grid.ColumnSpan="3">
             <MenuItem Header=" = _Fichier"/>
             <MenuItem Header="_Affichage"/>
             <MenuItem x:Name="ConfigurationButton" Header="_Configuration">
                 <MenuItem Header="_Base de données Access" Click="Settings_Click"/>
             </MenuItem>
         </Menu>
-        <Grid Margin="278,94,0,0" HorizontalAlignment="Left" Width="371" Height="317" VerticalAlignment="Top">
-            <Rectangle Fill="#FF707070" Stroke="White"/>
-            <Separator Margin="0,32,1,270" HorizontalAlignment="Right" Width="369"/>
+        <Grid x:Name="ContentGrid" Grid.Row="1" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" Width="1150">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MaxWidth="400" MinWidth="300" Width="Auto"/>
+                <ColumnDefinition MaxWidth="200" MinWidth="150" Width="Auto"/>
+                <ColumnDefinition MaxWidth="700" MinWidth="600"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="TabGrid" Margin="10,25,10,52" Grid.Column="2">
+                <Button x:Name="undoLastOf" Content="Annuler" FontSize="20" HorizontalAlignment="Right" Width="123" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White"/>
 
+                <Button x:Name="saisieMan" Content="Saisie Manuelle" FontSize="20" HorizontalAlignment="Left" Width="169" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White"/>
 
-            <Label Content="Seuil Haut :" Margin="0,57,249,0" FontSize="18" Foreground="White" Height="41" VerticalAlignment="Top" HorizontalAlignment="Right" Width="112"/>
+                <Label Content="OF :" Margin="10,34,0,0" Height="47" VerticalAlignment="Top" FontSize="24" Foreground="White" HorizontalAlignment="Left" Width="52"/>
 
-            <TextBox x:Name="SeuilHaut" Text="72" Margin="165,61,159,0" TextWrapping="Wrap" FontSize="18" Background="#FF979797" BorderBrush="Black" Foreground="White" Padding="12,0,0,0" Height="27" VerticalAlignment="Top"/>
+                <TextBox x:Name="qtePlaqueTB" Margin="0,36,15,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="#FF979797" BorderBrush="White" HorizontalAlignment="Right" Width="143"/>
 
-            <Label Content="Seuil Bas :" Margin="0,124,266,0" FontSize="18" Foreground="White" Height="36" VerticalAlignment="Top" HorizontalAlignment="Right" Width="95"/>
+                <Label Content="Nb Pl :" Margin="0,34,163,0" Height="47" VerticalAlignment="Top" FontSize="24" Foreground="White" HorizontalAlignment="Right" Width="84"/>
+                <TextBox x:Name="cdBarreTB" Margin="64,36,0,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="#FF979797" BorderBrush="White" HorizontalAlignment="Left" Width="279"/>
+                <DataGrid ColumnWidth="*" HeadersVisibility="Column" FontSize="24" ItemsSource="{Binding}" Margin="0,86,0,77"/>
+            </Grid>
+            <Grid Margin="10,110,0,0" HorizontalAlignment="Left" Width="280" Height="316" VerticalAlignment="Top">
+                <Rectangle Fill="#FF707070" Stroke="White" Margin="0"/>
+                <Separator Margin="0,32,1,270" HorizontalAlignment="Right" Width="288" RenderTransformOrigin="0.5,0.5"/>
 
-            <TextBox x:Name="SeuilBas" Text="20" Margin="165,128,159,0" TextWrapping="Wrap" FontSize="18" Background="#FF979797" Foreground="White" Padding="12,0,0,0" BorderBrush="Black" Height="27" VerticalAlignment="Top"/>
+                <Label Content="Seuil Haut :" Margin="0,58,147,0" Foreground="White" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="80" FontSize="14"/>
 
-            <Label Content="Table/Poste :" Margin="0,258,249,25" FontSize="18" Foreground="White" HorizontalAlignment="Right" Width="112"/>
+                <TextBox x:Name="SeuilHaut" Text="72" Margin="138,63,18,0" TextWrapping="Wrap" Background="#FF979797" BorderBrush="Black" Foreground="White" Padding="0,-1,0,0" Height="20" VerticalAlignment="Top" FontSize="14"/>
 
-            <TextBox x:Name="connexionStringInput" Margin="165,189,18,0" TextWrapping="Wrap" FontSize="18" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0" Height="27" VerticalAlignment="Top" RenderTransformOrigin="0.173,-0.878"/>
+                <Label Content="Seuil Bas :" Margin="0,90,147,0" Foreground="White" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="73" FontSize="14" Padding="0,5,5,5"/>
 
-            <Label Content="Paramètres :" Margin="0,1,179,269" FontSize="24" Foreground="White" HorizontalAlignment="Right" Width="192"/>
-            <Label Content="Base de données :" Margin="0,189,206,0" FontSize="18" Foreground="White" Height="36" VerticalAlignment="Top" HorizontalAlignment="Right" Width="155"/>
-            <TextBox x:Name="TB_Table" Margin="165,265,18,0" TextWrapping="Wrap" FontSize="18" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0" Height="27" VerticalAlignment="Top" RenderTransformOrigin="0.173,-0.878"/>
+                <TextBox x:Name="SeuilBas" Text="20" Margin="138,95.5,18,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" Padding="0,-1,0,0" BorderBrush="Black" Height="19" VerticalAlignment="Top" UseLayoutRounding="False" FontSize="14"/>
 
+                <Label Content="Table/Poste :" Margin="0,152,147,131" Foreground="White" HorizontalAlignment="Right" Width="89" FontSize="14"/>
+
+                <TextBox x:Name="connexionStringInput" Margin="120,127,18,0" TextWrapping="Wrap" FontSize="18" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0" Height="18" VerticalAlignment="Top" RenderTransformOrigin="0.492,0.55"/>
+
+                <Label Content="Paramètres :" Margin="0,0,88,270" FontSize="20" Foreground="White" HorizontalAlignment="Right" Width="192"/>
+                <Label Content="Base de données :" Margin="0,128,165,0" Foreground="White" Height="17" VerticalAlignment="Top" HorizontalAlignment="Right" Width="111" FontSize="14" Padding="0"/>
+                <TextBox x:Name="TB_Table" Margin="138,156,18,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0" Height="19" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.553" FontSize="14"/>
+
+            </Grid>
+            <Grid x:Name="IndicGridCursor" Grid.Column="1" HorizontalAlignment="Left" Width="130" Margin="10,110,0,129"/>
+            <Button x:Name="validSeuils" Content="Valider Seuils" Margin="10,0,11,52" FontSize="20" Height="60" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White" Grid.Column="1"/>
+            <Grid x:Name="indicGrd1" Background="#FFE80404" Margin="10,110,10,129" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition x:Name="indicTop" />
+                    <RowDefinition x:Name="indicMid" />
+                    <RowDefinition x:Name="indicBot" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1" Background="green" Margin="0,0,0,1"/>
+            </Grid>
+            <Grid x:Name="indicGrdCursor" Grid.Column="1" Margin="0,110,0,129">
+                <Grid.RowDefinitions>
+                    <RowDefinition x:Name="curseurTop" Height="36*" />
+                    <RowDefinition x:Name="curseurMid" Height="*" />
+                    <RowDefinition x:Name="curseurBot" Height="37*" />
+                </Grid.RowDefinitions>
+                <Grid Background="yellow" Grid.Row="1" VerticalAlignment="Bottom" Margin="10,0" Height="384" RenderTransformOrigin="0.5,0.5">
+                </Grid>
+            </Grid>
         </Grid>
 
     </Grid>

@@ -12,6 +12,7 @@ Class MainWindow
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs) Handles MyBase.Loaded
         connexionString = MySettings.Default.BDDPath
         connexionStringInput.Text = connexionString
+
         Dim settings As New SettingsWindow
         Call MajTableau()
         SeuilBas.Text = "20"
@@ -29,6 +30,7 @@ Class MainWindow
         Select Case MySettings.Default.TableSelected
             Case "Press"
                 On Error GoTo Handler
+                mainGrid.DataContext = IndicateurPressageBDDDataSet.T_Encours_Press
                 IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press, connexionString)
 Handler:
                 If (TypeOf Err.GetException() Is System.Data.OleDb.OleDbException) Then
@@ -39,6 +41,7 @@ Handler:
                 CType(Me.FindResource("T_Encours_PressViewSource"), CollectionViewSource).View.MoveCurrentToFirst()
             Case "Coupe"
                 On Error GoTo Handler2
+                mainGrid.DataContext = IndicateurPressageBDDDataSet.T_Encours_Coupe
                 IndicateurPressageBDDDataSetT_Encours_CoupeTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Coupe, connexionString)
 Handler2:
                 If (TypeOf Err.GetException() Is System.Data.OleDb.OleDbException) Then
@@ -122,8 +125,17 @@ Handler2:
 
         connexionString = MySettings.Default.BDDPath
         connexionStringInput.Text = connexionString
+
         Call MajIndicateur()
         Call MajTableau()
     End Sub
 
+    'Private Sub dropTableBtn_Click(sender As Object, e As RoutedEventArgs) Handles dropTableBtn.Click
+    '    Dim con As New Connexion
+    '    Dim cmd As New OleDbCommand With {
+    '        .Connection = con.ConnexionBDD(connexionString)
+    '    }
+    '    con.DropTableQuery(cmd)
+
+    'End Sub
 End Class

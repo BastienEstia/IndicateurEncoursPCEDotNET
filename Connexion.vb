@@ -72,6 +72,23 @@ Public Class Connexion
         Return nbof
     End Function
 
+    'Public Function DropTableQuery(cmd As OleDbCommand)
+
+    '    Dim query As String
+    '    'query = "Drop Table T_Encours_Coupe"
+    '    'cmd.CommandText = query
+    '    'cmd.Connection.Open()
+    '    'cmd.ExecuteReader()
+    '    'cmd.Connection.Close()
+
+    '    query = "Create Table T_Encours_Coupe (id INT NOT NULL IDENTITY(1,1), Libelle varchar(30), NbPlaque int, PRIMARY KEY(id))"
+    '    cmd.CommandText = query
+    '    cmd.Connection.Open()
+    '    cmd.ExecuteReader()
+    '    cmd.Connection.Close()
+
+    'End Function
+
     Public Function SelectIdQuery(cmd As OleDbCommand) As Integer
         Dim query As String
         Dim nOf As Integer

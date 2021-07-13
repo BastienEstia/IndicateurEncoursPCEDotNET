@@ -10,12 +10,13 @@
     <Window.Resources>
 
         <local:IndicateurPressageBDDDataSet x:Key="IndicateurPressageBDDDataSet"/>
-        <CollectionViewSource x:Key="T_Encours_ViewSource" Source="{Binding T_Encours, Source={StaticResource IndicateurPressageBDDDataSet}}">
-        </CollectionViewSource>
+
+        <CollectionViewSource x:Key="T_Encours_PressViewSource" Source="{Binding T_Encours_Press, Source={StaticResource IndicateurPressageBDDDataSet}}"/>
+        <CollectionViewSource x:Key="T_Encours_CoupeViewSource" Source="{Binding T_Encours_Coupe, Source={StaticResource IndicateurPressageBDDDataSet}}"/>
 
     </Window.Resources>
 
-    <Grid DataContext="{StaticResource T_Encours_ViewSource}" OpacityMask="#FF272727" Background="#FF464646">
+    <Grid x:Name="mainGrid" DataContext="{StaticResource T_Encours_PressViewSource}" OpacityMask="#FF272727" Background="#FF464646">
 
         <Grid x:Name="TabGrid" Margin="948,94,278,42">
             <Button x:Name="undoLastOf" Content="Annuler" FontSize="20" HorizontalAlignment="Right" Width="123" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White"/>

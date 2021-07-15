@@ -117,6 +117,66 @@ Partial Friend NotInheritable Class MySettings
             Me("BDDPath") = value
         End Set
     End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("75")>  _
+    Public Property nbPlaqueMax() As Double
+        Get
+            Return CType(Me("nbPlaqueMax"),Double)
+        End Get
+        Set
+            Me("nbPlaqueMax") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("50")>  _
+    Public Property seuilHaut() As Double
+        Get
+            Return CType(Me("seuilHaut"),Double)
+        End Get
+        Set
+            Me("seuilHaut") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("20")>  _
+    Public Property seuilBas() As Double
+        Get
+            Return CType(Me("seuilBas"),Double)
+        End Get
+        Set
+            Me("seuilBas") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Pressage")>  _
+    Public Property TableFournisseur() As String
+        Get
+            Return CType(Me("TableFournisseur"),String)
+        End Get
+        Set
+            Me("TableFournisseur") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Etalement")>  _
+    Public Property TableClient() As String
+        Get
+            Return CType(Me("TableClient"),String)
+        End Get
+        Set
+            Me("TableClient") = value
+        End Set
+    End Property
 End Class
 
 Namespace My

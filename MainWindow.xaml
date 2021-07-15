@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IndicateurEncoursPCEDotNET"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1219.5" Width="1480.5"
-        x:Class="MainWindow" Background="#FF464646">
+        Title="MainWindow" Height="960" Width="1108.55"
+        x:Class="MainWindow" Background="#FF464646" Closing="Window_Closing">
     <Window.Resources>
 
         <local:IndicateurPressageBDDDataSet x:Key="IndicateurPressageBDDDataSet"/>
@@ -16,67 +16,79 @@
 
     </Window.Resources>
 
-    <Grid x:Name="mainGrid" DataContext="{StaticResource T_Encours_PressViewSource}" OpacityMask="#FF272727" Background="#FF464646">
+    <Grid x:Name="mainGrid" DataContext="{StaticResource T_Encours_PressViewSource}" OpacityMask="#FF272727" Background="#FF464646" Margin="0,0,0,-3" MinHeight="656" MinWidth="820">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition MaxWidth="1200" MinWidth="1000" Width="Auto"/>
+            <ColumnDefinition MaxWidth="300" MinWidth="220" Width="100*"/>
+            <ColumnDefinition MaxWidth="100" MinWidth="100" Width="100*"/>
+            <ColumnDefinition MaxWidth="600" MinWidth="550" Width="100*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="23*"/>
+            <RowDefinition Height="20" MinHeight="20"/>
+            <RowDefinition Height="90"/>
             <RowDefinition Height="983*"/>
         </Grid.RowDefinitions>
 
-        <Menu Height="24" VerticalAlignment="Top" Grid.ColumnSpan="3">
+        <Rectangle Fill="#FF707070" Stroke="White" MinWidth="190" Margin="0,10,10,10" Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="2"/>
+
+        <Menu Grid.ColumnSpan="7" MaxHeight="200" MinHeight="11">
             <MenuItem Header=" = _Fichier"/>
             <MenuItem Header="_Affichage"/>
             <MenuItem x:Name="ConfigurationButton" Header="_Configuration">
                 <MenuItem Header="_Base de données Access" Click="Settings_Click"/>
             </MenuItem>
         </Menu>
-        <Grid x:Name="ContentGrid" Grid.Row="1" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" Width="1150">
+        <Grid x:Name="TabGrid" Margin="10" Grid.Column="3" Grid.Row="2" MinWidth="550">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MaxWidth="400" MinWidth="300" Width="Auto"/>
-                <ColumnDefinition MaxWidth="200" MinWidth="150" Width="Auto"/>
-                <ColumnDefinition MaxWidth="700" MinWidth="600"/>
+                <ColumnDefinition Width="353*" MinWidth="350"/>
+                <ColumnDefinition Width="227*" MinWidth="150"/>
             </Grid.ColumnDefinitions>
-            <Grid x:Name="TabGrid" Margin="10,25,10,52" Grid.Column="2">
-                <Button x:Name="undoLastOf" Content="Annuler" FontSize="20" HorizontalAlignment="Right" Width="123" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White"/>
+            <Button x:Name="undoLastOf" Content="Annuler" FontSize="20" HorizontalAlignment="Right" Width="123" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White" Grid.Column="1" Margin="0,0,10,10" Foreground="White"/>
 
-                <Button x:Name="saisieMan" Content="Saisie Manuelle" FontSize="20" HorizontalAlignment="Left" Width="169" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White"/>
+            <Button x:Name="saisieMan" Content="Saisie Manuelle" FontSize="20" HorizontalAlignment="Left" Width="169" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White" Margin="0,0,0,10" Foreground="White"/>
 
-                <Label Content="OF :" Margin="10,34,0,0" Height="47" VerticalAlignment="Top" FontSize="24" Foreground="White" HorizontalAlignment="Left" Width="52"/>
+            <Label Content="OF :" Margin="10,8,0,0" Height="40" VerticalAlignment="Top" FontSize="24" Foreground="White" RenderTransformOrigin="0.481,0.149" HorizontalAlignment="Left" Width="55"/>
 
-                <TextBox x:Name="qtePlaqueTB" Margin="0,36,15,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="#FF979797" BorderBrush="White" HorizontalAlignment="Right" Width="143"/>
+            <TextBox x:Name="qtePlaqueTB" Margin="99,10,10,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="White" BorderBrush="Black" Foreground="Black" Grid.Column="1" Text="25" MinWidth="40"/>
 
-                <Label Content="Nb Pl :" Margin="0,34,163,0" Height="47" VerticalAlignment="Top" FontSize="24" Foreground="White" HorizontalAlignment="Right" Width="84"/>
-                <TextBox x:Name="cdBarreTB" Margin="64,36,0,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="#FF979797" BorderBrush="White" HorizontalAlignment="Left" Width="279"/>
-                <DataGrid ColumnWidth="*" HeadersVisibility="Column" FontSize="24" ItemsSource="{Binding}" Margin="0,86,0,77"/>
-            </Grid>
-            <Grid Margin="10,110,0,0" HorizontalAlignment="Left" Width="280" Height="316" VerticalAlignment="Top">
-                <Rectangle Fill="#FF707070" Stroke="White" Margin="0"/>
-                <Separator Margin="0,32,1,270" HorizontalAlignment="Right" Width="288" RenderTransformOrigin="0.5,0.5"/>
+            <Label Content="Nb Pl :" Margin="15,6,0,0" Height="47" VerticalAlignment="Top" FontSize="24" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" Width="79"/>
+            <TextBox x:Name="cdBarreTB" Margin="69,10,0,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="White" BorderBrush="Black" Foreground="Black" MinWidth="284" Text="501SHB100%CROHSKEKO"/>
+            <DataGrid ColumnWidth="*" HeadersVisibility="Column" FontSize="24" ItemsSource="{Binding}" Margin="0,60,10,79" Grid.ColumnSpan="2" MinWidth="400"/>
+        </Grid>
+        <Grid Margin="10" Grid.Column="1" Grid.Row="2" MinHeight="200" MinWidth="200">
 
-                <Label Content="Seuil Haut :" Margin="0,58,147,0" Foreground="White" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="80" FontSize="14"/>
+            <Rectangle Fill="#FF707070" Stroke="White" MinWidth="190"/>
+            <Separator Margin="1,29,1,0" RenderTransformOrigin="0.5,0.5" MinWidth="190" Panel.ZIndex="3" Height="3" VerticalAlignment="Top"/>
 
-                <TextBox x:Name="SeuilHaut" Text="72" Margin="138,63,18,0" TextWrapping="Wrap" Background="#FF979797" BorderBrush="Black" Foreground="White" Padding="0,-1,0,0" Height="20" VerticalAlignment="Top" FontSize="14"/>
+            <Label Content="Seuil Haut :" Margin="13,37,0,0" Foreground="White" Height="16" VerticalAlignment="Top" FontSize="14" Padding="0" HorizontalAlignment="Left" Width="70"/>
 
-                <Label Content="Seuil Bas :" Margin="0,90,147,0" Foreground="White" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="73" FontSize="14" Padding="0,5,5,5"/>
+            <TextBox x:Name="SeuilHaut" Text="72" Margin="142,37,14,0" TextWrapping="Wrap" Background="White" BorderBrush="Black" Foreground="Black" Padding="2,-1,0,0" Height="20" VerticalAlignment="Top" FontSize="14" ScrollViewer.CanContentScroll="True"/>
 
-                <TextBox x:Name="SeuilBas" Text="20" Margin="138,95.5,18,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" Padding="0,-1,0,0" BorderBrush="Black" Height="19" VerticalAlignment="Top" UseLayoutRounding="False" FontSize="14"/>
+            <Label Content="Seuil Bas :" Margin="13,62,0,0" Foreground="White" Height="16" VerticalAlignment="Top" FontSize="14" Padding="0" HorizontalAlignment="Left" Width="61"/>
 
-                <Label Content="Table/Poste :" Margin="0,152,147,131" Foreground="White" HorizontalAlignment="Right" Width="89" FontSize="14"/>
+            <TextBox x:Name="SeuilBas" Text="20" Margin="141.744,61.5,14.256,0" TextWrapping="Wrap" Background="White" Foreground="Black" Padding="2,-1,0,0" BorderBrush="Black" Height="19" VerticalAlignment="Top" UseLayoutRounding="False" FontSize="14" ScrollViewer.CanContentScroll="True"/>
 
-                <TextBox x:Name="connexionStringInput" Margin="120,127,18,0" TextWrapping="Wrap" FontSize="18" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0" Height="18" VerticalAlignment="Top" RenderTransformOrigin="0.492,0.55"/>
+            <TextBox x:Name="connexionStringInput" Margin="13,168,14,0" TextWrapping="Wrap" FontSize="10" Background="#FF979797" Foreground="White" BorderBrush="White" Padding="2,-1,0,0" Height="42" VerticalAlignment="Top" RenderTransformOrigin="0.492,0.55" ScrollViewer.CanContentScroll="True" IsReadOnly="True"/>
 
-                <Label Content="Paramètres :" Margin="0,0,88,270" FontSize="20" Foreground="White" HorizontalAlignment="Right" Width="192"/>
-                <Label Content="Base de données :" Margin="0,128,165,0" Foreground="White" Height="17" VerticalAlignment="Top" HorizontalAlignment="Right" Width="111" FontSize="14" Padding="0"/>
-                <TextBox x:Name="TB_Table" Margin="138,156,18,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" BorderBrush="Black" Padding="12,0,0,0" Height="19" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.553" FontSize="14"/>
+            <Label Content="Paramètres :" Margin="0,-3,0,0" FontSize="20" Foreground="White" HorizontalAlignment="Left" Width="118" Height="32" VerticalAlignment="Top"/>
+            <Label Content="Base de données :" Margin="13,148,0,0" Foreground="White" Height="16" VerticalAlignment="Top" FontSize="14" Padding="0" HorizontalAlignment="Left" Width="111"/>
+            <Separator Margin="0,29,1,284" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5"/>
+            <Label Content="Table/Poste :" Margin="11,216,0,0" Foreground="White" HorizontalAlignment="Left" FontSize="14" Padding="0" MinWidth="77" Height="16" VerticalAlignment="Top"/>
+            <TextBox x:Name="TB_Table" Margin="142,216,14,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" BorderBrush="White" Padding="2,-1,0,0" Height="18" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.553" FontSize="14" IsReadOnly="True" ScrollViewer.CanContentScroll="True"/>
+            <Label Content="Poste Fournisseur :" Margin="13,248,0,0" Foreground="White" HorizontalAlignment="Left" FontSize="14" Padding="0" MinWidth="124" Height="16" VerticalAlignment="Top"/>
+            <TextBox x:Name="TB_Table_Copy1" Margin="142,248,14,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" BorderBrush="White" Padding="2,-1,0,0" Height="18" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.553" FontSize="14" IsReadOnly="True" ScrollViewer.CanContentScroll="True"/>
+            <Label Content="Poste Client :" Margin="12,272,0,0" Foreground="White" HorizontalAlignment="Left" FontSize="14" Padding="0" MinWidth="85" Height="16" VerticalAlignment="Top"/>
+            <TextBox x:Name="TB_Table_Copy2" Margin="142,272,14,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" BorderBrush="White" Padding="2,-1,0,0" Height="18" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.553" FontSize="14" IsReadOnly="True" ScrollViewer.CanContentScroll="True"/>
+            <Separator Margin="1,140,1,0" RenderTransformOrigin="0.5,0.5" MinWidth="190" Panel.ZIndex="3" Height="2" VerticalAlignment="Top"/>
+            <Separator Margin="0,240,2,0" RenderTransformOrigin="0.5,0.5" MinWidth="190" Panel.ZIndex="3" Height="3" VerticalAlignment="Top"/>
+            <Label Content="Nombre de plaques&#xD;&#xA;max :" Margin="13,86,0,0" Foreground="White" Height="39" VerticalAlignment="Top" FontSize="14" Padding="0" HorizontalAlignment="Left" Width="124"/>
+            <TextBox x:Name="TB_PlMax" Margin="142,107,14,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" BorderBrush="White" Padding="2,-1,0,0" Height="18" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.553" FontSize="14" IsReadOnly="True" ScrollViewer.CanContentScroll="True"/>
 
-            </Grid>
-            <Grid x:Name="IndicGridCursor" Grid.Column="1" HorizontalAlignment="Left" Width="130" Margin="10,110,0,129"/>
-            <Button x:Name="validSeuils" Content="Valider Seuils" Margin="10,0,11,52" FontSize="20" Height="60" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White" Grid.Column="1"/>
-            <Grid x:Name="indicGrd1" Background="#FFE80404" Margin="10,110,10,129" Grid.Column="1">
+        </Grid>
+        <Label Content="Indicateur d'Encours" Foreground="White" FontSize="72" Padding="0" Grid.Row="1" MinWidth="650" Grid.ColumnSpan="3" Grid.Column="1" MinHeight="81"/>
+        <Grid x:Name="IndicGridContainer" Grid.Column="2" Margin="10,21,10,89" Grid.Row="2">
+            <Grid x:Name="indicGrd1" Background="#FFE80404">
                 <Grid.RowDefinitions>
                     <RowDefinition x:Name="indicTop" />
                     <RowDefinition x:Name="indicMid" />
@@ -84,15 +96,16 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="1" Background="green" Margin="0,0,0,1"/>
             </Grid>
-            <Grid x:Name="indicGrdCursor" Grid.Column="1" Margin="0,110,0,129">
+            <Grid x:Name="indicGrdCursor">
                 <Grid.RowDefinitions>
                     <RowDefinition x:Name="curseurTop" Height="36*" />
                     <RowDefinition x:Name="curseurMid" Height="*" />
                     <RowDefinition x:Name="curseurBot" Height="37*" />
                 </Grid.RowDefinitions>
-                <Grid Background="yellow" Grid.Row="1" VerticalAlignment="Bottom" Margin="10,0" Height="384" RenderTransformOrigin="0.5,0.5">
-                </Grid>
+                <Grid Background="yellow" VerticalAlignment="Bottom" Height="12" RenderTransformOrigin="0.5,0.5" Grid.Row="1"/>
+                <Border BorderBrush="White" BorderThickness="1" HorizontalAlignment="Left" Width="80" Grid.RowSpan="3"/>
             </Grid>
+            <Button x:Name="validSeuils" Content="Valider&#xD;&#xA; Seuils" Margin="0,0,0,-69" FontSize="20" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White" Foreground="White"/>
         </Grid>
 
     </Grid>

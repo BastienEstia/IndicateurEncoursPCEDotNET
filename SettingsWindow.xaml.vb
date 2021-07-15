@@ -5,7 +5,7 @@ Public Class SettingsWindow
     Private Sub SettingsW_Loaded(sender As Object, e As RoutedEventArgs) Handles SettingsW.Loaded
         Dim cbItem As New ComboBoxItem
         filename = MySettings.Default.BDDPath
-        'ComboBoxItem.ContentProperty = MySettings.Default.TableSelected
+        TB_nbPlaqueMax.Text = MySettings.Default.nbPlaqueMax
         BDDLocation_TB.Text = MySettings.Default.BDDPath
         Table_ComboBox.SelectedValue = MySettings.Default.TableSelected
     End Sub
@@ -61,6 +61,16 @@ Public Class SettingsWindow
         MySettings.Default.Save()
     End Sub
 
+    Private Sub BDDLocation_TB_Copy_TextChanged(sender As Object, e As TextChangedEventArgs) Handles TB_nbPlaqueMax.TextChanged
+        Dim nbPlaqueMax As Double
+        sender = CType(sender, TextBox)
+        nbPlaqueMax = sender.Text
+        MySettings.Default.nbPlaqueMax = nbPlaqueMax
+        MySettings.Default.Save()
+    End Sub
 
+    Private Sub SettingsBack_Button_Click(sender As Object, e As RoutedEventArgs) Handles SettingsBack_Button.Click
+        DialogResult = False
+    End Sub
 End Class
 

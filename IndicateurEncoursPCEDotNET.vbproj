@@ -142,6 +142,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IndicateurPressageBDDDataSet1.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IndicateurPressageBDDDataSet1.xsd</DependentUpon>
+    </Compile>
     <Compile Include="SettingsWindow.xaml.vb">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -223,6 +228,17 @@
     </None>
     <None Include="IndicateurPressageBDDDataSet.xss">
       <DependentUpon>IndicateurPressageBDDDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="IndicateurPressageBDDDataSet1.xsc">
+      <DependentUpon>IndicateurPressageBDDDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="IndicateurPressageBDDDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>IndicateurPressageBDDDataSet1.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="IndicateurPressageBDDDataSet1.xss">
+      <DependentUpon>IndicateurPressageBDDDataSet1.xsd</DependentUpon>
     </None>
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Settings.settings">

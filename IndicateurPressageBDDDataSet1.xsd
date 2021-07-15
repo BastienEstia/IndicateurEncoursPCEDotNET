@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="IndicateurPressageBDDDataSet1" targetNamespace="http://tempuri.org/IndicateurPressageBDDDataSet1.xsd" xmlns:mstns="http://tempuri.org/IndicateurPressageBDDDataSet1.xsd" xmlns="http://tempuri.org/IndicateurPressageBDDDataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="IndicateurPressageBDDConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="IndicateurPressageBDDConnectionString (MySettings)" PropertyReference="ApplicationSettings.IndicateurEncoursPCEDotNET.MySettings.GlobalReference.Default.IndicateurPressageBDDConnectionString" Provider="System.Data.OleDb" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="T_Encours_CoupeTableAdapter" GeneratorDataComponentClassName="T_Encours_CoupeTableAdapter" Name="T_Encours_Coupe" UserDataComponentName="T_Encours_CoupeTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="IndicateurPressageBDDConnectionString (MySettings)" DbObjectName="T_Encours_Coupe" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Libelle, NbPlaque FROM T_Encours_Coupe</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Libelle" DataSetColumn="Libelle" />
+              <Mapping SourceColumn="NbPlaque" DataSetColumn="NbPlaque" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="T_Encours_PressTableAdapter" GeneratorDataComponentClassName="T_Encours_PressTableAdapter" Name="T_Encours_Press" UserDataComponentName="T_Encours_PressTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="IndicateurPressageBDDConnectionString (MySettings)" DbObjectName="T_Encours_Press" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Libelle, NbPlaque FROM T_Encours_Press</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Libelle" DataSetColumn="Libelle" />
+              <Mapping SourceColumn="NbPlaque" DataSetColumn="NbPlaque" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="IndicateurPressageBDDDataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="IndicateurPressageBDDDataSet1" msprop:Generator_UserDSName="IndicateurPressageBDDDataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="T_Encours_Coupe" msprop:Generator_TableClassName="T_Encours_CoupeDataTable" msprop:Generator_TableVarName="tableT_Encours_Coupe" msprop:Generator_TablePropName="T_Encours_Coupe" msprop:Generator_RowDeletingName="T_Encours_CoupeRowDeleting" msprop:Generator_RowChangingName="T_Encours_CoupeRowChanging" msprop:Generator_RowEvHandlerName="T_Encours_CoupeRowChangeEventHandler" msprop:Generator_RowDeletedName="T_Encours_CoupeRowDeleted" msprop:Generator_UserTableName="T_Encours_Coupe" msprop:Generator_RowChangedName="T_Encours_CoupeRowChanged" msprop:Generator_RowEvArgName="T_Encours_CoupeRowChangeEvent" msprop:Generator_RowClassName="T_Encours_CoupeRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Libelle" msprop:Generator_ColumnVarNameInTable="columnLibelle" msprop:Generator_ColumnPropNameInRow="Libelle" msprop:Generator_ColumnPropNameInTable="LibelleColumn" msprop:Generator_UserColumnName="Libelle" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NbPlaque" msprop:Generator_ColumnVarNameInTable="columnNbPlaque" msprop:Generator_ColumnPropNameInRow="NbPlaque" msprop:Generator_ColumnPropNameInTable="NbPlaqueColumn" msprop:Generator_UserColumnName="NbPlaque" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="T_Encours_Press" msprop:Generator_TableClassName="T_Encours_PressDataTable" msprop:Generator_TableVarName="tableT_Encours_Press" msprop:Generator_TablePropName="T_Encours_Press" msprop:Generator_RowDeletingName="T_Encours_PressRowDeleting" msprop:Generator_RowChangingName="T_Encours_PressRowChanging" msprop:Generator_RowEvHandlerName="T_Encours_PressRowChangeEventHandler" msprop:Generator_RowDeletedName="T_Encours_PressRowDeleted" msprop:Generator_UserTableName="T_Encours_Press" msprop:Generator_RowChangedName="T_Encours_PressRowChanged" msprop:Generator_RowEvArgName="T_Encours_PressRowChangeEvent" msprop:Generator_RowClassName="T_Encours_PressRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Libelle" msprop:Generator_ColumnVarNameInTable="columnLibelle" msprop:Generator_ColumnPropNameInRow="Libelle" msprop:Generator_ColumnPropNameInTable="LibelleColumn" msprop:Generator_UserColumnName="Libelle" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NbPlaque" msprop:Generator_ColumnVarNameInTable="columnNbPlaque" msprop:Generator_ColumnPropNameInRow="NbPlaque" msprop:Generator_ColumnPropNameInTable="NbPlaqueColumn" msprop:Generator_UserColumnName="NbPlaque" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

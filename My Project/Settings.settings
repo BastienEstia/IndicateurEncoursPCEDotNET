@@ -26,5 +26,20 @@
     <Setting Name="BDDPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\bastien.andres\Documents\IndicateurPressageBDD.accdb</Value>
     </Setting>
+    <Setting Name="nbPlaqueMax" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">75</Value>
+    </Setting>
+    <Setting Name="seuilHaut" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="seuilBas" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="TableFournisseur" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Pressage</Value>
+    </Setting>
+    <Setting Name="TableClient" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Etalement</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -12,6 +12,10 @@ Class MainWindow
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs) Handles MyBase.Loaded
         connexionString = MySettings.Default.BDDPath
         connexionStringInput.Text = connexionString
+        TB_Table.Text = MySettings.Default.TableSelected
+        TB_PlMax.Text = MySettings.Default.nbPlaqueMax
+        SeuilBas.Text = MySettings.Default.seuilBas
+        SeuilHaut.Text = MySettings.Default.seuilHaut
 
         Dim settings As New SettingsWindow
         Call MajTableau()
@@ -29,32 +33,28 @@ Class MainWindow
 
         Select Case MySettings.Default.TableSelected
             Case "Press"
-                On Error GoTo Handler
-                mainGrid.DataContext = IndicateurPressageBDDDataSet.T_Encours_Press
-                IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press, connexionString)
-Handler:
-                If (TypeOf Err.GetException() Is System.Data.OleDb.OleDbException) Then
-#Disable Warning BC42104
+                Try
+                    mainGrid.DataContext = IndicateurPressageBDDDataSet.T_Encours_Press
+                    IndicateurPressageBDDDataSetT_Encours_PressTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Press, connexionString)
+                Catch ex As Exception
                     settingsW.ShowDialog()
-#Enable Warning BC42104
-                End If
+                End Try
                 CType(Me.FindResource("T_Encours_PressViewSource"), CollectionViewSource).View.MoveCurrentToFirst()
             Case "Coupe"
-                On Error GoTo Handler2
-                mainGrid.DataContext = IndicateurPressageBDDDataSet.T_Encours_Coupe
-                IndicateurPressageBDDDataSetT_Encours_CoupeTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Coupe, connexionString)
-Handler2:
-                If (TypeOf Err.GetException() Is System.Data.OleDb.OleDbException) Then
-#Disable Warning BC42104
+                Try
+                    mainGrid.DataContext = IndicateurPressageBDDDataSet.T_Encours_Coupe
+                    IndicateurPressageBDDDataSetT_Encours_CoupeTableAdapter.Fill(IndicateurPressageBDDDataSet.T_Encours_Coupe, connexionString)
+                Catch
                     settingsW.ShowDialog()
-#Enable Warning BC42104
-                End If
-                CType(Me.FindResource("T_Encours_CoupeViewSource"), CollectionViewSource).View.MoveCurrentToFirst()
+                End Try
+                    CType(Me.FindResource("T_Encours_CoupeViewSource"), CollectionViewSource).View.MoveCurrentToFirst()
         End Select
     End Sub
 
     Public Sub MajIndicateur()
         Dim nbPlaqueTot As Double
+        Dim nbPLaqueMax As Double
+        nbPLaqueMax = MySettings.Default.nbPlaqueMax
         Dim i As Integer = 0
         Dim con As New Connexion()
         Dim cmd As New OleDbCommand With {
@@ -71,7 +71,7 @@ Handler2:
         indicBot.Height = colorGLBot
         colorGLMid = New GridLength(SeuilHaut.Text - SeuilBas.Text, GridUnitType.Star)
         indicMid.Height = colorGLMid
-        Dim seuilTopCalcul = 75 - SeuilHaut.Text
+        Dim seuilTopCalcul = nbPLaqueMax - SeuilHaut.Text
         colorGLTop = New GridLength(seuilTopCalcul, GridUnitType.Star)
         indicTop.Height = colorGLTop
 
@@ -82,7 +82,7 @@ Handler2:
 
         gridLengthBot = New GridLength(nbPlaqueTot, GridUnitType.Star)
         curseurBot.Height = gridLengthBot
-        gridLengthTop = New GridLength(75 - nbPlaqueTot, GridUnitType.Star)
+        gridLengthTop = New GridLength(nbPLaqueMax - nbPlaqueTot, GridUnitType.Star)
         curseurTop.Height = gridLengthTop
 
     End Sub
@@ -101,6 +101,13 @@ Handler2:
 
     End Sub
 
+    Public Sub MajTableFournisseur()
+        Dim tableFournisseur As String
+        tableFournisseur = MySettings.Default.TableFournisseur
+
+
+    End Sub
+
     Private Sub UndoLastOf_Click(sender As Object, e As RoutedEventArgs) Handles undoLastOf.Click
         Dim id As Integer
         Dim con As New Connexion()
@@ -115,7 +122,22 @@ Handler2:
     End Sub
 
     Private Sub Seuil_Click(sender As Object, e As RoutedEventArgs) Handles validSeuils.Click
-        Call MajIndicateur()
+        Dim messageTextBox As String
+        messageTextBox = "Attention seuil vide, trop haut ou trop bas !"
+        Dim caption As String
+        caption = "Error"
+        Dim button As MessageBoxButton
+        button = MessageBoxButton.OK
+        Dim icon As MessageBoxImage
+        icon = MessageBoxImage.Warning
+        Dim result As MessageBoxResult
+        Try
+            Call MajIndicateur()
+        Catch ex As Exception
+            result = MessageBox.Show(messageTextBox, caption, button, icon, MessageBoxResult.Yes)
+        End Try
+
+
     End Sub
 
     Private Sub Settings_Click(sender As Object, e As RoutedEventArgs)
@@ -128,6 +150,10 @@ Handler2:
 
         Call MajIndicateur()
         Call MajTableau()
+    End Sub
+
+    Private Sub Window_Closing(sender As Object, e As ComponentModel.CancelEventArgs)
+        System.Windows.Application.Current.Shutdown()
     End Sub
 
     'Private Sub dropTableBtn_Click(sender As Object, e As RoutedEventArgs) Handles dropTableBtn.Click

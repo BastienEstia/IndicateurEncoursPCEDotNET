@@ -24,36 +24,78 @@ Public Class Connexion
         Return rightConnString
     End Function
 
-    Public Function InsertQuery(cdBarre As String, qtePlaque As Double, cmd As OleDbCommand) As Boolean
+    Public Function InsertQuery(libelle As String, qtePlaque As Integer, numOf As String, table As String, cmd As OleDbCommand) As Boolean
         Dim query As String
-        query = "INSERT INTO T_Encours_" & MySettings.Default.TableSelected & "(Libelle, NbPlaque) VALUES (Val_libelle, Val_nbPlaque)"
-        cmd.CommandText = query
+        query = "INSERT INTO T_Encours_" & table & " (Libelle, NbPlaque, NumOF) VALUES (Val_libelle, Val_nbPlaque, Val_numOf)"
         With cmd.Parameters
-            .AddWithValue("Val_libelle", cdBarre)
+            .AddWithValue("Val_libelle", libelle)
             .AddWithValue("Val_nbPlaque", qtePlaque)
+            .AddWithValue("Val_numOf", numOf)
         End With
+        cmd.CommandText = query
         cmd.Connection.Open()
         cmd.ExecuteReader()
+        With cmd.Parameters
+            .RemoveAt("Val_libelle")
+            .RemoveAt("Val_nbPlaque")
+            .RemoveAt("Val_numOf")
+        End With
         cmd.Connection.Close()
 
         Return True
     End Function
 
-    Public Function TruncateQuery(id As Integer, cmd As OleDbCommand) As Boolean
+    Public Function TruncateQuery(numOf As String, Table As String, cmd As OleDbCommand) As Boolean
         Dim query As String
-        query = "DELETE * From T_Encours_" & MySettings.Default.TableSelected & " Where id = Val_id"
-        cmd.CommandText = query
-
+        query = "DELETE * From T_Encours_" & Table & " WHERE NumOF = Val_num"
 
         With cmd.Parameters
-            .AddWithValue("Val_id", id)
+            .AddWithValue("Val_num", numOf)
         End With
+
+        cmd.CommandText = query
 
         cmd.Connection.Open()
         cmd.ExecuteReader()
+        cmd.Parameters.RemoveAt("Val_num")
         cmd.Connection.Close()
 
         Return True
+    End Function
+
+    Public Function SelectAllWithNumOFQuery(numOf As String, cmd As OleDbCommand) As String()
+        Dim query As String
+        Dim libelle As String
+        Dim nbPlaque As Integer
+        Dim resNumOF As String
+        Dim res(3) As String
+
+        Dim con As Connexion = New Connexion()
+        query = "SELECT libelle, nbPlaque, numOF FROM T_Encours_" & MySettings.Default.TableFournisseur & " WHERE NumOF = Val_NumOF"
+        With cmd.Parameters
+            .AddWithValue("Val_NumOF", numOf)
+        End With
+        cmd.CommandText = query
+        cmd.Connection.Open()
+
+        Dim reader As OleDbDataReader
+        reader = cmd.ExecuteReader()
+
+        If reader.Read() Then
+            libelle = reader("Libelle")
+            nbPlaque = reader("NbPlaque")
+            resNumOF = reader("NumOF")
+        Else
+            Return res
+        End If
+
+        reader.Close()
+        cmd.Connection.Close()
+        res(0) = libelle
+        res(1) = nbPlaque.ToString
+        res(2) = numOf
+
+        Return res
     End Function
 
     Private Function CountQuery(cmd As OleDbCommand) As Integer
@@ -67,6 +109,7 @@ Public Class Connexion
         If reader.Read() Then
             nbof = reader.GetValue(0)
         End If
+        reader.Close()
         cmd.Connection.Close()
 
         Return nbof
@@ -89,35 +132,91 @@ Public Class Connexion
 
     'End Function
 
-    Public Function SelectIdQuery(cmd As OleDbCommand) As Integer
+    Public Function SelectLastIdQuery(cmd As OleDbCommand) As Integer
         Dim query As String
-        Dim nOf As Integer
+        Dim lastId As Integer
         Dim nbof As Integer
         Dim i As Integer
         i = 0
 
         Dim con As Connexion = New Connexion()
         nbof = con.CountQuery(cmd)
-        Dim nbOfTab(nbof) As Integer
+        Dim IdOfTab(nbof) As Integer
 
         query = "SELECT Id FROM T_Encours_" & MySettings.Default.TableSelected
         Dim cmd1 = cmd
         cmd1.CommandText = query
+        cmd1.Connection.Open()
+
+        Dim reader As OleDbDataReader
+        reader = cmd1.ExecuteReader()
+
+        While reader.Read()
+            IdOfTab(i) = reader("id")
+            i += 1
+        End While
+
+        reader.Close()
+        cmd1.Connection.Close()
+
+        lastId = IdOfTab.Max
+        Return lastId
+    End Function
+
+    Public Function SelectLastNumOf(Id As Integer, cmd As OleDbCommand) As String
+        Dim lastNumOf As String
+        Dim query As String
+        Dim NumOf As String
+
+        Dim con As Connexion = New Connexion()
+
+        query = "SELECT NumOF FROM T_Encours_" & MySettings.Default.TableSelected & " Where Id = Val_id"
+        cmd.CommandText = query
+        With cmd.Parameters
+            .AddWithValue("Val_id", Id)
+        End With
+
         cmd.Connection.Open()
 
         Dim reader As OleDbDataReader
         reader = cmd.ExecuteReader()
 
-        While reader.Read()
-            nbOfTab(i) = (reader("id"))
-            i += 1
-        End While
+        If reader.Read() Then
+            NumOf = reader("NumOF")
+        End If
 
         reader.Close()
+        cmd.Parameters.RemoveAt("Val_id")
         cmd.Connection.Close()
-        nOf = nbOfTab.Max
 
-        Return nOf
+        lastNumOf = NumOf
+        Return lastNumOf
+
+    End Function
+
+    Public Function SelectCountForExistanceQuery(cmd As OleDbCommand, numOf As String)
+        Dim query As String
+        Dim existResults As Integer
+
+        Dim con As Connexion = New Connexion()
+        query = "SELECT Count(*) FROM T_Encours_" & MySettings.Default.TableFournisseur & " WHERE NumOf = Val_numOf"
+
+        cmd.CommandText = query
+        cmd.Connection.Open()
+        With cmd.Parameters
+            .AddWithValue("Val_numOf", numOf)
+        End With
+        Dim reader As OleDbDataReader
+        reader = cmd.ExecuteReader()
+
+        While reader.Read()
+            existResults = reader.GetValue(0)
+        End While
+        reader.Close()
+        cmd.Parameters.RemoveAt("Val_numOf")
+        cmd.Connection.Close()
+
+        Return existResults
     End Function
 
     Public Function SelectNbPlaqueQuery(cmd As OleDbCommand) As List(Of Double)

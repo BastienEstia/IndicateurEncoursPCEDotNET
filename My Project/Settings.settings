@@ -36,7 +36,7 @@
       <Value Profile="(Default)">20</Value>
     </Setting>
     <Setting Name="TableFournisseur" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Pressage</Value>
+      <Value Profile="(Default)">Press</Value>
     </Setting>
     <Setting Name="TableClient" Type="System.String" Scope="User">
       <Value Profile="(Default)">Etalement</Value>

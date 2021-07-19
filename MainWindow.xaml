@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IndicateurEncoursPCEDotNET"
         mc:Ignorable="d"
-        Title="MainWindow" Height="960" Width="1108.55"
+        Title="MainWindow" Height="960" Width="1378.05"
         x:Class="MainWindow" Background="#FF464646" Closing="Window_Closing">
     <Window.Resources>
 
@@ -16,12 +16,12 @@
 
     </Window.Resources>
 
-    <Grid x:Name="mainGrid" DataContext="{StaticResource T_Encours_PressViewSource}" OpacityMask="#FF272727" Background="#FF464646" Margin="0,0,0,-3" MinHeight="656" MinWidth="820">
+    <Grid x:Name="mainGrid" DataContext="{StaticResource T_Encours_PressViewSource}" OpacityMask="#FF272727" Background="#FF464646" Margin="0,0,0,-3" MinHeight="656" MinWidth="880">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition MaxWidth="300" MinWidth="220" Width="100*"/>
             <ColumnDefinition MaxWidth="100" MinWidth="100" Width="100*"/>
-            <ColumnDefinition MaxWidth="600" MinWidth="550" Width="100*"/>
+            <ColumnDefinition MaxWidth="600" MinWidth="600" Width="100*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -39,22 +39,24 @@
                 <MenuItem Header="_Base de données Access" Click="Settings_Click"/>
             </MenuItem>
         </Menu>
-        <Grid x:Name="TabGrid" Margin="10" Grid.Column="3" Grid.Row="2" MinWidth="550">
+        <Grid x:Name="TabGrid" Margin="10" Grid.Column="3" Grid.Row="2" MinWidth="580">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="353*" MinWidth="350"/>
-                <ColumnDefinition Width="227*" MinWidth="150"/>
+                <ColumnDefinition MinWidth="430" Width="43*"/>
+                <ColumnDefinition Width="15*" MinWidth="150"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="undoLastOf" Content="Annuler" FontSize="20" HorizontalAlignment="Right" Width="123" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White" Grid.Column="1" Margin="0,0,10,10" Foreground="White"/>
 
             <Button x:Name="saisieMan" Content="Saisie Manuelle" FontSize="20" HorizontalAlignment="Left" Width="169" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White" Margin="0,0,0,10" Foreground="White"/>
 
-            <Label Content="OF :" Margin="10,8,0,0" Height="40" VerticalAlignment="Top" FontSize="24" Foreground="White" RenderTransformOrigin="0.481,0.149" HorizontalAlignment="Left" Width="55"/>
+            <Label Content="Num OF :" Margin="10,8,0,0" Height="40" VerticalAlignment="Top" FontSize="24" Foreground="White" RenderTransformOrigin="0.481,0.149" HorizontalAlignment="Left" Width="126"/>
 
-            <TextBox x:Name="qtePlaqueTB" Margin="99,10,10,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="White" BorderBrush="Black" Foreground="Black" Grid.Column="1" Text="25" MinWidth="40"/>
+            <TextBox x:Name="qtePlaqueTB" Margin="98,10,10,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="White" BorderBrush="Black" Foreground="Black" Grid.Column="1" Text="10" MinWidth="40"/>
 
-            <Label Content="Nb Pl :" Margin="15,6,0,0" Height="47" VerticalAlignment="Top" FontSize="24" Foreground="White" Grid.Column="1" HorizontalAlignment="Left" Width="79"/>
-            <TextBox x:Name="cdBarreTB" Margin="69,10,0,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="White" BorderBrush="Black" Foreground="Black" MinWidth="284" Text="501SHB100%CROHSKEKO"/>
-            <DataGrid ColumnWidth="*" HeadersVisibility="Column" FontSize="24" ItemsSource="{Binding}" Margin="0,60,10,79" Grid.ColumnSpan="2" MinWidth="400"/>
+            <Label Content="Nb Pl :" Margin="13,6,58,0" Height="47" VerticalAlignment="Top" FontSize="24" Foreground="White" Grid.Column="1"/>
+            <TextBox x:Name="numOfTB" Margin="136,10,10,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="White" BorderBrush="Black" Foreground="Black" MinWidth="284" Text="MG0"/>
+            <DataGrid ColumnWidth="*" HeadersVisibility="Column" FontSize="24" ItemsSource="{Binding}" Margin="0,104,10,79" Grid.ColumnSpan="2" MinWidth="400"/>
+            <TextBox x:Name="libelleTB" Margin="136,53,10,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="White" BorderBrush="Black" Foreground="Black" MinWidth="284" Text="501SHB100%CROHSKEKO"/>
+            <Label Content="Libelle :" Margin="10,51,0,0" Height="40" VerticalAlignment="Top" FontSize="24" Foreground="White" RenderTransformOrigin="0.481,0.149" HorizontalAlignment="Left" Width="121"/>
         </Grid>
         <Grid Margin="10" Grid.Column="1" Grid.Row="2" MinHeight="200" MinWidth="200">
 
@@ -86,7 +88,7 @@
             <TextBox x:Name="TB_PlMax" Margin="142,107,14,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" BorderBrush="White" Padding="2,-1,0,0" Height="18" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.553" FontSize="14" IsReadOnly="True" ScrollViewer.CanContentScroll="True"/>
 
         </Grid>
-        <Label Content="Indicateur d'Encours" Foreground="White" FontSize="72" Padding="0" Grid.Row="1" MinWidth="650" Grid.ColumnSpan="3" Grid.Column="1" MinHeight="81"/>
+        <Label Content="Indicateur d'Encours" Foreground="White" FontSize="72" Padding="0" Grid.Row="1" MinWidth="880" Grid.ColumnSpan="3" Grid.Column="1" MinHeight="81"/>
         <Grid x:Name="IndicGridContainer" Grid.Column="2" Margin="10,21,10,89" Grid.Row="2">
             <Grid x:Name="indicGrd1" Background="#FFE80404">
                 <Grid.RowDefinitions>

@@ -156,7 +156,7 @@ Partial Friend NotInheritable Class MySettings
     
     <Global.System.Configuration.UserScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("Pressage")>  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Press")>  _
     Public Property TableFournisseur() As String
         Get
             Return CType(Me("TableFournisseur"),String)

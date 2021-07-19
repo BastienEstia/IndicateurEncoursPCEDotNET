@@ -3,8 +3,9 @@ Imports System.Configuration
 Imports System.Data.OleDb
 
 Class MainWindow
-    Public cdBarre As String
+    Public libelle As String
     Public qtePlaque As Double
+    Public numOf As String
     Public lastOf As String
     Public nbOf As Double
     Public connexionString As String
@@ -88,16 +89,31 @@ Class MainWindow
     End Sub
 
     Private Sub SaisieMan_click(sender As Object, e As RoutedEventArgs) Handles saisieMan.Click
-        cdBarre = cdBarreTB.Text
-        qtePlaque = qtePlaqueTB.Text.ToString
+
+        numOf = numOfTB.Text
         Dim con As New Connexion()
         Dim cmd As New OleDbCommand With {
             .Connection = con.ConnexionBDD(connexionString)
         }
-        Dim ret As Boolean = con.InsertQuery(cdBarre, qtePlaque, cmd)
+
+        Dim exsitResults As Integer = con.SelectCountForExistanceQuery(cmd, numOf)
+        If exsitResults = 1 Then
+            Dim res(3) As String
+            res = con.SelectAllWithNumOFQuery(numOf, cmd)
+            Dim retT As Boolean = con.TruncateQuery(numOf, MySettings.Default.TableFournisseur, cmd)
+            Dim cmd2 As New OleDbCommand With {
+                .Connection = con.ConnexionBDD(connexionString)
+            }
+            Dim retI As Boolean = con.InsertQuery(res(0), res(1), res(2), MySettings.Default.TableSelected, cmd2)
+        Else
+            qtePlaque = qtePlaqueTB.Text.ToString
+            libelle = libelleTB.Text
+            Dim retI As Boolean = con.InsertQuery(libelle, qtePlaque, numOf, MySettings.Default.TableSelected, cmd)
+        End If
+
         Call MajTableau()
         Call MajIndicateur()
-        lastOf = cdBarre
+        lastOf = numOf
 
     End Sub
 
@@ -109,13 +125,15 @@ Class MainWindow
     End Sub
 
     Private Sub UndoLastOf_Click(sender As Object, e As RoutedEventArgs) Handles undoLastOf.Click
-        Dim id As Integer
         Dim con As New Connexion()
+        Dim id As Integer
+        Dim lastOf As String
         Dim cmd As New OleDbCommand With {
             .Connection = con.ConnexionBDD(connexionString)
         }
-        id = con.SelectIdQuery(cmd)
-        Dim ret As Boolean = con.TruncateQuery(id, cmd)
+        id = con.SelectLastIdQuery(cmd)
+        lastOf = con.SelectLastNumOf(id, cmd)
+        Dim ret As Boolean = con.TruncateQuery(lastOf, MySettings.Default.TableSelected, cmd)
         Call MajTableau()
         Call MajIndicateur()
 

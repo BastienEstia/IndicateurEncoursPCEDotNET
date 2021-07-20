@@ -219,36 +219,31 @@ Public Class Connexion
         Return existResults
     End Function
 
-    Public Function SelectNbPlaqueQuery(cmd As OleDbCommand) As List(Of Double)
-        Dim listNbPlaque = New List(Of Double)
+    Public Function SelectNbPlaqueQuery(cmd As OleDbCommand) As String(,)
         Dim query As String
         Dim nbof As Integer
         Dim i As Integer
-
         i = 0
 
-        Dim con As Connexion = New Connexion()
-
+        Dim con As New Connexion()
         nbof = con.CountQuery(cmd)
-        Dim nbPlaqueTab(nbof) As Integer
-
-        query = "SELECT NbPlaque FROM T_Encours_" & MySettings.Default.TableSelected
+        Dim nbPlaqueLibelleMat(,) As String = New String(nbof.ToString, 2) {}
+        query = "SELECT libelle, NbPlaque FROM T_Encours_" & MySettings.Default.TableSelected
         Dim cmd1 = cmd
         cmd.CommandText = query
         cmd1.Connection.Open()
-
         Dim reader As OleDbDataReader
         reader = cmd.ExecuteReader()
 
         While reader.Read()
-            'nbPlaqueTab(i) = (reader("NbPlaque"))
-            listNbPlaque.Add(reader("NbPlaque"))
+            nbPlaqueLibelleMat(i, 0) = reader("NbPlaque")
+            nbPlaqueLibelleMat(i, 1) = reader("Libelle")
             i += 1
         End While
 
         reader.Close()
 
-        Return listNbPlaque
+        Return nbPlaqueLibelleMat
     End Function
 
 End Class

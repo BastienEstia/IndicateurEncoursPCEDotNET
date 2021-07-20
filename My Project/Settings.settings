@@ -41,5 +41,75 @@
     <Setting Name="TableClient" Type="System.String" Scope="User">
       <Value Profile="(Default)">Etalement</Value>
     </Setting>
+    <Setting Name="TailleList" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;R12&lt;/string&gt;
+  &lt;string&gt;CHA&lt;/string&gt;
+  &lt;string&gt;SHA&lt;/string&gt;
+  &lt;string&gt;SHL&lt;/string&gt;
+  &lt;string&gt;R14&lt;/string&gt;
+  &lt;string&gt;SHS&lt;/string&gt;
+  &lt;string&gt;SUS&lt;/string&gt;
+  &lt;string&gt;SHD&lt;/string&gt;
+  &lt;string&gt;R15&lt;/string&gt;
+  &lt;string&gt;SHF&lt;/string&gt;
+  &lt;string&gt;SUF&lt;/string&gt;
+  &lt;string&gt;CHB&lt;/string&gt;
+  &lt;string&gt;SHB&lt;/string&gt;
+  &lt;string&gt;SVB&lt;/string&gt;
+  &lt;string&gt;NHB&lt;/string&gt;
+  &lt;string&gt;R18&lt;/string&gt;
+  &lt;string&gt;SHN&lt;/string&gt;
+  &lt;string&gt;S41&lt;/string&gt;
+  &lt;string&gt;SHT&lt;/string&gt;
+  &lt;string&gt;S43&lt;/string&gt;
+  &lt;string&gt;S47&lt;/string&gt;
+  &lt;string&gt;CLX&lt;/string&gt;
+  &lt;string&gt;CVX&lt;/string&gt;
+  &lt;string&gt;CPX&lt;/string&gt;
+  &lt;string&gt;CLE&lt;/string&gt;
+  &lt;string&gt;CVE&lt;/string&gt;
+  &lt;string&gt;CPE&lt;/string&gt;
+  &lt;string&gt;CLF&lt;/string&gt;
+  &lt;string&gt;H1515&lt;/string&gt;
+  &lt;string&gt;H2020&lt;/string&gt;
+  &lt;string&gt;H2520&lt;/string&gt;
+  &lt;string&gt;H3333&lt;/string&gt;
+  &lt;string&gt;H4020&lt;/string&gt;
+  &lt;string&gt;H4040&lt;/string&gt;
+  &lt;string&gt;H5440&lt;/string&gt;
+  &lt;string&gt;H6560&lt;/string&gt;
+  &lt;string&gt;R2225&lt;/string&gt;
+  &lt;string&gt;R2229&lt;/string&gt;
+  &lt;string&gt;R3033&lt;/string&gt;
+  &lt;string&gt;R3704&lt;/string&gt;
+  &lt;string&gt;R5440&lt;/string&gt;
+  &lt;string&gt;R5550&lt;/string&gt;
+  &lt;string&gt;R6560&lt;/string&gt;
+  &lt;string&gt;R6080&lt;/string&gt;
+  &lt;string&gt;R8060&lt;/string&gt;
+  &lt;string&gt;R45107&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="CCBGr1" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;R12&lt;/string&gt;
+  &lt;string&gt;R14&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="CCBGr2" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CCBGr3" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CCBGr4" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CCBGr5" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

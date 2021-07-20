@@ -34,7 +34,9 @@
 
         <Menu Grid.ColumnSpan="7" MaxHeight="200" MinHeight="11">
             <MenuItem Header=" = _Fichier"/>
-            <MenuItem Header="_Affichage"/>
+            <MenuItem Header="_Affichage">
+                <MenuItem Header="_Configuration des coefficients de taille de pièce" Click="Coef_Click"/>
+            </MenuItem>
             <MenuItem x:Name="ConfigurationButton" Header="_Configuration">
                 <MenuItem Header="_Base de données Access" Click="Settings_Click"/>
             </MenuItem>

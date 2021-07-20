@@ -61,12 +61,19 @@ Class MainWindow
         Dim cmd As New OleDbCommand With {
             .Connection = con.ConnexionBDD(connexionString)
         }
-        Dim listNbPlaque As List(Of Double) = con.SelectNbPlaqueQuery(cmd)
+        Dim nbPlaqueLibelleMat(,) As String = con.SelectNbPlaqueQuery(cmd)
         Dim gridLengthTop As GridLength
         Dim gridLengthBot As GridLength
         Dim colorGLTop As GridLength
         Dim colorGLMid As GridLength
         Dim colorGLBot As GridLength
+        Dim typePieceTab As String()
+        Dim typePiece As String
+        Dim coef1 As Double
+
+        Dim coef2 As Double
+        Dim coef3 As Double
+        Dim coef4 As Double
 
         colorGLBot = New GridLength(SeuilBas.Text, GridUnitType.Star)
         indicBot.Height = colorGLBot
@@ -76,8 +83,13 @@ Class MainWindow
         colorGLTop = New GridLength(seuilTopCalcul, GridUnitType.Star)
         indicTop.Height = colorGLTop
 
-        While i < listNbPlaque.Count
-            nbPlaqueTot += listNbPlaque(i)
+        While i < nbPlaqueLibelleMat.Length
+            'typePieceTab = Split(nbPlaqueLibelleMat(i, 1), "")
+            'typePiece = typePieceTab(3) & typePieceTab(4) & typePieceTab(5)
+            Select Case typePiece
+                'Case "CHA" Or "SHA"
+                'nbPlaqueTot += coef1 * nbPlaqueLibelleMat(i, 0)
+            End Select
             i += 1
         End While
 
@@ -172,6 +184,11 @@ Class MainWindow
 
     Private Sub Window_Closing(sender As Object, e As ComponentModel.CancelEventArgs)
         System.Windows.Application.Current.Shutdown()
+    End Sub
+
+    Private Sub Coef_Click(sender As Object, e As RoutedEventArgs)
+        Dim coefConfigW As New CoefConfigWindow()
+        coefConfigW.ShowDialog()
     End Sub
 
     'Private Sub dropTableBtn_Click(sender As Object, e As RoutedEventArgs) Handles dropTableBtn.Click

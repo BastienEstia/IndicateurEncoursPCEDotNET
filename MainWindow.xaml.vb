@@ -1,14 +1,25 @@
 ﻿Option Explicit On
-Imports System.Configuration
 Imports System.Data.OleDb
 
-Class MainWindow
+Public Class MainWindow
     Public libelle As String
     Public qtePlaque As Double
     Public numOf As String
     Public lastOf As String
     Public nbOf As Double
     Public connexionString As String
+
+    Public coef1 As Double
+    Public coef2 As Double
+    Public coef3 As Double
+    Public coef4 As Double
+    Public coef5 As Double
+
+    Public tailleGr1 As New List(Of Object)
+    Public tailleGr2 As New List(Of Object)
+    Public tailleGr3 As New List(Of Object)
+    Public tailleGr4 As New List(Of Object)
+    Public tailleGr5 As New List(Of Object)
 
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs) Handles MyBase.Loaded
         connexionString = MySettings.Default.BDDPath
@@ -17,6 +28,8 @@ Class MainWindow
         TB_PlMax.Text = MySettings.Default.nbPlaqueMax
         SeuilBas.Text = MySettings.Default.seuilBas
         SeuilHaut.Text = MySettings.Default.seuilHaut
+        TB_Table_Fournisseur.Text = MySettings.Default.TableFournisseur
+        TB_Table_Client.Text = MySettings.Default.TableClient
 
         Dim settings As New SettingsWindow
         Call MajTableau()
@@ -48,7 +61,7 @@ Class MainWindow
                 Catch
                     settingsW.ShowDialog()
                 End Try
-                    CType(Me.FindResource("T_Encours_CoupeViewSource"), CollectionViewSource).View.MoveCurrentToFirst()
+                CType(Me.FindResource("T_Encours_CoupeViewSource"), CollectionViewSource).View.MoveCurrentToFirst()
         End Select
     End Sub
 
@@ -69,11 +82,42 @@ Class MainWindow
         Dim colorGLBot As GridLength
         Dim typePieceTab As String()
         Dim typePiece As String
-        Dim coef1 As Double
 
-        Dim coef2 As Double
-        Dim coef3 As Double
-        Dim coef4 As Double
+        coef1 = MySettings.Default.coef1
+        coef2 = MySettings.Default.coef2
+        coef3 = MySettings.Default.coef3
+        coef4 = MySettings.Default.coef4
+        coef5 = MySettings.Default.coef5
+
+        While i <= MySettings.Default.CCBGr1.Count - 1
+            Dim objGr = MySettings.Default.CCBGr1(i)
+            tailleGr1.Add(objGr)
+            i += 1
+        End While
+        i = 0
+        While i <= MySettings.Default.CCBGr2.Count - 1
+            Dim objGr = MySettings.Default.CCBGr2(i)
+            tailleGr2.Add(objGr)
+            i += 1
+        End While
+        i = 0
+        While i <= MySettings.Default.CCBGr3.Count - 1
+            Dim objGr = MySettings.Default.CCBGr3(i)
+            tailleGr3.Add(objGr)
+            i += 1
+        End While
+        i = 0
+        While i <= MySettings.Default.CCBGr4.Count - 1
+            Dim objGr = MySettings.Default.CCBGr4(i)
+            tailleGr4.Add(objGr)
+            i += 1
+        End While
+        i = 0
+        While i <= MySettings.Default.CCBGr5.Count - 1
+            Dim objGr = MySettings.Default.CCBGr5(i)
+            tailleGr5.Add(objGr)
+            i += 1
+        End While
 
         colorGLBot = New GridLength(SeuilBas.Text, GridUnitType.Star)
         indicBot.Height = colorGLBot
@@ -83,15 +127,29 @@ Class MainWindow
         colorGLTop = New GridLength(seuilTopCalcul, GridUnitType.Star)
         indicTop.Height = colorGLTop
 
-        While i < nbPlaqueLibelleMat.Length
-            'typePieceTab = Split(nbPlaqueLibelleMat(i, 1), "")
-            'typePiece = typePieceTab(3) & typePieceTab(4) & typePieceTab(5)
-            Select Case typePiece
-                'Case "CHA" Or "SHA"
-                'nbPlaqueTot += coef1 * nbPlaqueLibelleMat(i, 0)
-            End Select
+        i = 0
+        'If typePiece <> "" Then
+        While i < nbPlaqueLibelleMat.GetLength(0) - 1
+
+            typePiece = LibelleToTaillePiece(nbPlaqueLibelleMat(i, 1))
+            'Select Case typePiece
+            '    Case Contains()
+            '        nbPlaqueTot += coef1 * nbPlaqueLibelleMat(i, 0)
+            'End Select
+            If tailleGr1.Contains(typePiece) Then
+                nbPlaqueTot += coef1 * nbPlaqueLibelleMat(i, 0)
+            ElseIf tailleGr2.Contains(typePiece) Then
+                nbPlaqueTot += coef2 * nbPlaqueLibelleMat(i, 0)
+            ElseIf tailleGr3.Contains(typePiece) Then
+                nbPlaqueTot += coef3 * nbPlaqueLibelleMat(i, 0)
+            ElseIf tailleGr4.Contains(typePiece) Then
+                nbPlaqueTot += coef4 * nbPlaqueLibelleMat(i, 0)
+            ElseIf tailleGr5.Contains(typePiece) Then
+                nbPlaqueTot += coef5 * nbPlaqueLibelleMat(i, 0)
+            End If
             i += 1
         End While
+        'End If
 
         gridLengthBot = New GridLength(nbPlaqueTot, GridUnitType.Star)
         curseurBot.Height = gridLengthBot
@@ -132,8 +190,6 @@ Class MainWindow
     Public Sub MajTableFournisseur()
         Dim tableFournisseur As String
         tableFournisseur = MySettings.Default.TableFournisseur
-
-
     End Sub
 
     Private Sub UndoLastOf_Click(sender As Object, e As RoutedEventArgs) Handles undoLastOf.Click
@@ -167,7 +223,8 @@ Class MainWindow
             result = MessageBox.Show(messageTextBox, caption, button, icon, MessageBoxResult.Yes)
         End Try
 
-
+        Call MajTableau()
+        Call MajIndicateur()
     End Sub
 
     Private Sub Settings_Click(sender As Object, e As RoutedEventArgs)
@@ -189,6 +246,7 @@ Class MainWindow
     Private Sub Coef_Click(sender As Object, e As RoutedEventArgs)
         Dim coefConfigW As New CoefConfigWindow()
         coefConfigW.ShowDialog()
+        Call MajIndicateur()
     End Sub
 
     'Private Sub dropTableBtn_Click(sender As Object, e As RoutedEventArgs) Handles dropTableBtn.Click
@@ -199,4 +257,30 @@ Class MainWindow
     '    con.DropTableQuery(cmd)
 
     'End Sub
+
+    Public Function LibelleToTaillePiece(libelle As String) As String
+        Dim libelleTab() As Char
+        Dim taillePiece As String
+        libelleTab = libelle.ToArray
+        Dim caracSpe As Char
+        caracSpe = libelleTab(6)
+        Try
+            Dim dbl As Double
+            Dim str As Double
+            If libelleTab(3) = "H" Then
+                taillePiece = libelleTab(3) & libelleTab(4) & libelleTab(5) & libelleTab(6) & libelleTab(7)
+            ElseIf libelleTab(3) = "R" Then
+                str = libelleTab(6).ToString
+                dbl = CDbl(str)
+                taillePiece = libelleTab(3) & libelleTab(4) & libelleTab(5) & libelleTab(6) & libelleTab(7)
+            Else
+                taillePiece = libelleTab(3) & libelleTab(4) & libelleTab(5)
+            End If
+
+        Catch ex As Exception
+            taillePiece = libelleTab(3) & libelleTab(4) & libelleTab(5)
+        End Try
+
+        Return taillePiece
+    End Function
 End Class

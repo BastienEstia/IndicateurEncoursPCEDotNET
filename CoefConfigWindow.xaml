@@ -6,16 +6,17 @@
         xmlns:local="clr-namespace:IndicateurEncoursPCEDotNET" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="CoefConfigWindow" Height="339.193" Width="628.25" Loaded="Window_Loaded">
-    <Grid Background="#FF464646">
-        <Button x:Name="SettingsBack_Button" Content="Annuler" HorizontalAlignment="Left" Height="28" Margin="516,270,0,0" VerticalAlignment="Top" Width="88"/>
-        <Button x:Name="SettingsOk_Button" Content="OK" HorizontalAlignment="Left" Height="28" Margin="385,270,0,0" VerticalAlignment="Top" Width="88"/>
-        <Label Content="Nombre de plaque maximum :" HorizontalAlignment="Left" Height="26" Margin="7,6,0,0" VerticalAlignment="Top" Width="190" Foreground="White"/>
-        <TextBox x:Name="TB_nbPlaqueMax" HorizontalAlignment="Left" Height="20" Margin="253,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344"/>
+    <Window.Resources>
+        <xctk:CheckComboBox x:Key="CheckComboBox"/>
+    </Window.Resources>
+    <Grid Background="#FF464646" DataContext="{StaticResource CheckComboBox}">
+        <Button x:Name="SettingsBack_Button" Content="Annuler" Margin="0,0,16,10" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="88"/>
+        <Button x:Name="SettingsOk_Button" Content="OK" Margin="0,0,147,10" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="88"/>
         <xctk:CheckComboBox x:Name="_comboGr1" 
                              HorizontalAlignment="Center" 
                              VerticalAlignment="Center" 
                              SelectedValue="{Binding SelectedValue}"
-                             SelectedItemsOverride="{Binding SelectedItems}" 
+                             SelectedItemsOverride="{Binding SelectedItems}"
                              Height="19" Margin="10,51,499,238" Width="111" />
         <xctk:CheckComboBox x:Name="_comboGr2" 
             HorizontalAlignment="Center" 
@@ -37,5 +38,25 @@
                 VerticalAlignment="Center" 
                 SelectedValue="{Binding SelectedValue}"
                 SelectedItemsOverride="{Binding SelectedItems}" Height="19" Width="111" Margin="474,51,35,238" />
+        <Label Content="Groupe 1" HorizontalAlignment="Left" Height="26" Margin="10,10,0,0" VerticalAlignment="Top" Width="111" Foreground="White"/>
+        <Label Content="Groupe 2" HorizontalAlignment="Left" Height="26" Margin="126,10,0,0" VerticalAlignment="Top" Width="111" Foreground="White"/>
+        <Label Content="Groupe 3" HorizontalAlignment="Right" Height="26" Margin="0,10,267,0" VerticalAlignment="Top" Width="111" Foreground="White"/>
+        <Label Content="Groupe 4" HorizontalAlignment="Right" Height="26" Margin="0,10,151,0" VerticalAlignment="Top" Width="111" Foreground="White"/>
+        <Label Content="Groupe 5" HorizontalAlignment="Right" Height="26" Margin="0,10,35,0" VerticalAlignment="Top" Width="111" Foreground="White"/>
+        <Label x:Name="labelGr1" Content="" HorizontalAlignment="Left" Margin="10,90,0,43" Width="50" Foreground="White"/>
+        <Label x:Name="labelGr2" Content="" HorizontalAlignment="Left" Margin="126,90,0,43" Width="50" Foreground="White"/>
+        <Label x:Name="labelGr3" Content="" HorizontalAlignment="Left" Margin="242,90,0,43" Width="50" Foreground="White"/>
+        <Label x:Name="labelGr4" Content="" HorizontalAlignment="Left" Margin="358,90,0,43" Width="50" Foreground="White"/>
+        <Label x:Name="labelGr5" Content="" HorizontalAlignment="Left" Margin="474,90,0,43" Width="50" Foreground="White"/>
+        <Slider x:Name="SliderGr1" HorizontalAlignment="Left" Height="144" Margin="65,90,0,0" VerticalAlignment="Top" Width="17" Orientation="Vertical" ValueChanged="SliderGr1_ValueChanged" Maximum="5"/>
+        <Slider x:Name="SliderGr2" HorizontalAlignment="Left" Height="144" Margin="181,90,0,0" VerticalAlignment="Top" Width="17" Orientation="Vertical" ValueChanged="SliderGr2_ValueChanged" Maximum="5"/>
+        <Slider x:Name="SliderGr3" HorizontalAlignment="Left" Height="144" Margin="297,90,0,0" VerticalAlignment="Top" Width="17" Orientation="Vertical" ValueChanged="SliderGr3_ValueChanged" Maximum="5"/>
+        <Slider x:Name="SliderGr4" HorizontalAlignment="Left" Height="144" Margin="413,90,0,0" VerticalAlignment="Top" Width="17" Orientation="Vertical" ValueChanged="SliderGr4_ValueChanged" Maximum="5"/>
+        <Slider x:Name="SliderGr5" HorizontalAlignment="Left" Height="144" Margin="529,90,0,0" VerticalAlignment="Top" Width="17" Orientation="Vertical" ValueChanged="SliderGr5_ValueChanged" Maximum="5"/>
+        <TextBox x:Name="SliderGr1TB" HorizontalAlignment="Left" Height="23" Margin="60,239,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+        <TextBox x:Name="SliderGr2TB" HorizontalAlignment="Left" Height="23" Margin="176,239,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+        <TextBox x:Name="SliderGr3TB" HorizontalAlignment="Left" Height="23" Margin="292,239,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+        <TextBox x:Name="SliderGr4TB" HorizontalAlignment="Left" Height="23" Margin="408,239,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+        <TextBox x:Name="SliderGr5TB" HorizontalAlignment="Left" Height="23" Margin="524,239,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
     </Grid>
 </Window>

@@ -160,6 +160,7 @@
     <Compile Include="CoefConfigWindow.xaml.vb">
       <DependentUpon>CoefConfigWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Indicateur.vb" />
     <Compile Include="SettingsWindow.xaml.vb">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>

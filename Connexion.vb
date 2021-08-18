@@ -3,20 +3,33 @@
 Public Class Connexion
     Private connString As String
     Private oleConnection As OleDbConnection
+
+    Public Property ConnString1 As String
+        Get
+            Return connString
+        End Get
+        Set(value As String)
+            connString = value
+        End Set
+    End Property
+
+    Public Sub New()
+
+    End Sub
+
+    Public Sub New(connString As String, oleConnection As OleDbConnection)
+        Me.connString = connString
+        Me.oleConnection = oleConnection
+    End Sub
+
     Public Function ConnexionBDD(connexionStringInput As String) As OleDbConnection
-        connString = "Provider=Microsoft.ACE.OLEDB.12.0;"
-        connString += "Data Source=" & connexionStringInput
-        oleConnection = New OleDbConnection(connString)
+        ConnString1 = "Provider=Microsoft.ACE.OLEDB.12.0;"
+        ConnString1 += "Data Source=" & connexionStringInput
+        oleConnection = New OleDbConnection(ConnString1)
         Return oleConnection
     End Function
 
-    Public Function GetConnString()
-        Return connString
-    End Function
 
-    Public Function SetConnString(connString As String)
-        Me.connString = connString
-    End Function
 
     Public Function GetRightConnString(connString As String)
         Dim rightConnString As String
@@ -72,6 +85,41 @@ Public Class Connexion
 
         Dim con As Connexion = New Connexion()
         query = "SELECT libelle, nbPlaque, numOF FROM T_Encours_" & MySettings.Default.TableFournisseur & " WHERE NumOF = Val_NumOF"
+        With cmd.Parameters
+            .AddWithValue("Val_NumOF", numOf)
+        End With
+        cmd.CommandText = query
+        cmd.Connection.Open()
+
+        Dim reader As OleDbDataReader
+        reader = cmd.ExecuteReader()
+
+        If reader.Read() Then
+            libelle = reader("Libelle")
+            nbPlaque = reader("NbPlaque")
+            resNumOF = reader("NumOF")
+        Else
+            Return res
+        End If
+
+        reader.Close()
+        cmd.Connection.Close()
+        res(0) = libelle
+        res(1) = nbPlaque.ToString
+        res(2) = numOf
+
+        Return res
+    End Function
+
+    Public Function SelectAllWithNumOFInTempTableQuery(numOf As String, cmd As OleDbCommand) As String()
+        Dim query As String
+        Dim libelle As String
+        Dim nbPlaque As Integer
+        Dim resNumOF As String
+        Dim res(3) As String
+
+        Dim con As Connexion = New Connexion()
+        query = "SELECT libelle, nbPlaque, numOF FROM T_Tempon WHERE NumOF = Val_NumOF"
         With cmd.Parameters
             .AddWithValue("Val_NumOF", numOf)
         End With
@@ -245,5 +293,4 @@ Public Class Connexion
 
         Return nbPlaqueLibelleMat
     End Function
-
 End Class

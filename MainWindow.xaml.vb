@@ -83,6 +83,9 @@ Public Class MainWindow
         Dim typePieceTab As String()
         Dim typePiece As String
 
+        Dim TableSelectedIndicateur As New Indicateur(TableSelectedIndicateur.SelectAllByTable(MySettings.Default.TableSelected, cmd))
+
+
         coef1 = MySettings.Default.coef1
         coef2 = MySettings.Default.coef2
         coef3 = MySettings.Default.coef3
@@ -168,9 +171,15 @@ Public Class MainWindow
 
         Dim exsitResults As Integer = con.SelectCountForExistanceQuery(cmd, numOf)
         If exsitResults = 1 Then
-            Dim res(3) As String
-            res = con.SelectAllWithNumOFQuery(numOf, cmd)
+            Dim res As String() = con.SelectAllWithNumOFQuery(numOf, cmd)
             Dim retT As Boolean = con.TruncateQuery(numOf, MySettings.Default.TableFournisseur, cmd)
+            Dim cmd2 As New OleDbCommand With {
+                .Connection = con.ConnexionBDD(connexionString)
+            }
+            Dim retI As Boolean = con.InsertQuery(res(0), res(1), res(2), MySettings.Default.TableSelected, cmd2)
+        ElseIf qtePlaqueTB.Text = "" Then
+            Dim res As String()
+            res = con.SelectAllWithNumOFInTempTableQuery(numOf, cmd)
             Dim cmd2 As New OleDbCommand With {
                 .Connection = con.ConnexionBDD(connexionString)
             }

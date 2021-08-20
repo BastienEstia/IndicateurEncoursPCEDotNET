@@ -83,7 +83,14 @@ Public Class MainWindow
         Dim typePieceTab As String()
         Dim typePiece As String
 
-        Dim TableSelectedIndicateur As New Indicateur(TableSelectedIndicateur.SelectAllByTable(MySettings.Default.TableSelected, cmd))
+        Dim indicateur As New T_Indicateur(cmd)
+        Dim TableSelectedIndicateur = indicateur.SelectAllByTable(MySettings.Default.TableSelected)
+        'Dim TableSelectedIndicateur As New Indicateur(indicateur.SelectAllByTable(MySettings.Default.TableSelected).Id,
+        '                                              indicateur.SelectAllByTable(MySettings.Default.TableSelected).Table,
+        '                                              indicateur.SelectAllByTable(MySettings.Default.TableSelected).SeuilBas,
+        '                                              indicateur.SelectAllByTable(MySettings.Default.TableSelected).EncoursLvl,
+        '                                              indicateur.SelectAllByTable(MySettings.Default.TableSelected).SeuilHaut,
+        '                                              indicateur.SelectAllByTable(MySettings.Default.TableSelected).NbPlaqueMax)
 
 
         coef1 = MySettings.Default.coef1

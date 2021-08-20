@@ -37,44 +37,7 @@ Public Class Connexion
         Return rightConnString
     End Function
 
-    Public Function InsertQuery(libelle As String, qtePlaque As Integer, numOf As String, table As String, cmd As OleDbCommand) As Boolean
-        Dim query As String
-        query = "INSERT INTO T_Encours_" & table & " (Libelle, NbPlaque, NumOF) VALUES (Val_libelle, Val_nbPlaque, Val_numOf)"
-        With cmd.Parameters
-            .AddWithValue("Val_libelle", libelle)
-            .AddWithValue("Val_nbPlaque", qtePlaque)
-            .AddWithValue("Val_numOf", numOf)
-        End With
-        cmd.CommandText = query
-        cmd.Connection.Open()
-        cmd.ExecuteReader()
-        With cmd.Parameters
-            .RemoveAt("Val_libelle")
-            .RemoveAt("Val_nbPlaque")
-            .RemoveAt("Val_numOf")
-        End With
-        cmd.Connection.Close()
 
-        Return True
-    End Function
-
-    Public Function TruncateQuery(numOf As String, Table As String, cmd As OleDbCommand) As Boolean
-        Dim query As String
-        query = "DELETE * From T_Encours_" & Table & " WHERE NumOF = Val_num"
-
-        With cmd.Parameters
-            .AddWithValue("Val_num", numOf)
-        End With
-
-        cmd.CommandText = query
-
-        cmd.Connection.Open()
-        cmd.ExecuteReader()
-        cmd.Parameters.RemoveAt("Val_num")
-        cmd.Connection.Close()
-
-        Return True
-    End Function
 
     Public Function SelectAllWithNumOFQuery(numOf As String, cmd As OleDbCommand) As String()
         Dim query As String
@@ -146,22 +109,7 @@ Public Class Connexion
         Return res
     End Function
 
-    Private Function CountQuery(cmd As OleDbCommand) As Integer
-        Dim query As String
-        Dim nbof As Integer
-        query = "SELECT COUNT(id) From T_Encours_" & MySettings.Default.TableSelected
-        cmd.CommandText = query
-        cmd.Connection.Open()
-        Dim reader As OleDbDataReader
-        reader = cmd.ExecuteReader()
-        If reader.Read() Then
-            nbof = reader.GetValue(0)
-        End If
-        reader.Close()
-        cmd.Connection.Close()
 
-        Return nbof
-    End Function
 
     'Public Function DropTableQuery(cmd As OleDbCommand)
 

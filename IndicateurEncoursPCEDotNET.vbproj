@@ -160,10 +160,15 @@
     <Compile Include="CoefConfigWindow.xaml.vb">
       <DependentUpon>CoefConfigWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Encours.vb" />
+    <Compile Include="GroupeTaille.vb" />
     <Compile Include="Indicateur.vb" />
     <Compile Include="SettingsWindow.xaml.vb">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="T_Encours.vb" />
+    <Compile Include="T_GroupeTaille.vb" />
+    <Compile Include="T_Indicateur.vb" />
     <Page Include="CoefConfigWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

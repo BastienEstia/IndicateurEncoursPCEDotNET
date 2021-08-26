@@ -138,5 +138,8 @@
   &lt;string&gt;R45107&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
+    <Setting Name="TableTemp" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Temp</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

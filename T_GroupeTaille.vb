@@ -4,9 +4,17 @@ Imports System.Data.OleDb
 Public Class T_GroupeTaille
     Private Property Cmd As OleDbCommand
 
-    Public Function SelectAllByTable(Table As String) As GroupeTaille
+    Public Sub New(cmd As OleDbCommand)
+        Me.Cmd = cmd
+    End Sub
+    Public Sub New()
+
+    End Sub
+
+    Public Function SelectAllByTable(Table As String) As List(Of GroupeTaille)
         Dim query
         Dim reader As OleDbDataReader
+        SelectAllByTable = Nothing
         Dim groupeTaille As New GroupeTaille()
         query = "SELECT * FROM T_TailleGroupe Where Table = Val_table"
         Try
@@ -22,11 +30,11 @@ Public Class T_GroupeTaille
                 groupeTaille.Groupe = reader("Groupe")
                 groupeTaille.Table = reader("Table")
                 groupeTaille.Id = reader("Id")
+                SelectAllByTable.Add(groupeTaille)
             End While
         Catch e As Exception
             MessageBox.Show(e.Message)
         End Try
-        SelectAllByTable = groupeTaille
         Cmd.Connection.Close()
     End Function
 
@@ -71,6 +79,7 @@ Public Class T_GroupeTaille
             Exit Function
         End Try
         TruncateQuery = True
+        cmd.Connection.Close()
     End Function
 
     Public Function SelectAllById(id As Integer, cmd As OleDbCommand) As GroupeTaille

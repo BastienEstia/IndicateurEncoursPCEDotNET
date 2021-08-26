@@ -61,23 +61,24 @@ Public Class Indicateur
         End Try
     End Function
 
-    Public Function GridLenghtBot() As GridLength
+    Public Function GridLengthBot() As GridLength
         Try
-            GridLenghtBot = New GridLength(EncoursLvl, GridUnitType.Star)
+            GridLengthBot = New GridLength(EncoursLvl, GridUnitType.Star)
         Catch e As Exception
             MessageBox.Show(e.Message)
-            GridLenghtBot = New GridLength()
+            GridLengthBot = New GridLength()
             Exit Function
         End Try
     End Function
 
-    Public Function GridLenghtTop() As GridLength
+    Public Function GridLengthTop() As GridLength
         Try
-            GridLenghtTop = New GridLength(NbPlaqueMax - EncoursLvl, GridUnitType.Star)
+            GridLengthTop = New GridLength(NbPlaqueMax - EncoursLvl, GridUnitType.Star)
         Catch e As Exception
             MessageBox.Show(e.Message)
-            GridLenghtTop = New GridLength()
+            GridLengthTop = New GridLength()
             Exit Function
         End Try
     End Function
+
 End Class

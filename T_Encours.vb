@@ -14,13 +14,13 @@ Public Class T_Encours
 
     End Sub
 
-    Public Function InsertQuery(libelle As String, qtePlaque As Integer, numOf As String) As Boolean
+    Public Function InsertQuery(encours As Encours) As Boolean
         Dim query As String
         query = "INSERT INTO T_Encours_" & Table & " (Libelle, NbPlaque, NumOF) VALUES (Val_libelle, Val_nbPlaque, Val_numOf)"
         With Cmd.Parameters
-            .AddWithValue("Val_libelle", libelle)
-            .AddWithValue("Val_nbPlaque", qtePlaque)
-            .AddWithValue("Val_numOf", numOf)
+            .AddWithValue("Val_libelle", encours.Libelle)
+            .AddWithValue("Val_nbPlaque", encours.NbPlaque)
+            .AddWithValue("Val_numOf", encours.NumOF)
         End With
         Cmd.CommandText = query
         Cmd.Connection.Open()
@@ -82,6 +82,7 @@ Public Class T_Encours
             MessageBox.Show(ex.Message)
             Exit Function
         End Try
+        Cmd.Connection.Close()
     End Function
 
     Public Function SelectAllByNumOF(numOF As String) As Encours
@@ -105,6 +106,7 @@ Public Class T_Encours
             MessageBox.Show(ex.Message)
             Exit Function
         End Try
+        Cmd.Connection.Close()
     End Function
 
 

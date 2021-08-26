@@ -70,102 +70,33 @@ Public Class MainWindow
         Dim nbPLaqueMax As Double
         nbPLaqueMax = MySettings.Default.nbPlaqueMax
         Dim i As Integer = 0
+        Dim j As Integer = 0
         Dim con As New Connexion()
         Dim cmd As New OleDbCommand With {
             .Connection = con.ConnexionBDD(connexionString)
         }
-        Dim nbPlaqueLibelleMat(,) As String = con.SelectNbPlaqueQuery(cmd)
-        Dim gridLengthTop As GridLength
-        Dim gridLengthBot As GridLength
-        Dim colorGLTop As GridLength
-        Dim colorGLMid As GridLength
-        Dim colorGLBot As GridLength
-        Dim typePieceTab As String()
-        Dim typePiece As String
-
-        Dim indicateur As New T_Indicateur(cmd)
-        Dim TableSelectedIndicateur = indicateur.SelectAllByTable(MySettings.Default.TableSelected)
-        'Dim TableSelectedIndicateur As New Indicateur(indicateur.SelectAllByTable(MySettings.Default.TableSelected).Id,
-        '                                              indicateur.SelectAllByTable(MySettings.Default.TableSelected).Table,
-        '                                              indicateur.SelectAllByTable(MySettings.Default.TableSelected).SeuilBas,
-        '                                              indicateur.SelectAllByTable(MySettings.Default.TableSelected).EncoursLvl,
-        '                                              indicateur.SelectAllByTable(MySettings.Default.TableSelected).SeuilHaut,
-        '                                              indicateur.SelectAllByTable(MySettings.Default.TableSelected).NbPlaqueMax)
-
-
-        coef1 = MySettings.Default.coef1
-        coef2 = MySettings.Default.coef2
-        coef3 = MySettings.Default.coef3
-        coef4 = MySettings.Default.coef4
-        coef5 = MySettings.Default.coef5
-
-        While i <= MySettings.Default.CCBGr1.Count - 1
-            Dim objGr = MySettings.Default.CCBGr1(i)
-            tailleGr1.Add(objGr)
+        Dim t_encoursTableSelected As New T_Encours(cmd, MySettings.Default.TableSelected)
+        Dim encoursList As List(Of Encours) = t_encoursTableSelected.SelectAll()
+        Dim t_groupeTaille As New T_GroupeTaille(cmd)
+        Dim groupeTailleList As List(Of GroupeTaille) = t_groupeTaille.SelectAllByTable(MySettings.Default.TableSelected)
+        Dim mat As String(,) = MatLibelleNbPlaque(encoursList)
+        Dim t_indicateur As New T_Indicateur(cmd)
+        Dim TableSelectedIndicateur = t_indicateur.SelectAllByTable(MySettings.Default.TableSelected)
+        indicBot.Height = TableSelectedIndicateur.ColorGLBot
+        indicMid.Height = TableSelectedIndicateur.ColorGLMid
+        indicTop.Height = TableSelectedIndicateur.ColorGLTop
+        While i < mat.GetLength(0) - 1
+            While j < groupeTailleList.Count
+                If groupeTailleList(j).TailleList.Contains(mat(i, 0)) Then
+                    nbPlaqueTot += groupeTailleList(j).Coef * mat(i, 1)
+                End If
+                j += 1
+            End While
             i += 1
         End While
-        i = 0
-        While i <= MySettings.Default.CCBGr2.Count - 1
-            Dim objGr = MySettings.Default.CCBGr2(i)
-            tailleGr2.Add(objGr)
-            i += 1
-        End While
-        i = 0
-        While i <= MySettings.Default.CCBGr3.Count - 1
-            Dim objGr = MySettings.Default.CCBGr3(i)
-            tailleGr3.Add(objGr)
-            i += 1
-        End While
-        i = 0
-        While i <= MySettings.Default.CCBGr4.Count - 1
-            Dim objGr = MySettings.Default.CCBGr4(i)
-            tailleGr4.Add(objGr)
-            i += 1
-        End While
-        i = 0
-        While i <= MySettings.Default.CCBGr5.Count - 1
-            Dim objGr = MySettings.Default.CCBGr5(i)
-            tailleGr5.Add(objGr)
-            i += 1
-        End While
-
-        colorGLBot = New GridLength(SeuilBas.Text, GridUnitType.Star)
-        indicBot.Height = colorGLBot
-        colorGLMid = New GridLength(SeuilHaut.Text - SeuilBas.Text, GridUnitType.Star)
-        indicMid.Height = colorGLMid
-        Dim seuilTopCalcul = nbPLaqueMax - SeuilHaut.Text
-        colorGLTop = New GridLength(seuilTopCalcul, GridUnitType.Star)
-        indicTop.Height = colorGLTop
-
-        i = 0
-        'If typePiece <> "" Then
-        While i < nbPlaqueLibelleMat.GetLength(0) - 1
-
-            typePiece = LibelleToTaillePiece(nbPlaqueLibelleMat(i, 1))
-            'Select Case typePiece
-            '    Case Contains()
-            '        nbPlaqueTot += coef1 * nbPlaqueLibelleMat(i, 0)
-            'End Select
-            If tailleGr1.Contains(typePiece) Then
-                nbPlaqueTot += coef1 * nbPlaqueLibelleMat(i, 0)
-            ElseIf tailleGr2.Contains(typePiece) Then
-                nbPlaqueTot += coef2 * nbPlaqueLibelleMat(i, 0)
-            ElseIf tailleGr3.Contains(typePiece) Then
-                nbPlaqueTot += coef3 * nbPlaqueLibelleMat(i, 0)
-            ElseIf tailleGr4.Contains(typePiece) Then
-                nbPlaqueTot += coef4 * nbPlaqueLibelleMat(i, 0)
-            ElseIf tailleGr5.Contains(typePiece) Then
-                nbPlaqueTot += coef5 * nbPlaqueLibelleMat(i, 0)
-            End If
-            i += 1
-        End While
-        'End If
-
-        gridLengthBot = New GridLength(nbPlaqueTot, GridUnitType.Star)
-        curseurBot.Height = gridLengthBot
-        gridLengthTop = New GridLength(nbPLaqueMax - nbPlaqueTot, GridUnitType.Star)
-        curseurTop.Height = gridLengthTop
-
+        TableSelectedIndicateur.EncoursLvl = nbPlaqueTot
+        curseurBot.Height = TableSelectedIndicateur.GridLengthBot
+        curseurTop.Height = TableSelectedIndicateur.GridLengthTop
     End Sub
 
     Private Sub SaisieMan_click(sender As Object, e As RoutedEventArgs) Handles saisieMan.Click
@@ -175,26 +106,26 @@ Public Class MainWindow
         Dim cmd As New OleDbCommand With {
             .Connection = con.ConnexionBDD(connexionString)
         }
+        Dim t_encoursTableSelected As New T_Encours(cmd, MySettings.Default.TableSelected)
+        Dim t_encoursTableFournisseur As New T_Encours(cmd, MySettings.Default.TableFournisseur)
+        Dim t_encoursTableTemp As New T_Encours(cmd, MySettings.Default.TableTemp)
+        Dim encoursFournisseur As Encours = t_encoursTableFournisseur.SelectAllByNumOF(numOf)
 
-        Dim exsitResults As Integer = con.SelectCountForExistanceQuery(cmd, numOf)
-        If exsitResults = 1 Then
-            Dim res As String() = con.SelectAllWithNumOFQuery(numOf, cmd)
-            Dim retT As Boolean = con.TruncateQuery(numOf, MySettings.Default.TableFournisseur, cmd)
-            Dim cmd2 As New OleDbCommand With {
-                .Connection = con.ConnexionBDD(connexionString)
-            }
-            Dim retI As Boolean = con.InsertQuery(res(0), res(1), res(2), MySettings.Default.TableSelected, cmd2)
-        ElseIf qtePlaqueTB.Text = "" Then
-            Dim res As String()
-            res = con.SelectAllWithNumOFInTempTableQuery(numOf, cmd)
-            Dim cmd2 As New OleDbCommand With {
-                .Connection = con.ConnexionBDD(connexionString)
-            }
-            Dim retI As Boolean = con.InsertQuery(res(0), res(1), res(2), MySettings.Default.TableSelected, cmd2)
+        Dim encours As New Encours
+        If encoursFournisseur.NumOF = numOf Then
+            t_encoursTableFournisseur.TruncateQuery(numOf)
+            t_encoursTableSelected.InsertQuery(encours)
         Else
-            qtePlaque = qtePlaqueTB.Text.ToString
-            libelle = libelleTB.Text
-            Dim retI As Boolean = con.InsertQuery(libelle, qtePlaque, numOf, MySettings.Default.TableSelected, cmd)
+            Dim encoursTemp As Encours = t_encoursTableTemp.SelectAllByNumOF(numOf)
+            If encoursTemp.NumOF = numOf Then
+                encours.Libelle = encoursTemp.Libelle
+                encours.NbPlaque = encoursTemp.NbPlaque
+                t_encoursTableSelected.InsertQuery(encours)
+            Else
+                encours.NbPlaque = qtePlaqueTB.Text.ToString
+                encours.Libelle = libelleTB.Text
+                t_encoursTableSelected.InsertQuery(encours)
+            End If
         End If
 
         Call MajTableau()
@@ -210,17 +141,17 @@ Public Class MainWindow
 
     Private Sub UndoLastOf_Click(sender As Object, e As RoutedEventArgs) Handles undoLastOf.Click
         Dim con As New Connexion()
-        Dim id As Integer
-        Dim lastOf As String
+        Dim lastOf As Encours
+        Dim listEncours As List(Of Encours)
+        Dim t_encoursTableSelected As New T_Encours
         Dim cmd As New OleDbCommand With {
             .Connection = con.ConnexionBDD(connexionString)
         }
-        id = con.SelectLastIdQuery(cmd)
-        lastOf = con.SelectLastNumOf(id, cmd)
-        Dim ret As Boolean = con.TruncateQuery(lastOf, MySettings.Default.TableSelected, cmd)
+        listEncours = t_encoursTableSelected.SelectAll
+        lastOf = listEncours(-1)
+        t_encoursTableSelected.TruncateQuery(lastOf.NumOF)
         Call MajTableau()
         Call MajIndicateur()
-
     End Sub
 
     Private Sub Seuil_Click(sender As Object, e As RoutedEventArgs) Handles validSeuils.Click
@@ -298,5 +229,21 @@ Public Class MainWindow
         End Try
 
         Return taillePiece
+    End Function
+    Public Function MatLibelleNbPlaque(encoursList As List(Of Encours)) As String(,)
+        Dim i As Integer
+        MatLibelleNbPlaque = Nothing
+        Dim mat As String(,) = Nothing
+        i = 0
+        Try
+            While i <= encoursList.Count
+                mat(i, 0) = LibelleToTaillePiece(encoursList(i).Libelle)
+                mat(i, 1) = encoursList(i).NbPlaque
+            End While
+            Return mat
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+            Exit Function
+        End Try
     End Function
 End Class

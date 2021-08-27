@@ -15,7 +15,7 @@ Public Class T_Indicateur
     Public Function SelectAllByTable(table As String) As Indicateur
         Dim query
         Dim reader As OleDbDataReader
-        SelectAllByTable = Nothing
+        SelectAllByTable = New Indicateur
         query = "SELECT * FROM T_Indicateur Where Table = Val_table"
         Try
             With cmd.Parameters
@@ -34,6 +34,7 @@ Public Class T_Indicateur
             End While
         Catch e As Exception
             MessageBox.Show(e.Message)
+            cmd.Connection.Close()
             Exit Function
         End Try
         cmd.Connection.Close()
@@ -41,7 +42,7 @@ Public Class T_Indicateur
 
     Public Function InsertQuery(table As String, seuilHaut As Integer, seuilBas As Integer, encoursLvl As Integer, nbPlaqueMax As Integer, cmd As OleDbCommand) As Boolean
         Dim Query As String
-        Query = "INSERT INTO T_Indicateur & (Table, SeuilHaut, SeuilBas, EncoursLvl) VALUES (Val_table, Val_seuilHaut, Val_seuilBas, Val_encoursLvl)"
+        Query = "INSERT INTO T_Indicateur (Table, SeuilHaut, SeuilBas, EncoursLvl) VALUES (Val_table, Val_seuilHaut, Val_seuilBas, Val_encoursLvl)"
         Try
             With cmd.Parameters
                 .AddWithValue("Val_table", table)

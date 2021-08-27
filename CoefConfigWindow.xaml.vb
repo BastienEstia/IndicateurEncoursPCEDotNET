@@ -1,4 +1,6 @@
 ﻿Option Explicit On
+Imports System.Data.OleDb
+
 Public Class CoefConfigWindow
     Private coef1 As Double
 
@@ -11,28 +13,16 @@ Public Class CoefConfigWindow
         'MySettings.Default.TailleList.Remove("R3740")
         'MySettings.Default.Save()
 
-        Dim sSelectedValuesGr1 As String
-        Dim sSelectedValuesGr2 As String
-        Dim sSelectedValuesGr3 As String
-        Dim sSelectedValuesGr4 As String
-        Dim sSelectedValuesGr5 As String
-
         Dim i As Integer
         i = 1
 
-        Dim listGr1 As New List(Of Object)
-        Dim listGr2 As New List(Of Object)
-        Dim listGr3 As New List(Of Object)
-        Dim listGr4 As New List(Of Object)
-        Dim listGr5 As New List(Of Object)
+        Dim con As New Connexion()
+        Dim cmd As New OleDbCommand With {
+            .Connection = con.ConnexionBDD(MySettings.Default.BDDConnString)
+        }
+        Dim t_groupeTaille As New T_GroupeTaille(cmd)
 
-        Dim objGr1 As Object
-        Dim objGr2 As Object
-        Dim objGr3 As Object
-        Dim objGr4 As Object
-        Dim objGr5 As Object
-
-
+        Dim groupeTailleList As List(Of GroupeTaille) = t_groupeTaille.SelectAllByTable(MySettings.Default.TableSelected)
 
         _comboGr1.ItemsSource = MySettings.Default.TailleList
         _comboGr2.ItemsSource = MySettings.Default.TailleList
@@ -40,100 +30,31 @@ Public Class CoefConfigWindow
         _comboGr4.ItemsSource = MySettings.Default.TailleList
         _comboGr5.ItemsSource = MySettings.Default.TailleList
 
-        If Not (MySettings.Default.CCBGr1(0) = "?") Then
-            sSelectedValuesGr1 = MySettings.Default.CCBGr1(0) & ","
-            objGr1 = MySettings.Default.CCBGr1(0)
-            listGr1.Add(objGr1)
-        End If
+        _comboGr1.SelectedValue = groupeTailleList(0).TailleList.ToString()
+        _comboGr1.SelectedItemsOverride = groupeTailleList(0).TailleList
+        _comboGr1.Text = groupeTailleList(0).TailleList.ToString()
 
-        If Not (MySettings.Default.CCBGr2(0) = "?") Then
-            sSelectedValuesGr2 = MySettings.Default.CCBGr2(0) & ","
-            objGr2 = MySettings.Default.CCBGr2(0)
-            listGr2.Add(objGr2)
-        End If
+        _comboGr2.SelectedValue = groupeTailleList(1).TailleList.ToString()
+        _comboGr2.SelectedItemsOverride = groupeTailleList(1).TailleList
+        _comboGr2.Text = groupeTailleList(1).TailleList.ToString()
 
-        If Not (MySettings.Default.CCBGr3(0) = "?") Then
-            sSelectedValuesGr3 = MySettings.Default.CCBGr3(0) & ","
-            objGr3 = MySettings.Default.CCBGr3(0)
-            listGr3.Add(objGr3)
-        End If
+        _comboGr3.SelectedValue = groupeTailleList(2).TailleList.ToString()
+        _comboGr3.SelectedItemsOverride = groupeTailleList(2).TailleList
+        _comboGr3.Text = groupeTailleList(2).TailleList.ToString()
 
-        If Not (MySettings.Default.CCBGr4(0) = "?") Then
-            sSelectedValuesGr4 = MySettings.Default.CCBGr4(0) & ","
-            objGr4 = MySettings.Default.CCBGr4(0)
-            listGr4.Add(objGr4)
-        End If
+        _comboGr4.SelectedValue = groupeTailleList(3).TailleList.ToString()
+        _comboGr4.SelectedItemsOverride = groupeTailleList(3).TailleList
+        _comboGr4.Text = groupeTailleList(3).TailleList.ToString()
 
-        If Not (MySettings.Default.CCBGr5(0) = "?") Then
-            sSelectedValuesGr5 = MySettings.Default.CCBGr5(0) & ","
-            objGr5 = MySettings.Default.CCBGr5(0)
-            listGr5.Add(objGr5)
-        End If
+        _comboGr5.SelectedValue = groupeTailleList(4).TailleList.ToString()
+        _comboGr5.SelectedItemsOverride = groupeTailleList(4).TailleList
+        _comboGr5.Text = groupeTailleList(4).TailleList.ToString()
 
-        While i <= MySettings.Default.CCBGr1.Count - 1
-            sSelectedValuesGr1 = sSelectedValuesGr1 & MySettings.Default.CCBGr1(i) & ","
-            objGr1 = MySettings.Default.CCBGr1(i)
-            listGr1.Add(objGr1)
-            i += 1
-        End While
-
-        i = 1
-        While i <= MySettings.Default.CCBGr2.Count - 1
-            sSelectedValuesGr2 = sSelectedValuesGr2 & MySettings.Default.CCBGr2(i) & ","
-            objGr2 = MySettings.Default.CCBGr2(i)
-            listGr2.Add(objGr2)
-            i += 1
-        End While
-
-        i = 1
-        While i <= MySettings.Default.CCBGr3.Count - 1
-            sSelectedValuesGr3 = sSelectedValuesGr3 & MySettings.Default.CCBGr3(i) & ","
-            objGr3 = MySettings.Default.CCBGr3(i)
-            listGr3.Add(objGr3)
-            i += 1
-        End While
-
-        i = 1
-        While i <= MySettings.Default.CCBGr4.Count - 1
-            sSelectedValuesGr4 = sSelectedValuesGr4 & MySettings.Default.CCBGr4(i) & ","
-            objGr4 = MySettings.Default.CCBGr4(i)
-            listGr4.Add(objGr4)
-            i += 1
-        End While
-
-        i = 1
-        While i <= MySettings.Default.CCBGr5.Count - 1
-            sSelectedValuesGr5 = sSelectedValuesGr5 & MySettings.Default.CCBGr5(i) & ","
-            objGr5 = MySettings.Default.CCBGr5(i)
-            listGr5.Add(objGr5)
-            i += 1
-        End While
-
-        _comboGr1.SelectedValue = sSelectedValuesGr1
-        _comboGr1.SelectedItemsOverride = listGr1
-        _comboGr1.Text = sSelectedValuesGr1
-
-        _comboGr2.SelectedValue = sSelectedValuesGr2
-        _comboGr2.SelectedItemsOverride = listGr2
-        _comboGr2.Text = sSelectedValuesGr2
-
-        _comboGr3.SelectedValue = sSelectedValuesGr3
-        _comboGr3.SelectedItemsOverride = listGr3
-        _comboGr3.Text = sSelectedValuesGr3
-
-        _comboGr4.SelectedValue = sSelectedValuesGr4
-        _comboGr4.SelectedItemsOverride = listGr4
-        _comboGr4.Text = sSelectedValuesGr4
-
-        _comboGr5.SelectedValue = sSelectedValuesGr5
-        _comboGr5.SelectedItemsOverride = listGr5
-        _comboGr5.Text = sSelectedValuesGr5
-
-        SliderGr1.Value = MySettings.Default.coef1
-        SliderGr2.Value = MySettings.Default.coef2
-        SliderGr3.Value = MySettings.Default.coef3
-        SliderGr4.Value = MySettings.Default.coef4
-        SliderGr5.Value = MySettings.Default.coef5
+        SliderGr1.Value = groupeTailleList(0).Coef
+        SliderGr2.Value = groupeTailleList(1).Coef
+        SliderGr3.Value = groupeTailleList(2).Coef
+        SliderGr4.Value = groupeTailleList(3).Coef
+        SliderGr5.Value = groupeTailleList(4).Coef
 
         For i = 0 To _comboGr1.SelectedItems.Count - 1
             labelGr1.Content &= _comboGr1.SelectedItems(i) & vbCrLf
@@ -160,77 +81,67 @@ Public Class CoefConfigWindow
     Private Sub SettingsOk_Button_Click(sender As Object, e As RoutedEventArgs) Handles SettingsOk_Button.Click
         Dim i As Integer
         Dim verifUniciteList As New List(Of String)
+        Dim list As New List(Of Integer)
+        Dim groupeTaille As New GroupeTaille()
+        Dim groupeTailleList As New List(Of GroupeTaille)
         i = 0
-        MySettings.Default.CCBGr1.Clear()
-        If _comboGr1.SelectedItems.Count = 0 Then
-            MySettings.Default.CCBGr1.Add("?")
-            MySettings.Default.Save()
-        Else
-            While i <= _comboGr1.SelectedItems.Count - 1
-                MySettings.Default.CCBGr1.Add(_comboGr1.SelectedItems(i).ToString())
-                verifUniciteList.Add(_comboGr1.SelectedItems(i).ToString())
-                MySettings.Default.Save()
-                i += 1
-            End While
-        End If
+        Dim con As New Connexion()
+        Dim cmd As New OleDbCommand With {
+            .Connection = con.ConnexionBDD(MySettings.Default.BDDConnString)
+        }
+        Dim cmd2 As New OleDbCommand With {
+            .Connection = con.ConnexionBDD(MySettings.Default.BDDConnString)
+        }
+
+        Dim t_groupeTaille As New T_GroupeTaille(cmd)
+
+        groupeTailleList = t_groupeTaille.SelectAllByTable(MySettings.Default.TableSelected)
+
+        While i <= groupeTailleList.Count - 1
+            groupeTailleList(i).TailleList.Clear()
+            i += 1
+        End While
+
+        list.Add(_comboGr1.SelectedItems.Count)
+        list.Add(_comboGr2.SelectedItems.Count)
+        list.Add(_comboGr3.SelectedItems.Count)
+        list.Add(_comboGr4.SelectedItems.Count)
+        list.Add(_comboGr5.SelectedItems.Count)
 
         i = 0
-        MySettings.Default.CCBGr2.Clear()
-        If _comboGr2.SelectedItems.Count = 0 Then
-            MySettings.Default.CCBGr2.Add("?")
-            MySettings.Default.Save()
-        Else
-            While i <= _comboGr2.SelectedItems.Count - 1
-                MySettings.Default.CCBGr2.Add(_comboGr2.SelectedItems(i).ToString())
-                verifUniciteList.Add(_comboGr2.SelectedItems(i).ToString())
-                MySettings.Default.Save()
-                i += 1
-            End While
-        End If
+        While i <= _comboGr1.SelectedItems().Count - 1
+            groupeTailleList(0).TailleList.Add(_comboGr1.SelectedItems(i).ToString())
+            verifUniciteList.Add(_comboGr1.SelectedItems(i).ToString())
+            i += 1
+        End While
 
         i = 0
-        MySettings.Default.CCBGr3.Clear()
-        If _comboGr3.SelectedItems.Count = 0 Then
-            MySettings.Default.CCBGr3.Add("?")
-            MySettings.Default.Save()
-        Else
-            While i <= _comboGr3.SelectedItems.Count - 1
-                MySettings.Default.CCBGr3.Add(_comboGr3.SelectedItems(i).ToString())
-                verifUniciteList.Add(_comboGr3.SelectedItems(i).ToString())
-                MySettings.Default.Save()
-                i += 1
-            End While
-        End If
+        While i <= _comboGr2.SelectedItems().Count - 1
+            groupeTailleList(1).TailleList.Add(_comboGr2.SelectedItems(i).ToString())
+            verifUniciteList.Add(_comboGr2.SelectedItems(i).ToString())
+            i += 1
+        End While
 
         i = 0
-        MySettings.Default.CCBGr4.Clear()
-        If _comboGr4.SelectedItems.Count = 0 Then
-            MySettings.Default.CCBGr4.Add("?")
+        While i <= _comboGr3.SelectedItems().Count - 1
+            groupeTailleList(2).TailleList.Add(_comboGr3.SelectedItems(i).ToString())
+            verifUniciteList.Add(_comboGr3.SelectedItems(i).ToString())
+            i += 1
+        End While
+
+        i = 0
+        While i <= _comboGr4.SelectedItems().Count - 1
+            groupeTailleList(3).TailleList.Add(_comboGr4.SelectedItems(i).ToString())
             verifUniciteList.Add(_comboGr4.SelectedItems(i).ToString())
-            MySettings.Default.Save()
-        Else
-            While i <= _comboGr4.SelectedItems.Count - 1
-                MySettings.Default.CCBGr4.Add(_comboGr4.SelectedItems(i).ToString())
-                verifUniciteList.Add(_comboGr4.SelectedItems(i).ToString())
-                MySettings.Default.Save()
-                i += 1
-            End While
-        End If
+            i += 1
+        End While
 
         i = 0
-        MySettings.Default.CCBGr5.Clear()
-        If _comboGr5.SelectedItems.Count = 0 Then
-            MySettings.Default.CCBGr5.Add("?")
-            MySettings.Default.Save()
-        Else
-            While i <= _comboGr5.SelectedItems.Count - 1
-                MySettings.Default.CCBGr5.Add(_comboGr5.SelectedItems(i).ToString())
-                verifUniciteList.Add(_comboGr5.SelectedItems(i).ToString())
-                MySettings.Default.Save()
-                i += 1
-            End While
-        End If
-        MySettings.Default.Save()
+        While i <= _comboGr5.SelectedItems().Count - 1
+            groupeTailleList(4).TailleList.Add(_comboGr5.SelectedItems(i).ToString())
+            verifUniciteList.Add(_comboGr5.SelectedItems(i).ToString())
+            i += 1
+        End While
 
         'For i = 0 To verifUniciteList.Count - 1
         '    If Not MySettings.Default.TailleList(i) Then
@@ -244,30 +155,17 @@ Public Class CoefConfigWindow
             'message bos attention taille dans groupe différents
         End If
 
-        Dim MW As New MainWindow()
-        For Each wnd As Window In Windows.Application.Current.Windows
-            If wnd.GetType Is GetType(MainWindow) Then
-                MW = wnd
-            End If
-        Next
+        cmd = New OleDbCommand With {
+            .Connection = con.ConnexionBDD(MySettings.Default.BDDConnString)
+        }
+        t_groupeTaille = New T_GroupeTaille(cmd)
 
-        MW.coef1 = SliderGr1.Value
-        MySettings.Default.coef1 = SliderGr1.Value
-        MW.coef1 = SliderGr2.Value
-        MySettings.Default.coef2 = SliderGr2.Value
-        MW.coef3 = SliderGr3.Value
-        MySettings.Default.coef3 = SliderGr3.Value
-        MW.coef4 = SliderGr4.Value
-        MySettings.Default.coef4 = SliderGr4.Value
-        MW.coef5 = SliderGr4.Value
-        MySettings.Default.coef5 = SliderGr5.Value
-        MySettings.Default.Save()
+        i = 0
+        While i < groupeTailleList.Count - 1
 
-        MW.tailleGr1 = _comboGr1.SelectedItems
-        MW.tailleGr2 = _comboGr2.SelectedItems
-        MW.tailleGr3 = _comboGr3.SelectedItems
-        MW.tailleGr4 = _comboGr4.SelectedItems
-        MW.tailleGr5 = _comboGr5.SelectedItems
+            t_groupeTaille.TruncateQuery(MySettings.Default.TableSelected, groupeTailleList(i).Groupe)
+            t_groupeTaille.InsertQuery(groupeTailleList(i))
+        End While
 
         Close()
     End Sub

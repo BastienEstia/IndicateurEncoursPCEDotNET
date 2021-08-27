@@ -62,38 +62,42 @@ Public Class T_Encours
 
     Public Function SelectAll() As List(Of Encours)
         Dim query As String
-        SelectAll = Nothing
-        Dim ofEncours As New Encours()
+        'SelectAll = Nothing
+        Dim encoursList As New List(Of Encours)
+
         Dim reader As OleDbDataReader
-        query = "SELECT * FROM T_Encours" & Table
+        query = "SELECT * FROM T_Encours_" & Table
         Cmd.CommandText = query
         Cmd.Connection.Open()
         Try
             reader = Cmd.ExecuteReader()
             While reader.Read()
+                Dim ofEncours As New Encours()
                 ofEncours.Id = reader("Id")
                 ofEncours.Libelle = reader("Libelle")
                 ofEncours.NbPlaque = reader("NbPlaque")
                 ofEncours.NumOF = reader("NumOF")
                 ofEncours.Table = Table
-                SelectAll.Add(ofEncours)
+                encoursList.Add(ofEncours)
             End While
         Catch ex As Exception
             MessageBox.Show(ex.Message)
             Exit Function
         End Try
         Cmd.Connection.Close()
+        Return encoursList
     End Function
 
     Public Function SelectAllByNumOF(numOF As String) As Encours
         Dim query As String
         SelectAllByNumOF = Nothing
         Dim reader As OleDbDataReader
-        query = "SELECT * FROM T_Encours" & Table & " WHERE NumOF = Val_numOF"
+        query = "SELECT * FROM T_Encours_" & Table & " WHERE NumOF = Val_numOF"
         Try
             With Cmd.Parameters
                 .AddWithValue("Val_numOF", numOF)
             End With
+            Cmd.CommandText = query
             Cmd.Connection.Open()
             reader = Cmd.ExecuteReader()
             If reader.Read() Then

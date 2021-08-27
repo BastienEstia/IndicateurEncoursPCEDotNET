@@ -5,7 +5,7 @@ Public Class GroupeTaille
 
     Public Property Id As Integer
     Public Property Table As String
-    Public Property TailleList As List(Of String)
+    Public Property TailleList As New List(Of String)
     Public Property Coef As Double
     Public Property Groupe As Integer
 

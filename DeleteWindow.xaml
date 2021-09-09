@@ -1,0 +1,18 @@
+﻿<Window x:Class="DeleteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IndicateurEncoursPCEDotNET"
+        mc:Ignorable="d"
+        Title="DeleteWindow" Height="173.757" Width="627.966">
+    <Grid>
+        <Grid Background="#FF464646">
+            <Button x:Name="DeleteBack_Button" Content="Annuler" HorizontalAlignment="Right" Height="28" Margin="0,0,16,11" VerticalAlignment="Bottom" Width="88"/>
+            <Button x:Name="DeleteOk_Button" Content="OK" HorizontalAlignment="Right" Height="28" Margin="0,0,147,11" VerticalAlignment="Bottom" Width="88"/>
+            <Label Content="Numéro d'OF à supprimer :" HorizontalAlignment="Left" Height="34" Margin="14,22,0,0" VerticalAlignment="Top" Width="155" Foreground="White"/>
+            <TextBox x:Name="DeleteOFTB" HorizontalAlignment="Left" Height="23" Margin="290,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="314"/>
+        </Grid>
+
+    </Grid>
+</Window>

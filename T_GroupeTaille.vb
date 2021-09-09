@@ -18,31 +18,35 @@ Public Class T_GroupeTaille
 
         Dim taillelistTab As String()
         Dim i As Integer = 0
-        query = "SELECT * FROM T_GroupeTaille Where Table = Val_table"
+        query = "SELECT * FROM T_GroupeTaille Where Poste = Val_poste"
         Try
             With Cmd.Parameters
-                .AddWithValue("Val_Table", Table)
+                .AddWithValue("Val_poste", Table)
             End With
             Cmd.CommandText = query
             Cmd.Connection.Open()
             reader = Cmd.ExecuteReader()
             While reader.Read()
                 Dim groupeTailleItem As New GroupeTaille()
-                If Not reader.IsDBNull(2) Then
-                    taillelistTab = Split(reader("TailleList"), ",")
+                Dim groupeString = reader("Taillelist")
+                If Not IsDBNull(groupeString) Then
+                    taillelistTab = Split(groupeString, "-")
+                    i = 0
                     While i <= taillelistTab.Length - 1
                         groupeTailleItem.TailleList.Add(taillelistTab(i))
                         i += 1
                     End While
+                Else
+                    'groupeTailleItem.TailleList.Add("")
                 End If
                 groupeTailleItem.Coef = reader("Coef")
-                groupeTailleItem.Groupe = reader("Groupe")
-                groupeTailleItem.Table = reader("Table")
+                groupeTailleItem.Groupe = reader("Grp")
+                groupeTailleItem.Table = reader("Poste")
                 groupeTailleItem.Id = reader("Id")
                 SelectAllByTable.Add(groupeTailleItem)
             End While
             reader.Close()
-            Cmd.Parameters.RemoveAt("Val_Table")
+            Cmd.Parameters.RemoveAt("Val_poste")
             Cmd.CommandText.Remove(0)
         Catch e As Exception
             MessageBox.Show(e.Message)
@@ -55,18 +59,18 @@ Public Class T_GroupeTaille
         Dim er As OleDbDataReader
         Dim i As Integer = 0
         Dim tailleString As String = Nothing
-        Query = "INSERT INTO T_GroupeTaille (Table, TailleList, Coef, Groupe) VALUES (Val_table, Val_taillelist, Val_coef, Val_groupe)"
+        Query = "INSERT INTO T_GroupeTaille (Poste, Taillelist, Coef, Grp) VALUES (Val_poste, Val_taillelist, Val_coef, Val_groupe)"
         While i <= groupeTaille.TailleList.Count - 1
             If i = groupeTaille.TailleList.Count - 1 Then
                 tailleString += groupeTaille.TailleList(i)
             Else
-                tailleString += groupeTaille.TailleList(i) & ","
+                tailleString += groupeTaille.TailleList(i) & "-"
             End If
             i += 1
         End While
         Try
             With Cmd.Parameters
-                .AddWithValue("Val_table", groupeTaille.Table)
+                .AddWithValue("Val_poste", groupeTaille.Table)
                 .AddWithValue("Val_taillelist", tailleString)
                 .AddWithValue("Val_coef", groupeTaille.Coef)
                 .AddWithValue("Val_groupe", groupeTaille.Groupe)
@@ -80,23 +84,23 @@ Public Class T_GroupeTaille
                 .RemoveAt("Val_coef")
                 .RemoveAt("Val_groupe")
             End With
-            er.Close()
-            Cmd.Connection.Close()
         Catch e As Exception
             InsertQuery = False
             MessageBox.Show(e.Message)
             Exit Function
         End Try
+        er.Close()
+        Cmd.Connection.Close()
         InsertQuery = True
     End Function
 
     Public Function TruncateQuery(table As String, groupe As String) As Boolean
         Dim Query As String
         Dim er As OleDbDataReader
-        Query = "DELETE * From T_GroupeTaille WHERE Table = Val_table AND Groupe = Val_groupe"
+        Query = "DELETE * From T_GroupeTaille WHERE Poste = Val_poste AND Grp = Val_groupe"
         Try
             With Cmd.Parameters
-                .AddWithValue("Val_table", table)
+                .AddWithValue("Val_poste", table)
                 .AddWithValue("Val_groupe", groupe)
             End With
             Cmd.CommandText = Query
@@ -130,9 +134,9 @@ Public Class T_GroupeTaille
             reader = cmd.ExecuteReader()
             While reader.Read()
                 groupeTaille.TailleList = reader("TailleList")
-                groupeTaille.Groupe = reader("Groupe")
+                groupeTaille.Groupe = reader("Grp")
                 groupeTaille.Coef = reader("Coef")
-                groupeTaille.Table = reader("Table")
+                groupeTaille.Table = reader("Poste")
                 groupeTaille.Id = reader("Id")
             End While
             With cmd.Parameters
@@ -143,6 +147,7 @@ Public Class T_GroupeTaille
             SelectAllById = groupeTaille
             Exit Function
         End Try
+        reader.Close()
         cmd.Connection.Close()
         SelectAllById = groupeTaille
     End Function
@@ -158,7 +163,6 @@ Public Class T_GroupeTaille
             cmd.CommandText = query
             cmd.Connection.Open()
             reader = cmd.ExecuteReader()
-
             While reader.Read()
                 groupeTailleList.Append(reader.GetValue(i))
                 i += 1
@@ -168,8 +172,47 @@ Public Class T_GroupeTaille
             SelectAllIndic = groupeTailleList
             Exit Function
         End Try
+        reader.Close()
         cmd.Connection.Close()
         SelectAllIndic = groupeTailleList
     End Function
 
+    Public Function UpdateQuery(groupeTaille As GroupeTaille) As Boolean
+        Dim Query As String
+        Dim er As OleDbDataReader = Nothing
+        Dim i As Integer = 0
+        Dim tailleString As String = ""
+        Query = "UPDATE T_GroupeTaille SET Taillelist = Val_taillelist, Coef = Val_coef WHERE Poste = Val_poste AND Grp = Val_groupe;"
+        While i <= groupeTaille.TailleList.Count - 1
+            If i = groupeTaille.TailleList.Count - 1 Then
+                tailleString += groupeTaille.TailleList(i)
+            Else
+                tailleString += groupeTaille.TailleList(i) & "-"
+            End If
+            i += 1
+        End While
+        Try
+            With Cmd.Parameters
+                .AddWithValue("Val_taillelist", tailleString)
+                .AddWithValue("Val_coef", groupeTaille.Coef)
+                .AddWithValue("Val_poste", groupeTaille.Table)
+                .AddWithValue("Val_groupe", groupeTaille.Groupe)
+            End With
+            Cmd.CommandText = Query
+            Cmd.Connection.Open()
+            er = Cmd.ExecuteReader()
+            With Cmd.Parameters
+                .RemoveAt("Val_poste")
+                .RemoveAt("Val_taillelist")
+                .RemoveAt("Val_coef")
+                .RemoveAt("Val_groupe")
+            End With
+        Catch e As Exception
+            UpdateQuery = False
+            MessageBox.Show(e.Message & vbCrLf & e.Source)
+        End Try
+        er.Close()
+        Cmd.Connection.Close()
+        UpdateQuery = True
+    End Function
 End Class

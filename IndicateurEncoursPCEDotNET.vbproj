@@ -160,6 +160,9 @@
     <Compile Include="CoefConfigWindow.xaml.vb">
       <DependentUpon>CoefConfigWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DeleteWindow.xaml.vb">
+      <DependentUpon>DeleteWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Encours.vb" />
     <Compile Include="GroupeTaille.vb" />
     <Compile Include="Indicateur.vb" />
@@ -170,6 +173,10 @@
     <Compile Include="T_GroupeTaille.vb" />
     <Compile Include="T_Indicateur.vb" />
     <Page Include="CoefConfigWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DeleteWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

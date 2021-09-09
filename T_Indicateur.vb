@@ -16,10 +16,10 @@ Public Class T_Indicateur
         Dim query
         Dim reader As OleDbDataReader
         SelectAllByTable = New Indicateur
-        query = "SELECT * FROM T_Indicateur Where Table = Val_table"
+        query = "SELECT * FROM T_Indicateur Where Poste = Val_poste"
         Try
             With cmd.Parameters
-                .AddWithValue("Val_Table", table)
+                .AddWithValue("Val_poste", table)
             End With
             cmd.CommandText = query
             cmd.Connection.Open()
@@ -28,20 +28,23 @@ Public Class T_Indicateur
                 SelectAllByTable.SeuilBas = reader("SeuilBas")
                 SelectAllByTable.SeuilHaut = reader("SeuilHaut")
                 SelectAllByTable.EncoursLvl = reader("EncoursLvl")
-                SelectAllByTable.Table = reader("Table")
+                SelectAllByTable.Table = reader("Poste")
                 SelectAllByTable.Id = reader("Id")
                 SelectAllByTable.NbPlaqueMax = reader("NbPlaqueMax")
             End While
+            cmd.Parameters.RemoveAt("Val_poste")
         Catch e As Exception
             MessageBox.Show(e.Message)
             cmd.Connection.Close()
             Exit Function
         End Try
+        reader.Close()
         cmd.Connection.Close()
     End Function
 
     Public Function InsertQuery(table As String, seuilHaut As Integer, seuilBas As Integer, encoursLvl As Integer, nbPlaqueMax As Integer, cmd As OleDbCommand) As Boolean
         Dim Query As String
+        Dim er As OleDbDataReader
         Query = "INSERT INTO T_Indicateur (Table, SeuilHaut, SeuilBas, EncoursLvl) VALUES (Val_table, Val_seuilHaut, Val_seuilBas, Val_encoursLvl)"
         Try
             With cmd.Parameters
@@ -51,7 +54,7 @@ Public Class T_Indicateur
                 .AddWithValue("Val_encoursLvl", encoursLvl)
                 .AddWithValue("Val_nbPlaqueMax", nbPlaqueMax)
             End With
-            cmd.ExecuteReader()
+            er = cmd.ExecuteReader()
             With cmd.Parameters
                 .RemoveAt("Val_table")
                 .RemoveAt("Val_seuilHaut")
@@ -59,27 +62,37 @@ Public Class T_Indicateur
                 .RemoveAt("Val_encoursLvl")
                 .RemoveAt("Val_nbPlaqueMax")
             End With
-            cmd.Connection.Close()
         Catch e As Exception
             InsertQuery = False
             MessageBox.Show(e.Message)
             Exit Function
         End Try
+        er.Close()
+        cmd.Connection.Close()
         InsertQuery = True
     End Function
 
-    Public Function TruncateQuery(id As Integer, cmd As OleDbCommand) As Boolean
+    Public Function TruncateQuery(table As Integer, cmd As OleDbCommand) As Boolean
         Dim Query As String
-        Query = "DELETE * From T_Indicateur WHERE Table = Val_table"
+        Dim er As OleDbDataReader
+        Query = "DELETE * From T_Indicateur WHERE Poste = Val_poste"
         Try
+            With cmd.Parameters
+                .AddWithValue("Val_poste", table)
+            End With
             cmd.CommandText = Query
             cmd.Connection.Open()
-            cmd.ExecuteReader()
+            er = cmd.ExecuteReader()
+            With cmd.Parameters
+                .RemoveAt("Val_poste")
+            End With
         Catch e As Exception
             TruncateQuery = False
             MessageBox.Show(e.Message)
             Exit Function
         End Try
+        er.Close()
+        cmd.Connection.Close()
         TruncateQuery = True
     End Function
 
@@ -103,10 +116,14 @@ Public Class T_Indicateur
                 SelectAllById.Id = reader("Id")
                 SelectAllById.NbPlaqueMax = reader("NbPlaqueMax")
             End While
+            With cmd.Parameters
+                .RemoveAt("Val_id")
+            End With
         Catch e As Exception
             MessageBox.Show(e.Message)
             Exit Function
         End Try
+        reader.Close()
         cmd.Connection.Close()
     End Function
 
@@ -121,7 +138,6 @@ Public Class T_Indicateur
             cmd.CommandText = query
             cmd.Connection.Open()
             reader = cmd.ExecuteReader()
-
             While reader.Read()
                 indicList.Append(reader.GetValue(i))
                 i += 1
@@ -131,8 +147,41 @@ Public Class T_Indicateur
             SelectAll = indicList
             Exit Function
         End Try
+        reader.Close()
         cmd.Connection.Close()
         SelectAll = indicList
     End Function
 
+    Public Function UpdateQuery(indicateur As Indicateur) As Boolean
+        Dim Query As String
+        Dim er As OleDbDataReader = Nothing
+        Dim i As Integer = 0
+        Dim tailleString As String = ""
+        Query = "UPDATE T_Indicateur SET SeuilHaut = Val_seuilhaut, SeuilBas = Val_seuilBas, Encourslvl = Val_encourslvl, nbPlaqueMax = Val_nbplaquemax WHERE Poste = Val_poste;"
+        Try
+            With cmd.Parameters
+                .AddWithValue("Val_seuilhaut", indicateur.SeuilHaut)
+                .AddWithValue("Val_seuilBas", indicateur.SeuilBas)
+                .AddWithValue("Val_encourslvl", indicateur.EncoursLvl)
+                .AddWithValue("Val_nbplaquemax", indicateur.NbPlaqueMax)
+                .AddWithValue("Val_poste", indicateur.Table)
+            End With
+            cmd.CommandText = Query
+            cmd.Connection.Open()
+            er = cmd.ExecuteReader()
+            With cmd.Parameters
+                .RemoveAt("Val_seuilhaut")
+                .RemoveAt("Val_seuilBas")
+                .RemoveAt("Val_encourslvl")
+                .RemoveAt("Val_nbplaquemax")
+                .RemoveAt("Val_poste")
+            End With
+        Catch e As Exception
+            UpdateQuery = False
+            MessageBox.Show(e.Message & vbCrLf & e.Source)
+        End Try
+        er.Close()
+        cmd.Connection.Close()
+        UpdateQuery = True
+    End Function
 End Class

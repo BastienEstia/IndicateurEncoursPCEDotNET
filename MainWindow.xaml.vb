@@ -95,10 +95,11 @@ Public Class MainWindow
         indicBot.Height = TableSelectedIndicateur.ColorGLBot
         indicMid.Height = TableSelectedIndicateur.ColorGLMid
         indicTop.Height = TableSelectedIndicateur.ColorGLTop
-        While i < mat.GetLength(0) - 1
-            While j < groupeTailleList.Count
+        While i <= mat.GetLength(0) - 1
+            While j <= groupeTailleList.Count
                 If groupeTailleList(j).TailleList.Contains(mat(i, 0)) Then
                     nbPlaqueTot += groupeTailleList(j).Coef * mat(i, 1)
+                    Exit While
                 End If
                 j += 1
             End While
@@ -125,12 +126,16 @@ Public Class MainWindow
         If encoursFournisseur Is Nothing Then
             Dim encoursTemp As Encours = t_encoursTableTemp.SelectAllByNumOF(numOf)
             If encoursTemp Is Nothing Then
-                encours.NbPlaque = qtePlaqueTB.Text.ToString
+                encours.NbPlaque = CInt(qtePlaqueTB.Text)
                 encours.Libelle = libelleTB.Text
+                encours.NumOF = numOfTB.Text
+                encours.Table = MySettings.Default.TableSelected
                 t_encoursTableSelected.InsertQuery(encours)
             Else
                 encours.Libelle = encoursTemp.Libelle
                 encours.NbPlaque = encoursTemp.NbPlaque
+                encours.NumOF = numOf
+                encours.Table = MySettings.Default.TableSelected
                 t_encoursTableSelected.InsertQuery(encours)
             End If
         Else
@@ -153,12 +158,13 @@ Public Class MainWindow
         Dim con As New Connexion()
         Dim lastOf As Encours
         Dim listEncours As List(Of Encours)
-        Dim t_encoursTableSelected As New T_Encours
+
         Dim cmd As New OleDbCommand With {
             .Connection = con.ConnexionBDD(connexionString)
         }
+        Dim t_encoursTableSelected As New T_Encours(cmd, MySettings.Default.TableSelected)
         listEncours = t_encoursTableSelected.SelectAll
-        lastOf = listEncours(-1)
+        lastOf = listEncours(listEncours.Count - 1)
         t_encoursTableSelected.TruncateQuery(lastOf.NumOF)
         Call MajTableau()
         Call MajIndicateur()
@@ -174,14 +180,24 @@ Public Class MainWindow
         Dim icon As MessageBoxImage
         icon = MessageBoxImage.Warning
         Dim result As MessageBoxResult
+        Dim con As New Connexion()
+        Dim cmd As New OleDbCommand With {
+            .Connection = con.ConnexionBDD(connexionString)
+        }
+        Dim t_indicateur As New T_Indicateur(cmd)
+        Dim currentIndicateur As Indicateur = t_indicateur.SelectAllByTable(MySettings.Default.TableSelected)
+        Dim newIndicateur As New Indicateur()
         Try
+            newIndicateur = currentIndicateur
+            newIndicateur.SeuilHaut = SeuilHaut.Text
+            newIndicateur.SeuilBas = SeuilBas.Text
+            t_indicateur.UpdateQuery(newIndicateur)
             Call MajIndicateur()
         Catch ex As Exception
             result = MessageBox.Show(messageTextBox, caption, button, icon, MessageBoxResult.Yes)
+            Exit Sub
         End Try
-
         Call MajTableau()
-        Call MajIndicateur()
     End Sub
 
     Private Sub Settings_Click(sender As Object, e As RoutedEventArgs)
@@ -274,4 +290,11 @@ Public Class MainWindow
             Exit Function
         End Try
     End Function
+
+    Private Sub deleteOF_Click(sender As Object, e As RoutedEventArgs) Handles deleteOF.Click
+        Dim deleteW As New DeleteWindow()
+        deleteW.ShowDialog()
+        Call MajTableau()
+        Call MajIndicateur()
+    End Sub
 End Class

@@ -1,21 +1,19 @@
 ﻿Option Explicit On
 Imports System.Data.OleDb
+Imports Xceed.Wpf.Toolkit
 
 Public Class CoefConfigWindow
-    Private coef1 As Double
-
-    Public Function GetCoef1()
-        Return coef1
-    End Function
-
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
 
         'MySettings.Default.TailleList.Remove("R3740")
         'MySettings.Default.Save()
 
         Dim i As Integer
+        Dim j As Integer
         i = 1
-
+        Dim labelList As New List(Of Label)
+        Dim comboBoxList As New List(Of CheckComboBox)
+        Dim sliderList As New List(Of Slider)
         Dim con As New Connexion()
         Dim cmd As New OleDbCommand With {
             .Connection = con.ConnexionBDD(MySettings.Default.BDDConnString)
@@ -24,149 +22,99 @@ Public Class CoefConfigWindow
 
         Dim groupeTailleList As List(Of GroupeTaille) = t_groupeTaille.SelectAllByTable(MySettings.Default.TableSelected)
 
-        _comboGr1.ItemsSource = MySettings.Default.TailleList
-        _comboGr2.ItemsSource = MySettings.Default.TailleList
-        _comboGr3.ItemsSource = MySettings.Default.TailleList
-        _comboGr4.ItemsSource = MySettings.Default.TailleList
-        _comboGr5.ItemsSource = MySettings.Default.TailleList
+        comboBoxList.Add(_comboGr1)
+        comboBoxList.Add(_comboGr2)
+        comboBoxList.Add(_comboGr3)
+        comboBoxList.Add(_comboGr4)
+        comboBoxList.Add(_comboGr5)
 
-        _comboGr1.SelectedValue = groupeTailleList(0).TailleList.ToString()
-        _comboGr1.SelectedItemsOverride = groupeTailleList(0).TailleList
-        _comboGr1.Text = groupeTailleList(0).TailleList.ToString()
+        sliderList.Add(SliderGr1)
+        sliderList.Add(SliderGr2)
+        sliderList.Add(SliderGr3)
+        sliderList.Add(SliderGr4)
+        sliderList.Add(SliderGr5)
 
-        _comboGr2.SelectedValue = groupeTailleList(1).TailleList.ToString()
-        _comboGr2.SelectedItemsOverride = groupeTailleList(1).TailleList
-        _comboGr2.Text = groupeTailleList(1).TailleList.ToString()
+        labelList.Add(labelGr1)
+        labelList.Add(labelGr2)
+        labelList.Add(labelGr3)
+        labelList.Add(labelGr4)
+        labelList.Add(labelGr5)
 
-        _comboGr3.SelectedValue = groupeTailleList(2).TailleList.ToString()
-        _comboGr3.SelectedItemsOverride = groupeTailleList(2).TailleList
-        _comboGr3.Text = groupeTailleList(2).TailleList.ToString()
-
-        _comboGr4.SelectedValue = groupeTailleList(3).TailleList.ToString()
-        _comboGr4.SelectedItemsOverride = groupeTailleList(3).TailleList
-        _comboGr4.Text = groupeTailleList(3).TailleList.ToString()
-
-        _comboGr5.SelectedValue = groupeTailleList(4).TailleList.ToString()
-        _comboGr5.SelectedItemsOverride = groupeTailleList(4).TailleList
-        _comboGr5.Text = groupeTailleList(4).TailleList.ToString()
-
-        SliderGr1.Value = groupeTailleList(0).Coef
-        SliderGr2.Value = groupeTailleList(1).Coef
-        SliderGr3.Value = groupeTailleList(2).Coef
-        SliderGr4.Value = groupeTailleList(3).Coef
-        SliderGr5.Value = groupeTailleList(4).Coef
-
-        For i = 0 To _comboGr1.SelectedItems.Count - 1
-            labelGr1.Content &= _comboGr1.SelectedItems(i) & vbCrLf
-        Next
-
-        For i = 0 To _comboGr2.SelectedItems.Count - 1
-            labelGr2.Content &= _comboGr2.SelectedItems(i) & vbCrLf
-        Next
-
-        For i = 0 To _comboGr3.SelectedItems.Count - 1
-            labelGr3.Content &= _comboGr3.SelectedItems(i) & vbCrLf
-        Next
-
-        For i = 0 To _comboGr4.SelectedItems.Count - 1
-            labelGr4.Content &= _comboGr4.SelectedItems(i) & vbCrLf
-        Next
-
-        For i = 0 To _comboGr5.SelectedItems.Count - 1
-            labelGr5.Content &= _comboGr5.SelectedItems(i) & vbCrLf
-        Next
-
+        For i = 0 To 4
+            comboBoxList(i).ItemsSource = MySettings.Default.TailleList
+            comboBoxList(i).SelectedItemsOverride = groupeTailleList(i).TailleList
+            sliderList(i).Value = groupeTailleList(i).Coef
+            For j = 0 To comboBoxList(i).SelectedItems.Count - 1
+                labelList(i).Content &= comboBoxList(i).SelectedItems(j) & vbCrLf
+            Next j
+        Next i
     End Sub
 
     Private Sub SettingsOk_Button_Click(sender As Object, e As RoutedEventArgs) Handles SettingsOk_Button.Click
         Dim i As Integer
         Dim verifUniciteList As New List(Of String)
-        Dim list As New List(Of Integer)
+        Dim comboBoxList As New List(Of CheckComboBox)
         Dim groupeTaille As New GroupeTaille()
-        Dim groupeTailleList As New List(Of GroupeTaille)
-        i = 0
+        Dim sliderList As New List(Of Slider)
+
+        comboBoxList.Add(_comboGr1)
+        comboBoxList.Add(_comboGr2)
+        comboBoxList.Add(_comboGr3)
+        comboBoxList.Add(_comboGr4)
+        comboBoxList.Add(_comboGr5)
+
+        sliderList.Add(SliderGr1)
+        sliderList.Add(SliderGr2)
+        sliderList.Add(SliderGr3)
+        sliderList.Add(SliderGr4)
+        sliderList.Add(SliderGr5)
+
         Dim con As New Connexion()
         Dim cmd As New OleDbCommand With {
             .Connection = con.ConnexionBDD(MySettings.Default.BDDConnString)
         }
-        Dim cmd2 As New OleDbCommand With {
-            .Connection = con.ConnexionBDD(MySettings.Default.BDDConnString)
-        }
-
-        Dim t_groupeTaille As New T_GroupeTaille(cmd)
-
-        groupeTailleList = t_groupeTaille.SelectAllByTable(MySettings.Default.TableSelected)
-
+        Dim t_groupeTaille = New T_GroupeTaille(cmd)
+        Dim groupeTailleList As List(Of GroupeTaille) = t_groupeTaille.SelectAllByTable(MySettings.Default.TableSelected)
+        i = 0
         While i <= groupeTailleList.Count - 1
-            groupeTailleList(i).TailleList.Clear()
+            Try
+                groupeTailleList(i).TailleList.Clear()
+                groupeTailleList(i).TailleList = comboBoxList(i).SelectedItems
+                groupeTailleList(i).Coef = sliderList(i).Value
+                verifUniciteList.AddRange(comboBoxList(i).SelectedItems)
+            Catch ex As Exception
+                groupeTailleList(i).TailleList = comboBoxList(i).SelectedItems
+            End Try
             i += 1
         End While
-
-        list.Add(_comboGr1.SelectedItems.Count)
-        list.Add(_comboGr2.SelectedItems.Count)
-        list.Add(_comboGr3.SelectedItems.Count)
-        list.Add(_comboGr4.SelectedItems.Count)
-        list.Add(_comboGr5.SelectedItems.Count)
-
-        i = 0
-        While i <= _comboGr1.SelectedItems().Count - 1
-            groupeTailleList(0).TailleList.Add(_comboGr1.SelectedItems(i).ToString())
-            verifUniciteList.Add(_comboGr1.SelectedItems(i).ToString())
-            i += 1
-        End While
-
-        i = 0
-        While i <= _comboGr2.SelectedItems().Count - 1
-            groupeTailleList(1).TailleList.Add(_comboGr2.SelectedItems(i).ToString())
-            verifUniciteList.Add(_comboGr2.SelectedItems(i).ToString())
-            i += 1
-        End While
-
-        i = 0
-        While i <= _comboGr3.SelectedItems().Count - 1
-            groupeTailleList(2).TailleList.Add(_comboGr3.SelectedItems(i).ToString())
-            verifUniciteList.Add(_comboGr3.SelectedItems(i).ToString())
-            i += 1
-        End While
-
-        i = 0
-        While i <= _comboGr4.SelectedItems().Count - 1
-            groupeTailleList(3).TailleList.Add(_comboGr4.SelectedItems(i).ToString())
-            verifUniciteList.Add(_comboGr4.SelectedItems(i).ToString())
-            i += 1
-        End While
-
-        i = 0
-        While i <= _comboGr5.SelectedItems().Count - 1
-            groupeTailleList(4).TailleList.Add(_comboGr5.SelectedItems(i).ToString())
-            verifUniciteList.Add(_comboGr5.SelectedItems(i).ToString())
-            i += 1
-        End While
-
         'For i = 0 To verifUniciteList.Count - 1
         '    If Not MySettings.Default.TailleList(i) Then
 
         '    End If
         'Next
-
-        If verifUniciteList.Distinct.Count < MySettings.Default.TailleList.Count Then
-            'message box attention manque des tailles assignées
-        ElseIf verifUniciteList.Distinct.Count > MySettings.Default.TailleList.Count Then
-            'message bos attention taille dans groupe différents
-        End If
-
-        cmd = New OleDbCommand With {
-            .Connection = con.ConnexionBDD(MySettings.Default.BDDConnString)
-        }
-        t_groupeTaille = New T_GroupeTaille(cmd)
-
+        Dim resultlist As New List(Of String)
+        Dim defaultlist As New List(Of String)
+        Dim resultlistString As String = Nothing
         i = 0
-        While i < groupeTailleList.Count - 1
-
-            t_groupeTaille.TruncateQuery(MySettings.Default.TableSelected, groupeTailleList(i).Groupe)
-            t_groupeTaille.InsertQuery(groupeTailleList(i))
+        While i <= MySettings.Default.TailleList.Count - 1
+            defaultlist.Add(MySettings.Default.TailleList(i))
+            i += 1
         End While
-
+        resultlist.AddRange(defaultlist.Except(verifUniciteList))
+        i = 0
+        If resultlist.Count > 0 Then
+            While i <= resultlist.Count - 1
+                resultlistString += resultlist(i) + " "
+                i += 1
+            End While
+            MsgBox("Les tailles suivantes ne sont pas assignées : " & resultlistString)
+            Exit Sub
+        End If
+        i = 0
+        While i <= groupeTailleList.Count - 1
+            t_groupeTaille.UpdateQuery(groupeTailleList(i))
+            i += 1
+        End While
         Close()
     End Sub
 
@@ -253,5 +201,9 @@ Public Class CoefConfigWindow
         If SliderGr5TB.Text <> "" Then
             SliderGr5.Value = SliderGr5TB.Text
         End If
+    End Sub
+
+    Private Sub SettingsBack_Button_Click(sender As Object, e As RoutedEventArgs) Handles SettingsBack_Button.Click
+        DialogResult = False
     End Sub
 End Class

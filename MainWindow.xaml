@@ -69,11 +69,11 @@
 
             <Label Content="Seuil Haut :" Margin="13,37,0,0" Foreground="White" Height="16" VerticalAlignment="Top" FontSize="14" Padding="0" HorizontalAlignment="Left" Width="70"/>
 
-            <TextBox x:Name="SeuilHaut" Text="72" Margin="142,37,14,0" TextWrapping="Wrap" Background="White" BorderBrush="Black" Foreground="Black" Padding="2,-1,0,0" Height="20" VerticalAlignment="Top" FontSize="14" ScrollViewer.CanContentScroll="True"/>
+            <TextBox x:Name="SeuilHaut" Margin="142,37,14,0" TextWrapping="Wrap" Background="White" BorderBrush="Black" Foreground="Black" Padding="2,-1,0,0" Height="20" VerticalAlignment="Top" FontSize="14" ScrollViewer.CanContentScroll="True"/>
 
             <Label Content="Seuil Bas :" Margin="13,62,0,0" Foreground="White" Height="16" VerticalAlignment="Top" FontSize="14" Padding="0" HorizontalAlignment="Left" Width="61"/>
 
-            <TextBox x:Name="SeuilBas" Text="20" Margin="141.744,61.5,14.256,0" TextWrapping="Wrap" Background="White" Foreground="Black" Padding="2,-1,0,0" BorderBrush="Black" Height="19" VerticalAlignment="Top" UseLayoutRounding="False" FontSize="14" ScrollViewer.CanContentScroll="True"/>
+            <TextBox x:Name="SeuilBas" Margin="141.744,61.5,14.256,0" TextWrapping="Wrap" Background="White" Foreground="Black" Padding="2,-1,0,0" BorderBrush="Black" Height="19" VerticalAlignment="Top" UseLayoutRounding="False" FontSize="14" ScrollViewer.CanContentScroll="True"/>
 
             <TextBox x:Name="connexionStringInput" Margin="13,168,14,0" TextWrapping="Wrap" FontSize="10" Background="#FF979797" Foreground="White" BorderBrush="White" Padding="2,-1,0,0" Height="42" VerticalAlignment="Top" RenderTransformOrigin="0.492,0.55" ScrollViewer.CanContentScroll="True" IsReadOnly="True"/>
 

@@ -35,13 +35,11 @@ Public Class MainWindow
         TB_PlMax.Text = MySettings.Default.nbPlaqueMax
         SeuilBas.Text = indicateur.SeuilBas
         SeuilHaut.Text = indicateur.SeuilHaut
-        TB_Table_Fournisseur.Text = MySettings.Default.TableFournisseur
-        TB_Table_Client.Text = MySettings.Default.TableClient
+        TB_Table_Fournisseur.Text = indicateur.PosteFourn
+        TB_Table_Client.Text = indicateur.PosteClient
 
         Dim settings As New SettingsWindow
         Call MajTableau()
-        SeuilBas.Text = "20"
-        SeuilHaut.Text = "50"
         Call MajIndicateur()
     End Sub
 
@@ -82,19 +80,17 @@ Public Class MainWindow
         Dim cmd As New OleDbCommand With {
             .Connection = con.ConnexionBDD(connexionString)
         }
-        Dim cmd1 As New OleDbCommand With {
-            .Connection = con.ConnexionBDD(connexionString)
-        }
         Dim t_encoursTableSelected As New T_Encours(cmd, MySettings.Default.TableSelected)
         Dim encoursList As List(Of Encours) = t_encoursTableSelected.SelectAll()
         Dim t_groupeTaille As New T_GroupeTaille(cmd)
         Dim groupeTailleList As List(Of GroupeTaille) = t_groupeTaille.SelectAllByTable(MySettings.Default.TableSelected)
         Dim mat As String(,) = MatLibelleNbPlaque(encoursList)
-        Dim t_indicateur As New T_Indicateur(cmd1)
+        Dim t_indicateur As New T_Indicateur(cmd)
         Dim TableSelectedIndicateur = t_indicateur.SelectAllByTable(MySettings.Default.TableSelected)
         indicBot.Height = TableSelectedIndicateur.ColorGLBot
         indicMid.Height = TableSelectedIndicateur.ColorGLMid
         indicTop.Height = TableSelectedIndicateur.ColorGLTop
+        TB_PlMax.Text = TableSelectedIndicateur.NbPlaqueMax.ToString()
         While i <= mat.GetLength(0) - 1
             While j <= groupeTailleList.Count
                 If groupeTailleList(j).TailleList.Contains(mat(i, 0)) Then
@@ -106,6 +102,7 @@ Public Class MainWindow
             i += 1
         End While
         TableSelectedIndicateur.EncoursLvl = nbPlaqueTot
+        t_indicateur.UpdateQuery(TableSelectedIndicateur)
         curseurBot.Height = TableSelectedIndicateur.GridLengthBot
         curseurTop.Height = TableSelectedIndicateur.GridLengthTop
     End Sub
@@ -120,8 +117,12 @@ Public Class MainWindow
         Dim t_encoursTableSelected As New T_Encours(cmd, MySettings.Default.TableSelected)
         Dim t_encoursTableFournisseur As New T_Encours(cmd, MySettings.Default.TableFournisseur)
         Dim t_encoursTableTemp As New T_Encours(cmd, MySettings.Default.TableTemp)
-        Dim encoursFournisseur As Encours = t_encoursTableFournisseur.SelectAllByNumOF(numOf)
-
+        Dim encoursFournisseur As Encours
+        Try
+            encoursFournisseur = t_encoursTableFournisseur.SelectAllByNumOF(numOf)
+        Catch ex As Exception
+            encoursFournisseur = Nothing
+        End Try
         Dim encours As New Encours
         If encoursFournisseur Is Nothing Then
             Dim encoursTemp As Encours = t_encoursTableTemp.SelectAllByNumOF(numOf)

@@ -14,17 +14,23 @@ Public Class Indicateur
 
     Public Property NbPlaqueMax As Integer
 
+    Public Property PosteClient As String
+
+    Public Property PosteFourn As String
+
     Public Sub New()
 
     End Sub
 
-    Public Sub New(id As Integer, table As String, seuilBas As Integer, encoursLvl As Integer, seuilHaut As Integer, nbPlaqueMax As Integer, gridLenghtTop As GridLength, gridLenghtBot As GridLength, colorGLTop As GridLength, colorGLMid As GridLength, colorGLBot As GridLength)
+    Public Sub New(id As Integer, table As String, seuilBas As Integer, encoursLvl As Integer, seuilHaut As Integer, nbPlaqueMax As Integer, PosteClient As String, PosteFourn As String)
         Me.Id = id
         Me.Table = table
         Me.SeuilBas = seuilBas
         Me.EncoursLvl = encoursLvl
         Me.SeuilHaut = seuilHaut
         Me.NbPlaqueMax = nbPlaqueMax
+        Me.PosteClient = PosteClient
+        Me.PosteFourn = PosteFourn
     End Sub
 
     Public Sub New(table As String, cmd As OleDbCommand)

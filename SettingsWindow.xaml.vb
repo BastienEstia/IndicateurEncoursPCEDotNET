@@ -1,14 +1,22 @@
 ﻿Option Explicit On
+Imports System.Data.OleDb
+
 Public Class SettingsWindow
     Private filename As String
 
     Private Sub SettingsW_Loaded(sender As Object, e As RoutedEventArgs) Handles SettingsW.Loaded
+        Dim con As New Connexion()
+        Dim cmd As New OleDbCommand With {
+            .Connection = con.ConnexionBDD(MySettings.Default.BDDPath)
+        }
+        Dim t_indicateur As New T_Indicateur(cmd)
+        Dim indicateur As Indicateur = t_indicateur.SelectAllByTable(MySettings.Default.TableSelected)
+        TB_nbPlaqueMax.Text = indicateur.NbPlaqueMax.ToString
         Dim cbItem As New ComboBoxItem
         filename = MySettings.Default.BDDPath
-        TB_nbPlaqueMax.Text = MySettings.Default.nbPlaqueMax
         BDDLocation_TB.Text = MySettings.Default.BDDPath
-        TB_TableFournisseur.Text = MySettings.Default.TableFournisseur
-        TB_TableClient.Text = MySettings.Default.TableClient
+        TB_TableFournisseur.Text = indicateur.PosteFourn
+        TB_TableClient.Text = indicateur.PosteClient
         Table_ComboBox.SelectedValue = MySettings.Default.TableSelected
     End Sub
 
@@ -32,20 +40,20 @@ Public Class SettingsWindow
     End Function
 
     Private Sub SettingsOk_Button_Click(sender As Object, e As RoutedEventArgs) Handles SettingsOk_Button.Click
-        Dim MW As New MainWindow()
-        For Each wnd As Window In Windows.Application.Current.Windows
-            If wnd.GetType Is GetType(MainWindow) Then
-                MW = wnd
-            End If
-        Next
-        MW.connexionString = GetBDDLocation()
-
-        MySettings.Default.BDDConnString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & MW.connexionString & ";Persist Security Info=True;Jet OLEDB:Database Password=password"
-        MySettings.Default.BDDPath = MW.connexionString
+        Dim con As New Connexion()
+        Dim cmd As New OleDbCommand With {
+            .Connection = con.ConnexionBDD(GetBDDLocation)
+        }
+        Dim t_indicateur As New T_Indicateur(cmd)
+        Dim indicateur As Indicateur = t_indicateur.SelectAllByTable(MySettings.Default.TableSelected)
+        indicateur.NbPlaqueMax = CInt(TB_nbPlaqueMax.Text)
+        t_indicateur.UpdateQuery(indicateur)
+        MySettings.Default.BDDConnString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & GetBDDLocation() & ";Persist Security Info=True;Jet OLEDB:Database Password=password"
+        MySettings.Default.BDDPath = GetBDDLocation()
         MySettings.Default.TableFournisseur = TB_TableFournisseur.Text
         MySettings.Default.TableClient = TB_TableClient.Text
         MySettings.Default.Save()
-        BDDLocation_TB.Text = MW.connexionString
+        BDDLocation_TB.Text = GetBDDLocation()
         Close()
     End Sub
 
@@ -61,6 +69,15 @@ Public Class SettingsWindow
         Dim selectedItem As String
         sender = CType(sender, ComboBox)
         selectedItem = sender.SelectedItem
+        Dim con As New Connexion()
+        Dim cmd As New OleDbCommand With {
+            .Connection = con.ConnexionBDD(GetBDDLocation)
+        }
+        Dim t_indicateur As New T_Indicateur(cmd)
+        Dim indicateur As Indicateur = t_indicateur.SelectAllByTable(selectedItem)
+        TB_nbPlaqueMax.Text = indicateur.NbPlaqueMax.ToString
+        TB_TableClient.Text = indicateur.PosteClient
+        TB_TableFournisseur.Text = indicateur.PosteFourn
         MySettings.Default.TableSelected = selectedItem
         MySettings.Default.Save()
     End Sub

@@ -16,8 +16,8 @@ Public Class T_Encours
 
     Public Function InsertQuery(encours As Encours) As Boolean
         Dim query As String
-        Dim er As OleDbDataReader
-        query = "INSERT INTO T_Encours_" & Table & " (Libelle, NbPlaque, NumOF) VALUES (Val_libelle, Val_nbPlaque, Val_numOf)"
+        Dim er As OleDbDataReader = Nothing
+        query = "INSERT INTO T_Encours_" & Table & " (Libelle, NbPlaque, NumOF) VALUES (Val_libelle, Val_nbPlaque, Val_numOF)"
         With Cmd.Parameters
             .AddWithValue("Val_libelle", encours.Libelle)
             .AddWithValue("Val_nbPlaque", encours.NbPlaque)
@@ -30,7 +30,6 @@ Public Class T_Encours
         Catch ex As Exception
             MessageBox.Show(ex.Message)
             InsertQuery = False
-            Exit Function
         End Try
         With Cmd.Parameters
             .RemoveAt("Val_libelle")
@@ -44,7 +43,8 @@ Public Class T_Encours
 
     Public Function TruncateQuery(numOf As String) As Boolean
         Dim query As String
-        Dim er As OleDbDataReader
+        Dim er As OleDbDataReader = Nothing
+        TruncateQuery = True
         query = "DELETE * FROM T_Encours_" & Table & " WHERE NumOF = Val_num"
         With Cmd.Parameters
             .AddWithValue("Val_num", numOf)
@@ -56,20 +56,17 @@ Public Class T_Encours
         Catch ex As Exception
             MessageBox.Show(ex.Message)
             TruncateQuery = False
-            Exit Function
         End Try
         er.Close()
         Cmd.Parameters.RemoveAt("Val_num")
         Cmd.Connection.Close()
-        Return True
     End Function
 
     Public Function SelectAll() As List(Of Encours)
         Dim query As String
         SelectAll = Nothing
         Dim encoursList As New List(Of Encours)
-
-        Dim reader As OleDbDataReader
+        Dim reader As OleDbDataReader = Nothing
         query = "SELECT * FROM T_Encours_" & Table
         Cmd.CommandText = query
         Cmd.Connection.Open()
@@ -84,20 +81,19 @@ Public Class T_Encours
                 ofEncours.Table = Table
                 encoursList.Add(ofEncours)
             End While
+            SelectAll = encoursList
         Catch ex As Exception
             MessageBox.Show(ex.Message)
-            Exit Function
         End Try
         reader.Close()
         Cmd.Connection.Close()
-        Return encoursList
     End Function
 
     Public Function SelectAllByNumOF(numOF As String) As Encours
         Dim query As String
         SelectAllByNumOF = Nothing
         Dim encours As New Encours()
-        Dim reader As OleDbDataReader
+        Dim reader As OleDbDataReader = Nothing
         query = "SELECT * FROM T_Encours_" & Table & " WHERE NumOF = Val_numOF"
         Try
             With Cmd.Parameters
@@ -114,19 +110,21 @@ Public Class T_Encours
                 encours.Table = Table
                 SelectAllByNumOF = encours
             End If
-            Cmd.Parameters.RemoveAt("Val_numOF")
         Catch ex As Exception
             MessageBox.Show(ex.Message)
-            Exit Function
         End Try
-        reader.Close()
+        Cmd.Parameters.RemoveAt("Val_numOF")
+        Try
+            reader.Close()
+        Catch ex As Exception
+        End Try
         Cmd.Connection.Close()
     End Function
 
 
     Private Function SelectCountAll() As Integer
         Dim query As String
-        Dim reader As OleDbDataReader
+        Dim reader As OleDbDataReader = Nothing
         SelectCountAll = Nothing
         query = "SELECT COUNT(id) From T_Encours_" & MySettings.Default.TableSelected
         Cmd.CommandText = query
@@ -138,7 +136,6 @@ Public Class T_Encours
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message)
-            Exit Function
         End Try
         reader.Close()
         Cmd.Connection.Close()

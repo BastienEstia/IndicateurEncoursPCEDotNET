@@ -13,9 +13,8 @@ Public Class T_GroupeTaille
 
     Public Function SelectAllByTable(Table As String) As List(Of GroupeTaille)
         Dim query
-        Dim reader As OleDbDataReader
+        Dim reader As OleDbDataReader = Nothing
         SelectAllByTable = New List(Of GroupeTaille)
-
         Dim taillelistTab As String()
         Dim i As Integer = 0
         query = "SELECT * FROM T_GroupeTaille Where Poste = Val_poste"
@@ -45,18 +44,19 @@ Public Class T_GroupeTaille
                 groupeTailleItem.Id = reader("Id")
                 SelectAllByTable.Add(groupeTailleItem)
             End While
-            reader.Close()
-            Cmd.Parameters.RemoveAt("Val_poste")
-            Cmd.CommandText.Remove(0)
+
         Catch e As Exception
             MessageBox.Show(e.Message)
         End Try
+        Cmd.Parameters.RemoveAt("Val_poste")
+        reader.Close()
         Cmd.Connection.Close()
     End Function
 
     Public Function InsertQuery(groupeTaille As GroupeTaille) As Boolean
         Dim Query As String
-        Dim er As OleDbDataReader
+        InsertQuery = True
+        Dim er As OleDbDataReader = Nothing
         Dim i As Integer = 0
         Dim tailleString As String = Nothing
         Query = "INSERT INTO T_GroupeTaille (Poste, Taillelist, Coef, Grp) VALUES (Val_poste, Val_taillelist, Val_coef, Val_groupe)"
@@ -78,25 +78,24 @@ Public Class T_GroupeTaille
             Cmd.CommandText = Query
             Cmd.Connection.Open()
             er = Cmd.ExecuteReader()
-            With Cmd.Parameters
-                .RemoveAt("Val_table")
-                .RemoveAt("Val_taillelist")
-                .RemoveAt("Val_coef")
-                .RemoveAt("Val_groupe")
-            End With
         Catch e As Exception
             InsertQuery = False
             MessageBox.Show(e.Message)
-            Exit Function
         End Try
+        With Cmd.Parameters
+            .RemoveAt("Val_table")
+            .RemoveAt("Val_taillelist")
+            .RemoveAt("Val_coef")
+            .RemoveAt("Val_groupe")
+        End With
         er.Close()
         Cmd.Connection.Close()
-        InsertQuery = True
     End Function
 
     Public Function TruncateQuery(table As String, groupe As String) As Boolean
         Dim Query As String
-        Dim er As OleDbDataReader
+        TruncateQuery = True
+        Dim er As OleDbDataReader = Nothing
         Query = "DELETE * From T_GroupeTaille WHERE Poste = Val_poste AND Grp = Val_groupe"
         Try
             With Cmd.Parameters
@@ -106,16 +105,14 @@ Public Class T_GroupeTaille
             Cmd.CommandText = Query
             Cmd.Connection.Open()
             er = Cmd.ExecuteReader()
-            With Cmd.Parameters
-                .RemoveAt("Val_table")
-                .RemoveAt("Val_groupe")
-            End With
         Catch e As Exception
             TruncateQuery = False
             MessageBox.Show(e.Message)
-            Exit Function
         End Try
-        TruncateQuery = True
+        With Cmd.Parameters
+            .RemoveAt("Val_table")
+            .RemoveAt("Val_groupe")
+        End With
         er.Close()
         Cmd.Connection.Close()
     End Function
@@ -123,7 +120,7 @@ Public Class T_GroupeTaille
     Public Function SelectAllById(id As Integer, cmd As OleDbCommand) As GroupeTaille
         Dim query
         Dim groupeTaille As New GroupeTaille()
-        Dim reader As OleDbDataReader
+        Dim reader As OleDbDataReader = Nothing
         query = "SELECT * FROM T_GroupeTaille Where id = Val_id"
         Try
             With cmd.Parameters
@@ -139,14 +136,12 @@ Public Class T_GroupeTaille
                 groupeTaille.Table = reader("Poste")
                 groupeTaille.Id = reader("Id")
             End While
-            With cmd.Parameters
-                .RemoveAt("Val_id")
-            End With
         Catch e As Exception
             MessageBox.Show(e.Message)
-            SelectAllById = groupeTaille
-            Exit Function
         End Try
+        With cmd.Parameters
+            .RemoveAt("Val_id")
+        End With
         reader.Close()
         cmd.Connection.Close()
         SelectAllById = groupeTaille
@@ -155,7 +150,7 @@ Public Class T_GroupeTaille
     Public Function SelectAllIndic(cmd As OleDbCommand) As List(Of GroupeTaille)
         Dim query As String
         Dim groupeTailleList As New List(Of GroupeTaille)
-        Dim reader As OleDbDataReader
+        Dim reader As OleDbDataReader = Nothing
         Dim i As Integer
         i = 0
         query = "SELECT * FROM T_GroupeTaille"
@@ -169,7 +164,9 @@ Public Class T_GroupeTaille
             End While
         Catch e As Exception
             MessageBox.Show(e.Message)
-            SelectAllIndic = groupeTailleList
+            SelectAllIndic = Nothing
+            reader.Close()
+            cmd.Connection.Close()
             Exit Function
         End Try
         reader.Close()
@@ -201,16 +198,16 @@ Public Class T_GroupeTaille
             Cmd.CommandText = Query
             Cmd.Connection.Open()
             er = Cmd.ExecuteReader()
-            With Cmd.Parameters
-                .RemoveAt("Val_poste")
-                .RemoveAt("Val_taillelist")
-                .RemoveAt("Val_coef")
-                .RemoveAt("Val_groupe")
-            End With
         Catch e As Exception
             UpdateQuery = False
             MessageBox.Show(e.Message & vbCrLf & e.Source)
         End Try
+        With Cmd.Parameters
+            .RemoveAt("Val_poste")
+            .RemoveAt("Val_taillelist")
+            .RemoveAt("Val_coef")
+            .RemoveAt("Val_groupe")
+        End With
         er.Close()
         Cmd.Connection.Close()
         UpdateQuery = True

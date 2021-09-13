@@ -101,6 +101,7 @@ Public Class T_Indicateur
     Public Function SelectAllById(id As Integer) As Indicateur
         Dim query
         SelectAllById = Nothing
+        Dim indicateur As New Indicateur
         Dim reader As OleDbDataReader = Nothing
         query = "SELECT * FROM T_Indicateur Where id = Val_id"
         Try
@@ -110,17 +111,17 @@ Public Class T_Indicateur
             cmd.CommandText = query
             cmd.Connection.Open()
             reader = cmd.ExecuteReader()
-            While reader.Read()
-                SelectAllById.SeuilBas = reader("SeuilBas")
-                SelectAllById.SeuilHaut = reader("SeuilHaut")
-                SelectAllById.EncoursLvl = reader("EncoursLvl")
-                SelectAllById.Table = reader("Table")
-                SelectAllById.Id = reader("Id")
-                SelectAllById.NbPlaqueMax = reader("NbPlaqueMax")
-                SelectAllById.PosteClient = reader("PosteClient")
-                SelectAllById.PosteFourn = reader("PosteFourn")
-            End While
-
+            If reader.Read() Then
+                indicateur.Id = reader("Id")
+                indicateur.Table = reader("CurrentPoste")
+                indicateur.SeuilBas = reader("SeuilBas")
+                indicateur.SeuilHaut = reader("SeuilHaut")
+                indicateur.EncoursLvl = reader("EncoursLvl")
+                indicateur.NbPlaqueMax = reader("NbPlaqueMax")
+                indicateur.PosteClient = reader("PosteClient")
+                indicateur.PosteFourn = reader("PosteFourn")
+            End If
+            SelectAllById = indicateur
         Catch e As Exception
             MessageBox.Show(e.Message)
         End Try
@@ -136,7 +137,7 @@ Public Class T_Indicateur
         Dim reader As OleDbDataReader = Nothing
         Dim i As Integer
         i = 0
-        query = "SELECT * FROM T_Inidicateur"
+        query = "SELECT * FROM T_Indicateur"
         Try
             cmd.CommandText = query
             cmd.Connection.Open()
@@ -153,6 +154,21 @@ Public Class T_Indicateur
         cmd.Connection.Close()
     End Function
 
+    Public Function SelectCountQuery() As Integer
+        Dim query As String
+        SelectCountQuery = Nothing
+        Dim reader As OleDbDataReader = Nothing
+        query = "SELECT Count(Id) FROM T_Indicateur"
+        Try
+            cmd.CommandText = query
+            cmd.Connection.Open()
+            SelectCountQuery = cmd.ExecuteScalar()
+        Catch e As Exception
+            MessageBox.Show(e.Message)
+        End Try
+        cmd.Connection.Close()
+    End Function
+
     Public Function UpdateQuery(indicateur As Indicateur) As Boolean
         Dim Query As String
         UpdateQuery = True
@@ -164,9 +180,9 @@ Public Class T_Indicateur
                 .AddWithValue("Val_seuilBas", indicateur.SeuilBas)
                 .AddWithValue("Val_encourslvl", indicateur.EncoursLvl)
                 .AddWithValue("Val_nbplaquemax", indicateur.NbPlaqueMax)
-                .AddWithValue("Val_poste", indicateur.Table)
                 .AddWithValue("Val_posteclient", indicateur.PosteClient)
                 .AddWithValue("Val_postefourn", indicateur.PosteFourn)
+                .AddWithValue("Val_poste", indicateur.Table)
             End With
             cmd.CommandText = Query
             cmd.Connection.Open()
@@ -182,9 +198,9 @@ Public Class T_Indicateur
             .RemoveAt("Val_seuilBas")
             .RemoveAt("Val_encourslvl")
             .RemoveAt("Val_nbplaquemax")
-            .RemoveAt("Val_poste")
             .RemoveAt("Val_posteclient")
             .RemoveAt("Val_postefourn")
+            .RemoveAt("Val_poste")
         End With
         'er.Close()
         cmd.Connection.Close()

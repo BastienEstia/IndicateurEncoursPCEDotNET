@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IndicateurEncoursPCEDotNET"
         mc:Ignorable="d"
-        Title="MainWindow" Height="960" Width="1378.05"
+        Title="MainWindow" Height="912" Width="1177.05"
         x:Class="MainWindow" Background="#FF464646" Closing="Window_Closing">
     <Window.Resources>
 
@@ -57,14 +57,18 @@
 
             <Label Content="Nb Pl :" Margin="13,6,58,0" Height="47" VerticalAlignment="Top" FontSize="24" Foreground="White" Grid.Column="2"/>
             <TextBox x:Name="numOfTB" Margin="136,10,10,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="White" BorderBrush="Black" Foreground="Black" MinWidth="284" Grid.ColumnSpan="2"/>
-            <DataGrid ColumnWidth="*" HeadersVisibility="Column" FontSize="24" ItemsSource="{Binding}" Margin="0,104,10,79" Grid.ColumnSpan="3" MinWidth="400"/>
+            <DataGrid x:Name="mainDataGrid" ColumnWidth="*" HeadersVisibility="Column" FontSize="24" ItemsSource="{Binding}" Margin="0,104,10,79" Grid.ColumnSpan="3" MinWidth="400"/>
             <TextBox x:Name="libelleTB" Margin="136,53,10,0" TextWrapping="Wrap" Height="38" VerticalAlignment="Top" FontSize="24" Background="White" BorderBrush="Black" Foreground="Black" MinWidth="284" Grid.ColumnSpan="2"/>
             <Label Content="Libelle :" Margin="10,51,0,0" Height="40" VerticalAlignment="Top" FontSize="24" Foreground="White" RenderTransformOrigin="0.481,0.149" HorizontalAlignment="Left" Width="121"/>
             <Button x:Name="deleteOF" Content="Supprimer OF" FontSize="20" HorizontalAlignment="Right" Width="156" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White" Margin="0,0,10,10" Foreground="White" Grid.ColumnSpan="2"/>
         </Grid>
         <Grid Margin="10" Grid.Column="1" Grid.Row="2" MinHeight="200" MinWidth="200">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="300"/>
+                <RowDefinition Height="242*"/>
+            </Grid.RowDefinitions>
 
-            <Rectangle Fill="#FF707070" Stroke="White" MinWidth="190"/>
+            <Rectangle Fill="#FF707070" Stroke="White" MinWidth="190" Grid.RowSpan="2"/>
             <Separator Margin="1,29,1,0" RenderTransformOrigin="0.5,0.5" MinWidth="190" Panel.ZIndex="3" Height="3" VerticalAlignment="Top"/>
 
             <Label Content="Seuil Haut :" Margin="13,37,0,0" Foreground="White" Height="16" VerticalAlignment="Top" FontSize="14" Padding="0" HorizontalAlignment="Left" Width="70"/>
@@ -79,22 +83,83 @@
 
             <Label Content="Paramètres :" Margin="0,-3,0,0" FontSize="20" Foreground="White" HorizontalAlignment="Left" Width="118" Height="32" VerticalAlignment="Top"/>
             <Label Content="Base de données :" Margin="13,148,0,0" Foreground="White" Height="16" VerticalAlignment="Top" FontSize="14" Padding="0" HorizontalAlignment="Left" Width="111"/>
-            <Separator Margin="0,29,1,284" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5"/>
-            <Label Content="Table/Poste :" Margin="11,216,0,0" Foreground="White" HorizontalAlignment="Left" FontSize="14" Padding="0" MinWidth="77" Height="16" VerticalAlignment="Top"/>
+            <Separator Margin="0,29,1,284" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2" Width="0"/>
+            <Label Content="Table/Poste :" Margin="11,216,0,0" Foreground="White" HorizontalAlignment="Left" FontSize="14" Padding="0" MinWidth="77" Height="16" VerticalAlignment="Top" Width="78"/>
             <TextBox x:Name="TB_Table" Margin="142,216,14,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" BorderBrush="White" Padding="2,-1,0,0" Height="18" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.553" FontSize="14" IsReadOnly="True" ScrollViewer.CanContentScroll="True"/>
-            <Label Content="Poste Fournisseur :" Margin="13,248,0,0" Foreground="White" HorizontalAlignment="Left" FontSize="14" Padding="0" MinWidth="124" Height="16" VerticalAlignment="Top"/>
+            <Label Content="Poste Fournisseur :" Margin="13,248,0,0" Foreground="White" HorizontalAlignment="Left" FontSize="14" Padding="0" MinWidth="124" Height="16" VerticalAlignment="Top" Width="124"/>
             <TextBox x:Name="TB_Table_Fournisseur" Margin="142,248,14,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" BorderBrush="White" Padding="2,-1,0,0" Height="18" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.553" FontSize="14" IsReadOnly="True" ScrollViewer.CanContentScroll="True"/>
-            <Label Content="Poste Client :" Margin="12,272,0,0" Foreground="White" HorizontalAlignment="Left" FontSize="14" Padding="0" MinWidth="85" Height="16" VerticalAlignment="Top"/>
+            <Label Content="Poste Client :" Margin="12,272,0,0" Foreground="White" HorizontalAlignment="Left" FontSize="14" Padding="0" MinWidth="85" Height="16" VerticalAlignment="Top" Width="85"/>
             <TextBox x:Name="TB_Table_Client" Margin="142,272,14,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" BorderBrush="White" Padding="2,-1,0,0" Height="18" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.553" FontSize="14" IsReadOnly="True" ScrollViewer.CanContentScroll="True"/>
             <Separator Margin="1,140,1,0" RenderTransformOrigin="0.5,0.5" MinWidth="190" Panel.ZIndex="3" Height="2" VerticalAlignment="Top"/>
-            <Separator Margin="0,240,2,0" RenderTransformOrigin="0.5,0.5" MinWidth="190" Panel.ZIndex="3" Height="3" VerticalAlignment="Top"/>
+            <Separator Margin="1,240,1,0" RenderTransformOrigin="0.5,0.5" MinWidth="190" Panel.ZIndex="3" Height="3" VerticalAlignment="Top"/>
             <Label Content="Nombre de plaques&#xD;&#xA;max :" Margin="13,86,0,0" Foreground="White" Height="39" VerticalAlignment="Top" FontSize="14" Padding="0" HorizontalAlignment="Left" Width="124"/>
             <TextBox x:Name="TB_PlMax" Margin="142,107,14,0" TextWrapping="Wrap" Background="#FF979797" Foreground="White" BorderBrush="White" Padding="2,-1,0,0" Height="18" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.553" FontSize="14" IsReadOnly="True" ScrollViewer.CanContentScroll="True"/>
+            <Grid x:Name="IndicGridContainer1" Margin="10,31,206,10" Grid.Row="1">
+                <Grid x:Name="indicGrd1" Background="#FFE80404">
+                    <Grid.RowDefinitions>
+                        <RowDefinition x:Name="indicTop1" />
+                        <RowDefinition x:Name="indicMid1" />
+                        <RowDefinition x:Name="indicBot1" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1" Background="green" Margin="0,0,0,1"/>
+                </Grid>
+                <Grid x:Name="indicGrdCursor1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition x:Name="curseurTop1" Height="36*" />
+                        <RowDefinition x:Name="curseurMid1" Height="*" />
+                        <RowDefinition x:Name="curseurBot1" Height="37*" />
+                    </Grid.RowDefinitions>
+                    <Grid Background="yellow" VerticalAlignment="Bottom" Height="12" RenderTransformOrigin="0.5,0.5" Grid.Row="1"/>
+                    <Border BorderBrush="White" BorderThickness="1" Grid.RowSpan="3"/>
+                </Grid>
+            </Grid>
+            <Grid x:Name="IndicGridContainer2" Margin="108,31,108,10" Grid.Row="1">
+                <Grid x:Name="indicGrd2" Background="#FFE80404">
+                    <Grid.RowDefinitions>
+                        <RowDefinition x:Name="indicTop2" />
+                        <RowDefinition x:Name="indicMid2" />
+                        <RowDefinition x:Name="indicBot2" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1" Background="green" Margin="0,0,0,1"/>
+                </Grid>
+                <Grid x:Name="indicGrdCursor2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition x:Name="curseurTop2" Height="36*" />
+                        <RowDefinition x:Name="curseurMid2" Height="*" />
+                        <RowDefinition x:Name="curseurBot2" Height="37*" />
+                    </Grid.RowDefinitions>
+                    <Grid Background="yellow" VerticalAlignment="Bottom" Height="12" RenderTransformOrigin="0.5,0.5" Grid.Row="1"/>
+                    <Border BorderBrush="White" BorderThickness="1" Grid.RowSpan="3"/>
+                </Grid>
+            </Grid>
+            <Grid x:Name="IndicGridContainer3" Margin="206,31,10,10" Grid.Row="1">
+                <Grid x:Name="indicGrd4" Background="#FFE80404">
+                    <Grid.RowDefinitions>
+                        <RowDefinition x:Name="indicTop3" />
+                        <RowDefinition x:Name="indicMid3" />
+                        <RowDefinition x:Name="indicBot3" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1" Background="green" Margin="0,0,0,1"/>
+                </Grid>
+                <Grid x:Name="indicGrdCursor3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition x:Name="curseurTop3" Height="36*" />
+                        <RowDefinition x:Name="curseurMid3" Height="*" />
+                        <RowDefinition x:Name="curseurBot3" Height="37*" />
+                    </Grid.RowDefinitions>
+                    <Grid Background="yellow" VerticalAlignment="Bottom" Height="12" RenderTransformOrigin="0.5,0.5" Grid.Row="1"/>
+                    <Border BorderBrush="White" BorderThickness="1" Grid.RowSpan="3"/>
+                </Grid>
+            </Grid>
+            <Separator Margin="1,0" RenderTransformOrigin="0.5,0.5" MinWidth="190" Panel.ZIndex="3" Height="2" VerticalAlignment="Top" Grid.Row="1"/>
+            <Label x:Name="indic1Label" Content="Poste Client :" Margin="1,10,0,0" Foreground="White" HorizontalAlignment="Left" FontSize="14" Padding="0" MinWidth="85" Height="16" VerticalAlignment="Top" Width="85" Grid.Row="1"/>
+            <Label x:Name="indic3Label" Content="Poste Client :" Margin="195,10,0,0" Foreground="White" HorizontalAlignment="Left" FontSize="14" Padding="0" MinWidth="85" Height="16" VerticalAlignment="Top" Width="85" Grid.Row="1"/>
+            <Label x:Name="indic2Label" Content="Poste Client :" Margin="98,10,0,0" Foreground="White" HorizontalAlignment="Left" FontSize="14" Padding="0" MinWidth="85" Height="16" VerticalAlignment="Top" Width="86" Grid.Row="1"/>
 
         </Grid>
-        <Label Content="Indicateur d'Encours" Foreground="White" FontSize="72" Padding="0" Grid.Row="1" MinWidth="880" Grid.ColumnSpan="3" Grid.Column="1" MinHeight="81"/>
-        <Grid x:Name="IndicGridContainer" Grid.Column="2" Margin="10,21,10,89" Grid.Row="2">
-            <Grid x:Name="indicGrd1" Background="#FFE80404">
+        <Label x:Name="titreLabel" Content="Indicateur d'Encours" Foreground="White" FontSize="72" Padding="0" Grid.Row="1" MinWidth="880" Grid.ColumnSpan="3" Grid.Column="1" MinHeight="81" Margin="10,0,0,0"/>
+        <Grid x:Name="IndicGridContainer" Grid.Column="2" Margin="10,50,10,89" Grid.Row="2">
+            <Grid x:Name="indicGrd" Background="#FFE80404">
                 <Grid.RowDefinitions>
                     <RowDefinition x:Name="indicTop" />
                     <RowDefinition x:Name="indicMid" />
@@ -113,6 +178,7 @@
             </Grid>
             <Button x:Name="validSeuils" Content="Valider&#xD;&#xA; Seuils" Margin="0,0,0,-69" FontSize="20" Height="59" VerticalAlignment="Bottom" Background="#FF009722" BorderBrush="White" Foreground="White"/>
         </Grid>
+        <Label x:Name="indicLabel" Content="&#xD;&#xA;" Margin="10,18,13,0" Foreground="White" FontSize="16" Padding="0" MinWidth="80" Height="27" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2"/>
 
     </Grid>
 </Window>

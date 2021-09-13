@@ -1,5 +1,6 @@
 ﻿Option Explicit On
 Imports System.Collections.Specialized
+Imports System.Data
 Imports System.Data.OleDb
 
 Public Class MainWindow
@@ -44,6 +45,21 @@ Public Class MainWindow
     End Sub
 
     Public Sub MajTableau()
+        Dim con As New Connexion()
+        Dim cmd As New OleDbCommand With {
+            .Connection = con.ConnexionBDD(connexionString)
+        }
+        Dim t_encours As New T_Encours(cmd, MySettings.Default.TableSelected)
+        Dim encoursList As List(Of Encours) = t_encours.SelectAll()
+        Dim dt As New DataTable
+        Dim ds As New DataSet
+        dt.Load(t_encours.SelectAllForDGV)
+        ds.Tables.Add(dt)
+        mainDataGrid.ItemsSource = dt.DefaultView
+
+    End Sub
+
+    Public Sub MajTableau1()
         Dim settingsW As New SettingsWindow
         Dim IndicateurPressageBDDDataSet As IndicateurPressageBDDDataSet = CType(Me.FindResource("IndicateurPressageBDDDataSet"), IndicateurPressageBDDDataSet)
         'Chargez les données dans la table T_Encours_Press. Vous pouvez modifier ce code selon les besoins.
@@ -71,40 +87,79 @@ Public Class MainWindow
     End Sub
 
     Public Sub MajIndicateur()
-        Dim nbPlaqueTot As Double
-        Dim nbPLaqueMax As Double
-        nbPLaqueMax = MySettings.Default.nbPlaqueMax
-        Dim i As Integer = 0
-        Dim j As Integer = 0
         Dim con As New Connexion()
         Dim cmd As New OleDbCommand With {
             .Connection = con.ConnexionBDD(connexionString)
         }
-        Dim t_encoursTableSelected As New T_Encours(cmd, MySettings.Default.TableSelected)
-        Dim encoursList As List(Of Encours) = t_encoursTableSelected.SelectAll()
-        Dim t_groupeTaille As New T_GroupeTaille(cmd)
-        Dim groupeTailleList As List(Of GroupeTaille) = t_groupeTaille.SelectAllByTable(MySettings.Default.TableSelected)
-        Dim mat As String(,) = MatLibelleNbPlaque(encoursList)
         Dim t_indicateur As New T_Indicateur(cmd)
         Dim TableSelectedIndicateur = t_indicateur.SelectAllByTable(MySettings.Default.TableSelected)
+        TableSelectedIndicateur.GetTrueEncoursLvl()
         indicBot.Height = TableSelectedIndicateur.ColorGLBot
         indicMid.Height = TableSelectedIndicateur.ColorGLMid
         indicTop.Height = TableSelectedIndicateur.ColorGLTop
         TB_PlMax.Text = TableSelectedIndicateur.NbPlaqueMax.ToString()
-        While i <= mat.GetLength(0) - 1
-            While j <= groupeTailleList.Count
-                If groupeTailleList(j).TailleList.Contains(mat(i, 0)) Then
-                    nbPlaqueTot += groupeTailleList(j).Coef * mat(i, 1)
-                    Exit While
-                End If
-                j += 1
-            End While
-            i += 1
-        End While
-        TableSelectedIndicateur.EncoursLvl = nbPlaqueTot
-        t_indicateur.UpdateQuery(TableSelectedIndicateur)
+
         curseurBot.Height = TableSelectedIndicateur.GridLengthBot
         curseurTop.Height = TableSelectedIndicateur.GridLengthTop
+        indicLabel.Content = MySettings.Default.TableSelected
+
+        Dim rowDefinitionIndicTopList As New List(Of RowDefinition) From {
+            indicTop1,
+            indicTop2,
+            indicTop3
+        }
+        Dim rowDefinitionIndicMidList As New List(Of RowDefinition) From {
+            indicMid1,
+            indicMid2,
+            indicMid3
+        }
+        Dim rowDefinitionIndicBotList As New List(Of RowDefinition) From {
+            indicBot1,
+            indicBot2,
+            indicBot3
+        }
+        Dim rowDefinitionCursorTopList As New List(Of RowDefinition) From {
+            curseurTop1,
+            curseurTop2,
+            curseurTop3
+        }
+        Dim rowDefinitionCursorBotList As New List(Of RowDefinition) From {
+            curseurBot1,
+            curseurBot2,
+            curseurBot3
+        }
+        Dim label1 As New Label
+        Dim label2 As New Label
+        Dim label3 As New Label
+        label1 = indic1Label
+        label2 = indic2Label
+        label3 = indic3Label
+
+        Dim indicLabelList As New List(Of Label) From {
+            label1,
+            label2,
+            label3
+        }
+        Dim indicateursList As New List(Of Indicateur)
+        Dim j As Integer
+        j = 0
+        For i = 1 To t_indicateur.SelectCountQuery()
+            Dim indicateurExterne As Indicateur = t_indicateur.SelectAllById(i)
+            If Not indicateurExterne.Table = MySettings.Default.TableSelected Then
+                With indicLabelList(j)
+                    .HorizontalContentAlignment = HorizontalAlignment.Center
+                    .Content = indicateurExterne.Table
+                End With
+                indicateurExterne.GetTrueEncoursLvl()
+                rowDefinitionCursorTopList(j).Height = indicateurExterne.GridLengthTop
+                rowDefinitionCursorBotList(j).Height = indicateurExterne.GridLengthBot
+                rowDefinitionIndicTopList(j).Height = indicateurExterne.ColorGLTop
+                rowDefinitionIndicMidList(j).Height = indicateurExterne.ColorGLMid
+                rowDefinitionIndicBotList(j).Height = indicateurExterne.ColorGLBot
+                j += 1
+            End If
+        Next i
+
     End Sub
 
     Private Sub SaisieMan_click(sender As Object, e As RoutedEventArgs) Handles saisieMan.Click
@@ -141,7 +196,7 @@ Public Class MainWindow
             End If
         Else
             t_encoursTableFournisseur.TruncateQuery(numOf)
-            t_encoursTableSelected.InsertQuery(encours)
+            t_encoursTableSelected.InsertQuery(encoursFournisseur)
         End If
 
         Call MajTableau()
@@ -258,39 +313,7 @@ Public Class MainWindow
         Return taillePiece
     End Function
 
-    Function LibelleToTaillePiece2(libelle As String, tailles As StringCollection) As String
-        Dim n As Integer
-        Dim i As Integer
-        LibelleToTaillePiece2 = Nothing
-        i = 0
-        Try
-            While n = 0
-                n = InStr(3, libelle, tailles(i))
-                LibelleToTaillePiece2 = tailles(i)
-                i = i + 1
-            End While
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-            Exit Function
-        End Try
-    End Function
-    Public Function MatLibelleNbPlaque(encoursList As List(Of Encours)) As String(,)
-        Dim i As Integer
-        MatLibelleNbPlaque = Nothing
-        Dim mat = New String(encoursList.Count - 1, 1) {}
-        i = 0
-        Try
-            While i <= encoursList.Count - 1
-                mat(i, 0) = LibelleToTaillePiece2(encoursList(i).Libelle, MySettings.Default.TailleList)
-                mat(i, 1) = encoursList(i).NbPlaque.ToString()
-                i += 1
-            End While
-            Return mat
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-            Exit Function
-        End Try
-    End Function
+
 
     Private Sub deleteOF_Click(sender As Object, e As RoutedEventArgs) Handles deleteOF.Click
         Dim deleteW As New DeleteWindow()

@@ -18,6 +18,8 @@
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;T_Encours_Press&lt;/string&gt;
   &lt;string&gt;T_Encours_Coupe&lt;/string&gt;
+  &lt;string&gt;T_Encours_Etalement&lt;/string&gt;
+  &lt;string&gt;T_Encours_Fours&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="TableSelected" Type="System.String" Scope="User">

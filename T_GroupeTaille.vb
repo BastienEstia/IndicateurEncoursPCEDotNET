@@ -39,7 +39,7 @@ Public Class T_GroupeTaille
                     'groupeTailleItem.TailleList.Add("")
                 End If
                 groupeTailleItem.Coef = reader("Coef")
-                groupeTailleItem.Groupe = reader("Grp")
+                groupeTailleItem.Groupe = reader("Groupe")
                 groupeTailleItem.Table = reader("Poste")
                 groupeTailleItem.Id = reader("Id")
                 SelectAllByTable.Add(groupeTailleItem)
@@ -179,7 +179,7 @@ Public Class T_GroupeTaille
         Dim er As OleDbDataReader = Nothing
         Dim i As Integer = 0
         Dim tailleString As String = ""
-        Query = "UPDATE T_GroupeTaille SET Taillelist = Val_taillelist, Coef = Val_coef WHERE Poste = Val_poste AND Grp = Val_groupe;"
+        Query = "UPDATE T_GroupeTaille SET Taillelist = Val_taillelist, Coef = Val_coef WHERE Poste = Val_poste AND Groupe = Val_groupe;"
         While i <= groupeTaille.TailleList.Count - 1
             If i = groupeTaille.TailleList.Count - 1 Then
                 tailleString += groupeTaille.TailleList(i)

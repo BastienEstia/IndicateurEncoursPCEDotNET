@@ -89,6 +89,20 @@ Public Class T_Encours
         Cmd.Connection.Close()
     End Function
 
+    Public Function SelectAllForDGV() As OleDbDataReader
+        Dim query As String
+        SelectAllForDGV = Nothing
+        Dim reader As OleDbDataReader = Nothing
+        query = "SELECT * FROM T_Encours_" & Table
+        Try
+            Cmd.CommandText = query
+            Cmd.Connection.Open()
+            SelectAllForDGV = Cmd.ExecuteReader
+        Catch ex As Exception
+            Console.WriteLine(ex.Message)
+        End Try
+    End Function
+
     Public Function SelectAllByNumOF(numOF As String) As Encours
         Dim query As String
         SelectAllByNumOF = Nothing
@@ -111,12 +125,13 @@ Public Class T_Encours
                 SelectAllByNumOF = encours
             End If
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            Console.WriteLine(ex.Message)
         End Try
         Cmd.Parameters.RemoveAt("Val_numOF")
         Try
             reader.Close()
         Catch ex As Exception
+            Console.WriteLine(ex.Message)
         End Try
         Cmd.Connection.Close()
     End Function

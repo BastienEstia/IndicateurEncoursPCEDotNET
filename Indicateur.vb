@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Imports System.Collections.Specialized
 Imports System.Data.OleDb
 
 Public Class Indicateur
@@ -87,4 +88,63 @@ Public Class Indicateur
         End Try
     End Function
 
+    Public Function GetTrueEncoursLvl() As Double
+        Dim nbPlaqueTot As Double
+        Dim i As Integer = 0
+        Dim j As Integer = 0
+        Dim con As New Connexion()
+        Dim cmd As New OleDbCommand With {
+            .Connection = con.ConnexionBDD(MySettings.Default.BDDPath)
+        }
+        Dim t_encoursTableSelected As New T_Encours(cmd, Table)
+        Dim encoursList As List(Of Encours) = t_encoursTableSelected.SelectAll()
+        Dim t_groupeTaille As New T_GroupeTaille(cmd)
+        Dim groupeTailleList As List(Of GroupeTaille) = t_groupeTaille.SelectAllByTable(Table)
+        Dim mat As String(,) = MatLibelleNbPlaque(encoursList)
+        While i <= mat.GetLength(0) - 1
+            While j <= groupeTailleList.Count - 1
+                If groupeTailleList(j).TailleList.Contains(mat(i, 0)) Then
+                    nbPlaqueTot += groupeTailleList(j).Coef * mat(i, 1)
+                    Exit While
+                End If
+                j += 1
+            End While
+            i += 1
+        End While
+        EncoursLvl = nbPlaqueTot
+        GetTrueEncoursLvl = EncoursLvl
+    End Function
+    Function LibelleToTaillePiece2(libelle As String, tailles As StringCollection) As String
+        Dim n As Integer
+        Dim i As Integer
+        LibelleToTaillePiece2 = Nothing
+        i = 0
+        Try
+            While n = 0
+                n = InStr(3, libelle, tailles(i))
+                LibelleToTaillePiece2 = tailles(i)
+                i = i + 1
+            End While
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+            Exit Function
+        End Try
+    End Function
+    Public Function MatLibelleNbPlaque(encoursList As List(Of Encours)) As String(,)
+        Dim i As Integer
+        MatLibelleNbPlaque = Nothing
+        Dim mat = New String(encoursList.Count - 1, 1) {}
+        i = 0
+        Try
+            While i <= encoursList.Count - 1
+                mat(i, 0) = LibelleToTaillePiece2(encoursList(i).Libelle, MySettings.Default.TailleList)
+                mat(i, 1) = encoursList(i).NbPlaque.ToString()
+                i += 1
+            End While
+            Return mat
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+            Exit Function
+        End Try
+    End Function
 End Class
